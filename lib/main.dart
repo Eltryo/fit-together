@@ -15,10 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "App",
       theme: ThemeData(
-        scaffoldBackgroundColor: AppTheme.whiteBackgroundColor,
+        scaffoldBackgroundColor: AppTheme.appBackgroundColor,
         textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: AppTheme.blackAppTextColor,
-              displayColor: AppTheme.blackAppTextColor,
+              bodyColor: AppTheme.appTextColor,
+              displayColor: AppTheme.appTextColor,
             ),
       ),
       home: const HomePage(),

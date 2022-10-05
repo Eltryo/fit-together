@@ -38,11 +38,11 @@ class HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: AppTheme.whiteBackgroundColor,
+          backgroundColor: AppTheme.appBackgroundColor,
           titleTextStyle: const TextStyle(
               fontWeight: FontWeight.w500,
               fontSize: 20,
-              color: AppTheme.blackAppTextColor),
+              color: AppTheme.appTextColor),
           title: const Text("App"),
           elevation: 0,
         ),
@@ -55,10 +55,13 @@ class HomePageState extends State<HomePage> {
             BottomNavigationBarItem(icon: Icon(Icons.accessibility), label: ""),
             BottomNavigationBarItem(icon: Icon(Icons.access_alarm), label: "")
           ],
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
+          elevation: 0.0,
           currentIndex: _selectedIndex,
-          selectedItemColor: AppTheme.blackAppTextColor,
+          selectedItemColor: AppTheme.appTextColor,
           onTap: _onItemTapped,
-          backgroundColor: AppTheme.whiteBackgroundColor,
+          backgroundColor: AppTheme.navigationBarColor,
         ));
   }
 }
