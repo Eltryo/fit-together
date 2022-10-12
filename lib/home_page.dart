@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'assets/colors.dart';
+import 'colors.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,58 +10,39 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> {
-  int _selectedIndex = 0;
-  static const TextStyle _optionStyle =
-      TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      "1",
-      style: _optionStyle,
-    ),
-    Text(
-      "2",
-      style: _optionStyle,
-    ),
-    Text(
-      "3",
-      style: _optionStyle,
-    ),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: AppTheme.appBackgroundColor,
-          titleTextStyle: const TextStyle(
-              fontWeight: FontWeight.w500,
-              fontSize: 20,
-              color: AppTheme.appTextColor),
-          title: const Text("App"),
-          elevation: 0,
-        ),
-        body: Center(
-          child: _widgetOptions.elementAt(_selectedIndex),
-        ),
-        bottomNavigationBar: BottomNavigationBar(
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: ""),
-            BottomNavigationBarItem(icon: Icon(Icons.accessibility), label: ""),
-            BottomNavigationBarItem(icon: Icon(Icons.access_alarm), label: "")
-          ],
-          showSelectedLabels: false,
-          showUnselectedLabels: false,
-          elevation: 0.0,
-          currentIndex: _selectedIndex,
-          selectedItemColor: AppTheme.appTextColor,
-          onTap: _onItemTapped,
-          backgroundColor: AppTheme.navigationBarColor,
-        ));
+    return DefaultTabController(
+        length: 4,
+        child: Scaffold(
+            appBar: AppBar(
+              backgroundColor: AppTheme.appBackgroundColor,
+              titleTextStyle: const TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20,
+                  color: AppTheme.appTextColor),
+              bottom: TabBar(
+                labelColor: Colors.black,
+                unselectedLabelColor: Colors.grey,
+                tabs: <Tab>[
+                  Tab(icon: Image.asset('lib/icons/home.png', height: 17)),
+                  Tab(icon: Image.asset('lib/icons/crown.png', height: 20)),
+                  Tab(icon: Image.asset('lib/icons/running.png', height: 20)),
+                  Tab(icon: Image.asset('lib/icons/clock.png', height: 20)),
+                ],
+              ),
+              title: const Center(
+                  child: Text(
+                "FitTogether",
+                style: TextStyle(fontStyle: FontStyle.italic),
+              )),
+              elevation: 0,
+            ),
+            body: const TabBarView(children: [
+              Center(),
+              Center(),
+              Center(),
+              Center(),
+            ])));
   }
 }
