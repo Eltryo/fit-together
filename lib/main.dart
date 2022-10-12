@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sports_app/assets/colors.dart';
+import 'package:sports_app/colors.dart';
 
 import 'home_page.dart';
 
