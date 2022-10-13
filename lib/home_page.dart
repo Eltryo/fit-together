@@ -1,48 +1,29 @@
 import 'package:flutter/material.dart';
 
-import 'colors.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-        length: 4,
-        child: Scaffold(
-            appBar: AppBar(
-              backgroundColor: AppTheme.appBackgroundColor,
-              titleTextStyle: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                  color: AppTheme.appTextColor),
-              bottom: TabBar(
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.grey,
-                tabs: <Tab>[
-                  Tab(icon: Image.asset('lib/icons/home.png', height: 17)),
-                  Tab(icon: Image.asset('lib/icons/crown.png', height: 20)),
-                  Tab(icon: Image.asset('lib/icons/running.png', height: 20)),
-                  Tab(icon: Image.asset('lib/icons/clock.png', height: 20)),
-                ],
-              ),
-              title: const Center(
-                  child: Text(
-                "FitTogether",
-                style: TextStyle(fontStyle: FontStyle.italic),
-              )),
-              elevation: 0,
-            ),
-            body: const TabBarView(children: [
-              Center(),
-              Center(),
-              Center(),
-              Center(),
-            ])));
+    return GridView.count(
+      padding: const EdgeInsets.all(10),
+      crossAxisCount: 2,
+      crossAxisSpacing: 10,
+      mainAxisSpacing: 10,
+      children: List<Container>.filled(
+          10,
+          Container(
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                    image: AssetImage("lib/images/prison_mike.jpg")),
+                borderRadius: BorderRadius.all(Radius.circular(10))),
+          ),
+          growable: true),
+    );
   }
 }
