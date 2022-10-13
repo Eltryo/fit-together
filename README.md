@@ -1,4 +1,4 @@
-# sports_app
+# FitTogether
 
 A new Flutter project.
 
