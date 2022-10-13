@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sports_app/colors.dart';
 
-import 'home_page.dart';
+import 'app_tab_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
               displayColor: AppTheme.appTextColor,
             ),
       ),
-      home: const HomePage(),
+      home: const AppTabController(),
     );
   }
 }
