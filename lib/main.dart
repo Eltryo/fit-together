@@ -15,11 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "App",
       theme: ThemeData(
-        scaffoldBackgroundColor: AppTheme.appBackgroundColor,
-        textTheme: Theme.of(context).textTheme.apply(
-              bodyColor: AppTheme.appTextColor,
-              displayColor: AppTheme.appTextColor,
-            ),
+        scaffoldBackgroundColor: AppColors.appBackgroundColor,
       ),
       home: const AppTabController(),
     );
