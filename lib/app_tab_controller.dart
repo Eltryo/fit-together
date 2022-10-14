@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sports_app/home_page.dart';
+import 'package:sports_app/page/home_page.dart';
+import 'package:sports_app/page/profile_page.dart';
 
 import 'colors.dart';
 
@@ -14,14 +15,14 @@ class AppTabControllerState extends State<AppTabController> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-        length: 4,
+        length: 5,
         child: Scaffold(
             appBar: AppBar(
-              backgroundColor: AppTheme.appBackgroundColor,
+              backgroundColor: Colors.transparent,
               titleTextStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
                   fontSize: 20,
-                  color: AppTheme.appTextColor),
+                  color: AppColors.appTextColor),
               bottom: TabBar(
                 labelColor: Colors.black,
                 unselectedLabelColor: Colors.grey,
@@ -30,6 +31,7 @@ class AppTabControllerState extends State<AppTabController> {
                   Tab(icon: Image.asset('lib/icons/crown.png', height: 20)),
                   Tab(icon: Image.asset('lib/icons/running.png', height: 20)),
                   Tab(icon: Image.asset('lib/icons/clock.png', height: 20)),
+                  Tab(icon: Image.asset('lib/icons/user.png', height: 20)),
                 ],
               ),
               title: const Center(
@@ -44,6 +46,7 @@ class AppTabControllerState extends State<AppTabController> {
               Center(),
               Center(),
               Center(),
+              ProfilePage(),
             ])));
   }
 }
