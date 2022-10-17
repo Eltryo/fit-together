@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sports_app/utils/user_preferences.dart';
+import 'package:sports_app/widget/profile_info_widget.dart';
 
 import '../widget/profile_widget.dart';
 
@@ -25,6 +26,13 @@ class _ProfilePageState extends State<ProfilePage> {
           ProfileWidget(
             imagePath: user.imagePath,
             onClicked: () async{},
+          ),
+          const SizedBox(
+            height: 20
+          ),
+          ProfileInfoWidget(
+            username: user.username,
+            email: user.email
           )
         ],
       ),
