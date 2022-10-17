@@ -24,8 +24,7 @@ class AppTabControllerState extends State<AppTabController> {
                   fontSize: 20,
                   color: AppColors.appTextColor),
               bottom: TabBar(
-                labelColor: Colors.black,
-                unselectedLabelColor: Colors.grey,
+                indicatorColor: Theme.of(context).primaryColor,
                 tabs: <Tab>[
                   Tab(icon: Image.asset('lib/icons/home.png', height: 17)),
                   Tab(icon: Image.asset('lib/icons/crown.png', height: 20)),
