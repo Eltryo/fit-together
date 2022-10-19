@@ -1,15 +1,18 @@
 class User{
-  final String imagePath;
   final String username;
   final String email;
-  final String about;
-  final bool isDarkMode;
+  String? imagePath;
+  String? about;
+  bool? isDarkMode = false;
+  int pictureCount = 0;
+  int followingCount = 0;
+  int followerCount = 0;
 
-  const User({
-    required this.imagePath,
+  User({
     required this.username,
     required this.email,
-    required this.about,
-    required this.isDarkMode,
+    this.imagePath,
+    this.about,
+    this.isDarkMode
 });
 }
