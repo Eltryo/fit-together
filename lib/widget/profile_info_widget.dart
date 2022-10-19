@@ -1,16 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:sports_app/widget/rounded_button_widget.dart';
+
+import 'numbers_widget.dart';
 
 class ProfileInfoWidget extends StatelessWidget {
+  //TODO: change to stateful widget
   final String username;
   final String email;
 
-  const ProfileInfoWidget(
-      {required this.username, required this.email, Key? key})
-      : super(key: key);
+  int pictureCount;
+  int followingCount;
+  int followerCount;
+
+  ProfileInfoWidget({
+    required this.username,
+    required this.email,
+    required this.pictureCount,
+    required this.followingCount,
+    required this.followerCount,
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).primaryColor;
+    final color = Theme
+        .of(context)
+        .primaryColor;
 
     return Column(
       children: [
@@ -21,23 +36,16 @@ class ProfileInfoWidget extends StatelessWidget {
         Text(
           email,
           style:
-              const TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+          const TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
         ),
-        Container(
-            padding: const EdgeInsets.only(top: 20),
-            child: ElevatedButton(
-              onPressed: () async {},
-              style: ElevatedButton.styleFrom(
-                backgroundColor: color,
-                shape: const StadiumBorder(),
-              ),
-              child: const Text(
-                "Upgrade to PRO",
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ))
+        const SizedBox(height: 20),
+        RoundedButtonWidget(color: color, text: "Upgrade to PRO"),
+        const SizedBox(height: 20),
+        NumbersWidget(
+          pictureCount: pictureCount,
+          followingCount: followingCount,
+          followerCount: followerCount,
+        )
       ],
     );
   }
