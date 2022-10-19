@@ -21,21 +21,31 @@ class _ProfilePageState extends State<ProfilePage> {
         physics: const BouncingScrollPhysics(),
         children: [
           const SizedBox(
-            height: 50,
+            height: 40,
           ),
           ProfileWidget(
-            imagePath: user.imagePath,
+            imagePath: checkImagePath(user.imagePath),
             onClicked: () async{},
           ),
           const SizedBox(
-            height: 20
+            height: 10
           ),
           ProfileInfoWidget(
             username: user.username,
-            email: user.email
-          )
+            email: user.email,
+            pictureCount: user.pictureCount,
+            followingCount: user.followerCount,
+            followerCount: user.followerCount
+          ),
         ],
       ),
     );
+  }
+
+  String checkImagePath(String? imagePath) { //TODO: Add _ as private identifier
+    if(imagePath == null){
+      return "lib/images/default_user_image.png";
+    }
+    return imagePath;
   }
 }
