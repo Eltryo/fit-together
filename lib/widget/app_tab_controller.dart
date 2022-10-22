@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sports_app/page/home_page.dart';
 import 'package:sports_app/page/profile_page.dart';
 
-import 'colors.dart';
+import '../utils/colors.dart';
 
 class AppTabController extends StatefulWidget {
   const AppTabController({Key? key}) : super(key: key);
