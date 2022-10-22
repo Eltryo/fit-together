@@ -18,7 +18,9 @@ class NumbersWidget extends StatelessWidget { //TODO: change to stateful widget
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         buildButton(context, pictureCount.toString(), "Pictures"),
+        buildDivider(),
         buildButton(context, followingCount.toString(), "Following"),
+        buildDivider(),
         buildButton(context, followerCount.toString(), "Follower"),
       ],
     );
@@ -41,6 +43,13 @@ class NumbersWidget extends StatelessWidget { //TODO: change to stateful widget
           )
         ],
       ),
+    );
+  }
+
+  Widget buildDivider() {
+    return const SizedBox(
+      height: 24,
+      child: VerticalDivider(),
     );
   }
 }

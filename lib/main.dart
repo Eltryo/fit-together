@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:sports_app/colors.dart';
+import 'package:sports_app/utils/colors.dart';
 
-import 'app_tab_controller.dart';
+import 'widget/app_tab_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,6 +16,7 @@ class MyApp extends StatelessWidget {
       title: "App",
       theme: ThemeData(
         primaryColor: Colors.teal,
+        dividerColor: Colors.black,
         scaffoldBackgroundColor: AppColors.appBackgroundColor,
       ),
       home: const AppTabController(),
