@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sports_app/page/home_page.dart';
 import 'package:sports_app/page/profile_page.dart';
 
+import '../page/premium_page.dart';
 import '../utils/colors.dart';
 
 class AppTabController extends StatefulWidget {
@@ -42,7 +43,7 @@ class AppTabControllerState extends State<AppTabController> {
             ),
             body: const TabBarView(children: [
               HomePage(),
-              Center(),
+              PremiumPage(),
               Center(),
               Center(),
               ProfilePage(),
