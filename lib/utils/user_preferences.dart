@@ -1,10 +1,10 @@
-import 'package:sports_app/model/user.dart';
+class UserPreferences {
+  String username;
+  String email;
+  String? imagePath;
+  String? about;
+  bool? isDarkMode;
 
-class UserPreferences{
-  static User myUser = User(
-      imagePath: "lib/images/prison_mike.jpg",
-      username: "Prison_Mike",
-      email: "prison.mike@gmail.com",
-      about: "I stole and I robbed and I kidnapped the president's son an held him for ransom",
-  );
+  UserPreferences(
+      this.username, this.email, this.imagePath, this.about, this.isDarkMode);
 }
