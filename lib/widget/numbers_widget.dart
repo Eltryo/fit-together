@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
+import '../utils/user_numbers.dart';
 
 class NumbersWidget extends StatelessWidget { //TODO: change to stateful widget
-  int pictureCount;
-  int followingCount;
-  int followerCount;
+  final UserNumbers userNumbers;
 
-  NumbersWidget({
-    required this.pictureCount,
-    required this.followingCount,
-    required this.followerCount,
+  const NumbersWidget({
+    required this.userNumbers,
     Key? key
   }) : super(key: key);
 
@@ -17,11 +14,11 @@ class NumbersWidget extends StatelessWidget { //TODO: change to stateful widget
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        buildButton(context, pictureCount.toString(), "Pictures"),
+        buildButton(context, userNumbers.pictureCount.toString(), "Pictures"),
         buildDivider(),
-        buildButton(context, followingCount.toString(), "Following"),
+        buildButton(context, userNumbers.followingCount.toString(), "Following"),
         buildDivider(),
-        buildButton(context, followerCount.toString(), "Follower"),
+        buildButton(context, userNumbers.followerCount.toString(), "Follower"),
       ],
     );
   }
