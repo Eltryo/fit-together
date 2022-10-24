@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sports_app/screens/wrapper.dart';
 import 'package:sports_app/utils/colors.dart';
-
-import 'widget/app_tab_controller.dart';
 
 void main() {
   runApp(const MyApp());
@@ -19,7 +18,7 @@ class MyApp extends StatelessWidget {
         dividerColor: Colors.black,
         scaffoldBackgroundColor: AppColors.appBackgroundColor,
       ),
-      home: const AppTabController(),
+      home: const Wrapper(),
     );
   }
 }
