@@ -5,14 +5,14 @@ import 'package:sports_app/page/profile_page.dart';
 import '../page/premium_page.dart';
 import '../utils/colors.dart';
 
-class AppTabController extends StatefulWidget {
-  const AppTabController({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  State<AppTabController> createState() => AppTabControllerState();
+  State<Home> createState() => HomeState();
 }
 
-class AppTabControllerState extends State<AppTabController> {
+class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(

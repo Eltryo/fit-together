@@ -2,23 +2,29 @@ import 'package:flutter/material.dart';
 
 import '../utils/user_numbers.dart';
 
-class NumbersWidget extends StatelessWidget {
-  //TODO: change to stateful widget
+class NumbersWidget extends StatefulWidget {
   final UserNumbers userNumbers;
 
   const NumbersWidget({required this.userNumbers, Key? key}) : super(key: key);
 
   @override
+  State<NumbersWidget> createState() => _NumbersWidgetState();
+}
+
+class _NumbersWidgetState extends State<NumbersWidget> {
+  @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        buildButton(context, userNumbers.pictureCount.toString(), "Pictures"),
+        buildButton(
+            context, widget.userNumbers.pictureCount.toString(), "Pictures"),
         buildDivider(),
         buildButton(
-            context, userNumbers.followingCount.toString(), "Following"),
+            context, widget.userNumbers.followingCount.toString(), "Following"),
         buildDivider(),
-        buildButton(context, userNumbers.followerCount.toString(), "Follower"),
+        buildButton(
+            context, widget.userNumbers.followerCount.toString(), "Follower"),
       ],
     );
   }
