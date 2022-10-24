@@ -20,8 +20,7 @@ class _HomePageState extends State<HomePage> {
           Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage("lib/images/prison_mike.jpg")
-                ),
+                    image: AssetImage("lib/images/prison_mike.jpg")),
                 borderRadius: BorderRadius.all(Radius.circular(2))),
           ),
           growable: true),

@@ -19,16 +19,11 @@ class PremiumPage extends StatelessWidget {
             "Upgrade to PRO version of FitTogether to view and share premium content",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 18,
-            ),
+                fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
           ),
         ),
         RoundedButtonWidget(
-            color: Theme
-                .of(context)
-                .primaryColor,
-            text: "Upgrade to PRO"
-        ),
+            color: Theme.of(context).primaryColor, text: "Upgrade to PRO"),
       ],
     );
   }

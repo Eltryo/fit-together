@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+
 import '../utils/user_numbers.dart';
 
-class NumbersWidget extends StatelessWidget { //TODO: change to stateful widget
+class NumbersWidget extends StatelessWidget {
+  //TODO: change to stateful widget
   final UserNumbers userNumbers;
 
-  const NumbersWidget({
-    required this.userNumbers,
-    Key? key
-  }) : super(key: key);
+  const NumbersWidget({required this.userNumbers, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +15,8 @@ class NumbersWidget extends StatelessWidget { //TODO: change to stateful widget
       children: [
         buildButton(context, userNumbers.pictureCount.toString(), "Pictures"),
         buildDivider(),
-        buildButton(context, userNumbers.followingCount.toString(), "Following"),
+        buildButton(
+            context, userNumbers.followingCount.toString(), "Following"),
         buildDivider(),
         buildButton(context, userNumbers.followerCount.toString(), "Follower"),
       ],

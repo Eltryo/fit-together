@@ -11,27 +11,22 @@ class User {
   int? followingCount;
   int? followerCount;
 
-
+  //TODO: change constructors
   User(this.username, this.email, this.imagePath, this.about, this.isDarkMode,
       this.pictureCount, this.followingCount, this.followerCount);
 
-  User.empty(){
+  User.empty() {
     imagePath = "lib/images/prison_mike.jpg";
-    about = "I stole and I robbed and I kidnapped the president's son an held him for ransom";
+    about =
+        "I stole and I robbed and I kidnapped the president's son an held him for ransom";
     isDarkMode = false;
     pictureCount = 0;
     followingCount = 0;
     followerCount = 0;
   }
 
-  UserPreferences getPreferences(){
-    return UserPreferences(
-      username,
-      email,
-      imagePath,
-      about,
-      isDarkMode
-    );
+  UserPreferences getPreferences() {
+    return UserPreferences(username, email, imagePath, about, isDarkMode);
   }
 
   UserNumbers getUserNumbers() {

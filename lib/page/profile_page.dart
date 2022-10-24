@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../model/user.dart';
 import '../widget/numbers_widget.dart';
 import '../widget/profile_widget.dart';
@@ -24,32 +25,29 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           ProfileWidget(
             imagePath: _checkImagePath(userPreferences.imagePath),
-            onClicked: () async{},
+            onClicked: () async {},
           ),
-          const SizedBox(
-            height: 10
-          ),
+          const SizedBox(height: 10),
           Text(
             userPreferences.username,
             style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
           Text(
             userPreferences.email,
-            style:
-            const TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+            style: const TextStyle(
+                fontStyle: FontStyle.italic, color: Colors.grey),
           ),
           const SizedBox(height: 20),
           NumbersWidget(
             userNumbers: userNumbers,
           ),
-
         ],
       ),
     );
   }
 
   String _checkImagePath(String? imagePath) {
-    if(imagePath == null){
+    if (imagePath == null) {
       return "lib/images/default_user_image.png";
     }
     return imagePath;
