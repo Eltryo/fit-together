@@ -29,7 +29,7 @@ class _SignInState extends State<SignIn> {
             if(result == null){
               print("error signing in");
             }else{
-              print("successfully signed in $result");
+              print("successfully signed in ${result.uid}");
             }
           },
           child: const Text("Sign in anonymously"),

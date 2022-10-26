@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../model/user.dart';
+import '../models/user.dart';
 import '../widget/numbers_widget.dart';
 import '../widget/profile_widget.dart';
 
