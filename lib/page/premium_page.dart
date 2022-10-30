@@ -23,7 +23,10 @@ class PremiumPage extends StatelessWidget {
           ),
         ),
         RoundedButtonWidget(
-            color: Theme.of(context).primaryColor, text: "Upgrade to PRO"),
+          color: Theme.of(context).primaryColor,
+          text: "Upgrade to PRO",
+          onPressed: (){}, //TODO: Add update function
+        ),
       ],
     );
   }

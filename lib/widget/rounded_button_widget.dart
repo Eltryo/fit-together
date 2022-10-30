@@ -4,13 +4,15 @@ class RoundedButtonWidget extends StatelessWidget {
   final Color color;
   final String text;
 
-  const RoundedButtonWidget({required this.color, required this.text, Key? key})
+  final onPressed;
+
+  const RoundedButtonWidget({required this.color, required this.text, required this.onPressed, Key? key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () async {},
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         backgroundColor: color,
         shape: const StadiumBorder(),

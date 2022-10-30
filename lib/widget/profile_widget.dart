@@ -21,7 +21,7 @@ class ProfileWidget extends StatelessWidget {
           Positioned(
             bottom: 0,
             right: 0,
-            child: buildEditIcon(color),
+            child: buildEditIcon(context, color),
           )
         ],
       ),
@@ -35,18 +35,21 @@ class ProfileWidget extends StatelessWidget {
     );
   }
 
-  Widget buildEditIcon(Color color) {
-    return buildCircle(
-        color: Colors.white,
-        all: 3,
-        child: buildCircle(
-            color: color,
-            all: 8,
-            child: const Icon(
-              Icons.edit,
-              size: 15,
-              color: Colors.white,
-            )));
+  Widget buildEditIcon(BuildContext context, Color color) {
+    return InkWell(
+      onTap: () => Navigator.pushNamed(context, '/edit_profile'),
+      child: buildCircle(
+          color: Colors.white,
+          all: 3,
+          child: buildCircle(
+              color: color,
+              all: 8,
+              child: const Icon(
+                Icons.edit,
+                size: 15,
+                color: Colors.white,
+              ))),
+    );
   }
 
   Widget buildCircle({
