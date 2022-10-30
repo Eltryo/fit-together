@@ -15,7 +15,7 @@ class AuthService {
         .map(_userFromFirebaseUser);
   }
 
-  Future signInAnon() async {
+  Future<AppUser?> signInAnon() async {
     try {
       UserCredential credential = await _auth.signInAnonymously();
       User? user = credential.user;
@@ -23,6 +23,14 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       print(e.toString());
       return null;
+    }
+  }
+
+  Future<void> signOut() async {
+    try{
+      return await _auth.signOut();
+    } on FirebaseAuthException catch (e){
+      print(e.toString());
     }
   }
 }
