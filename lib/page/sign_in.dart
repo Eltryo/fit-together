@@ -31,9 +31,9 @@ class _SignInState extends State<SignIn> {
             onPressed: () async {
               dynamic result = await _auth.signInAnon();
               if (result == null) {
-                print("error signing in");
+                debugPrint("error signing in");
               } else {
-                print("successfully signed in ${result.uid}");
+                debugPrint("successfully signed in ${result.uid}");
               }
             },
           )),
