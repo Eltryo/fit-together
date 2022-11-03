@@ -4,13 +4,19 @@ import 'package:sports_app/widget/rounded_button_widget.dart';
 import '../../services/auth.dart';
 import '../../utils/colors.dart';
 
-class EditProfile extends StatelessWidget {
+class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
+
+  @override
+  State<EditProfile> createState() => _EditProfileState();
+}
+
+class _EditProfileState extends State<EditProfile> {
+  final AuthService _auth = AuthService();
 
   @override
   Widget build(BuildContext context) {
     final color = Theme.of(context).primaryColor;
-    final AuthService _auth = AuthService();
 
     return Scaffold(
         appBar: AppBar(
@@ -23,7 +29,10 @@ class EditProfile extends StatelessWidget {
                 color: color,
                 text: "log out",
                 onPressed: () async {
-                  await _auth.signOut(); //TODO: Give feedback
+                  await _auth.signOut();
+
+                  if (!mounted) return;
+                  Navigator.pop(context);
                 })));
   }
 }
