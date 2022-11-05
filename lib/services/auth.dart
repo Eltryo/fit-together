@@ -33,12 +33,22 @@ class AuthService {
     }
   }
 
-  Future createAccount() async {
+  Future createAccount(String email, String password) async {
     try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(email: "", password: "");
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
       return _userFromFirebaseUser(userCredential.user);
     } on FirebaseAuthException catch (e) {
+      if (e.code == "weak-password") {
+        debugPrint("The password provided is too weak");
+      } else if (e.code == "email-already-in-use") {
+        debugPrint("The account already exists for that email.");
+      } else if (e.code == "invalid-email") {
+        debugPrint("the email address is not in the required format");
+      } else if (e.code == "operation-not-allowed") {
+        debugPrint("email/password accounts are not enabled");
+      }
+    } catch (e) {
       debugPrint(e.toString());
     }
   }
