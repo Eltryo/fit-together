@@ -33,13 +33,9 @@ class _EmailPasswordRegistrationState extends State<EmailPasswordRegistration> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
                   const Text(
-                      "Registration",
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold
-                      ),
+                    "Registration",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
 
                   const SizedBox(height: 10),
@@ -62,17 +58,20 @@ class _EmailPasswordRegistrationState extends State<EmailPasswordRegistration> {
                               const SnackBar(content: Text("Processing Data")));
                         }
 
-                        _auth.createAccount(emailController.text, passwordController.text);
+                        _auth.createAccount(
+                            emailController.text, passwordController.text);
                       })
                 ],
               ),
             )));
   }
 
-  TextFormField buildTextFormField(String hint, TextEditingController controller) {
+  TextFormField buildTextFormField(
+      String hint, TextEditingController controller) {
     return TextFormField(
       controller: controller,
-      validator: (value) { //TODO: customize validator for each TextFormField
+      validator: (value) {
+        //TODO: customize validator for each TextFormField
         if (value == null || value.isEmpty) {
           return "Please enter a $hint";
         }
