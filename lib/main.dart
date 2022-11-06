@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:sports_app/page/email_password_registration.dart';
 import 'package:sports_app/page/routes/edit_profile.dart';
 import 'package:sports_app/screens/wrapper.dart';
 import 'package:sports_app/services/auth.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/': (context) => const Wrapper(),
           '/edit_profile': (context) => const EditProfile(),
+          '/email_password_registration': (context) => const EmailPasswordRegistration(),
         },
       ),
     );
