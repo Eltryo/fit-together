@@ -11,6 +11,6 @@ class Authenticate extends StatefulWidget {
 class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
-    return const SignIn(); //TODO: Add welcome screen with sign in and registration etc.
+    return const SignIn();
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sports_app/page/email_password_registration.dart';
 import 'package:sports_app/page/routes/edit_profile.dart';
+import 'package:sports_app/screens/splash_screen.dart';
 import 'package:sports_app/screens/wrapper.dart';
 import 'package:sports_app/services/auth.dart';
 import 'package:sports_app/utils/colors.dart';
@@ -29,9 +30,10 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: AppColors.appBackgroundColor,
         ),
         // home: const Wrapper(),
-        initialRoute: '/',
+        initialRoute: '/splash_screen',
         routes: {
-          '/': (context) => const Wrapper(),
+          '/splash_screen': (context) => const SplashScreen(),
+          '/wrapper': (context) => const Wrapper(),
           '/edit_profile': (context) => const EditProfile(),
           '/email_password_registration': (context) => const EmailPasswordRegistration(),
         },
