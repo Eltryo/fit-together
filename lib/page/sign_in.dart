@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sports_app/services/auth.dart';
 import 'package:sports_app/utils/colors.dart';
-import 'package:sports_app/widget/rounded_button_widget.dart';
+import 'package:sports_app/widget/validation_form_widget.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key}) : super(key: key);
@@ -11,11 +10,10 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
-  final AuthService _auth = AuthService();
-
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).primaryColor;
+    final TextEditingController emailController = TextEditingController();
+    final TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
       backgroundColor: AppColors.appBackgroundColor,
@@ -25,18 +23,10 @@ class _SignInState extends State<SignIn> {
             horizontal: 50.0,
             vertical: 20.0,
           ),
-          child: RoundedButtonWidget(
-            color: color,
-            text: "sing in anonymously",
-            onPressed: () async {
-              dynamic result = await _auth.signInAnon();
-              if (result == null) {
-                debugPrint("error signing in");
-              } else {
-                debugPrint("successfully signed in ${result.uid}");
-              }
-            },
-          )),
+          child: ValidationFormWidget(
+              entry: "Login",
+              emailController: emailController,
+              passwordController: passwordController)),
     );
   }
 }
