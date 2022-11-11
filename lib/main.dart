@@ -7,6 +7,7 @@ import 'package:sports_app/screens/splash_screen.dart';
 import 'package:sports_app/screens/wrapper.dart';
 import 'package:sports_app/services/auth.dart';
 import 'package:sports_app/utils/colors.dart';
+import 'package:sports_app/widget/app_life_cycle_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,21 +23,24 @@ class MyApp extends StatelessWidget {
     return StreamProvider.value(
       value: AuthService().user,
       initialData: null,
-      child: MaterialApp(
-        title: "fit-together",
-        theme: ThemeData(
-          primaryColor: Colors.teal,
-          dividerColor: Colors.black,
-          scaffoldBackgroundColor: AppColors.appBackgroundColor,
+      child: AppLifeCycleManager(
+        child: MaterialApp(
+          title: "fit-together",
+          theme: ThemeData(
+            primaryColor: Colors.teal,
+            dividerColor: Colors.black,
+            scaffoldBackgroundColor: AppColors.appBackgroundColor,
+          ),
+          // home: const Wrapper(),
+          initialRoute: '/splash_screen',
+          routes: {
+            '/splash_screen': (context) => const SplashScreen(),
+            '/wrapper': (context) => const Wrapper(),
+            '/edit_profile': (context) => const EditProfile(),
+            '/email_password_registration': (context) =>
+                const EmailPasswordRegistration(),
+          },
         ),
-        // home: const Wrapper(),
-        initialRoute: '/splash_screen',
-        routes: {
-          '/splash_screen': (context) => const SplashScreen(),
-          '/wrapper': (context) => const Wrapper(),
-          '/edit_profile': (context) => const EditProfile(),
-          '/email_password_registration': (context) => const EmailPasswordRegistration(),
-        },
       ),
     );
   }
