@@ -18,6 +18,15 @@ class ValidationFormWidget extends StatefulWidget {
 class _ValidationFormWidgetState extends State<ValidationFormWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+    passwordController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
