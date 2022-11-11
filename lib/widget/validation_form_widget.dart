@@ -83,6 +83,7 @@ class _ValidationFormWidgetState extends State<ValidationFormWidget> {
         }
         return null;
       },
+      obscureText: hint == "password", //TODO: implement optional visibility
       decoration: InputDecoration(
           border: const OutlineInputBorder(),
           hintText: "Enter your $hint",

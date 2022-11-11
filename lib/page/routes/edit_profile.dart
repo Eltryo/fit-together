@@ -24,7 +24,7 @@ class _EditProfileState extends State<EditProfile> {
           backgroundColor: Colors.transparent,
           iconTheme: const IconThemeData(color: AppColors.appIconColor),
         ),
-        body: Center(
+        body: Center( //TODO: implement edit features
             child: RoundedButtonWidget(
                 color: color,
                 text: "log out",

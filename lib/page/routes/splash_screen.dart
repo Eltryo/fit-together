@@ -21,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
         Navigator.of(context).pushReplacementNamed("/wrapper");
       });
     } else {
+      prefs.setBool("first_time", false);
       return Timer(duration, () {
         Navigator.of(context)
             .pushReplacementNamed("/email_password_registration");

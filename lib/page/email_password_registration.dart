@@ -33,7 +33,6 @@ class _EmailPasswordRegistrationState extends State<EmailPasswordRegistration> {
               alignment: Alignment.centerLeft,
               child: InkWell(
                 onTap: () => {
-                  _auth.signOut(), //TODO: find better solution
                   Navigator.pushReplacementNamed(context, "/wrapper")
                 },
                 child: const Text(

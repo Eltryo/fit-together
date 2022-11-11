@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../models/user.dart';
 import '../widget/numbers_widget.dart';
-import '../widget/profile_widget.dart';
+import '../widget/profile_image_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(
             height: 40,
           ),
-          ProfileWidget(
+          ProfileImageWidget(
             imagePath: _checkImagePath(userPreferences.imagePath),
             onClicked: () async {},
           ),
