@@ -5,13 +5,9 @@ import '../services/auth.dart';
 
 class ValidationFormWidget extends StatefulWidget {
   final String entry;
-  final TextEditingController emailController;
-  final TextEditingController passwordController;
 
   const ValidationFormWidget({
     required this.entry,
-    required this.emailController,
-    required this.passwordController,
     Key? key,
   }) : super(key: key);
 
@@ -38,12 +34,12 @@ class _ValidationFormWidgetState extends State<ValidationFormWidget> {
           const SizedBox(height: 10),
 
           //form field for email
-          buildTextFormField("email", widget.emailController),
+          buildTextFormField("email", emailController),
 
           const SizedBox(height: 10),
 
           //form field for password
-          buildTextFormField("password", widget.passwordController),
+          buildTextFormField("password", passwordController),
 
           const SizedBox(height: 10),
 
@@ -55,8 +51,13 @@ class _ValidationFormWidgetState extends State<ValidationFormWidget> {
                       const SnackBar(content: Text("Processing Data")));
                 }
 
-                _auth.createAccount(widget.emailController.text,
-                    widget.passwordController.text);
+                if (widget.entry == "Login") {
+                  _auth.signInToAccount(
+                      emailController.text, passwordController.text);
+                } else if (widget.entry == "Registration") {
+                  _auth.createAccount(
+                      emailController.text, passwordController.text);
+                }
               })
         ],
       ),

@@ -25,6 +25,7 @@ class AuthService {
     }
   }
 
+  //sign out
   Future<void> signOut() async {
     try {
       return await _auth.signOut();
@@ -33,6 +34,7 @@ class AuthService {
     }
   }
 
+  //create account with email and password
   Future createAccount(String email, String password) async {
     try {
       UserCredential userCredential = await _auth
@@ -53,5 +55,18 @@ class AuthService {
     }
   }
 
-  //Add sign in
+  //sign in with email and password
+  Future signInToAccount(String email, String password) async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
+      return _userFromFirebaseUser(userCredential.user);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        debugPrint("No user found for that email");
+      } else if (e.code == "wrong-password") {
+        debugPrint("Wrong password provided for that user");
+      }
+    }
+  }
 }
