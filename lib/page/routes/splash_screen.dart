@@ -18,11 +18,12 @@ class _SplashScreenState extends State<SplashScreen> {
     var duration = const Duration(seconds: 3);
     if (firstTime != null && !firstTime) {
       return Timer(duration, () {
-        Navigator.of(context).pushNamed("/wrapper");
+        Navigator.of(context).pushReplacementNamed("/wrapper");
       });
     } else {
       return Timer(duration, () {
-        Navigator.of(context).pushNamed("/email_password_registration");
+        Navigator.of(context)
+            .pushReplacementNamed("/email_password_registration");
       });
     }
   }
@@ -30,15 +31,16 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container( //TODO: remove borders from splash image and add transition
+      body: Container(
+        //TODO: remove borders from splash image and add transition
         alignment: Alignment.center,
         child: Image.asset(
-            "lib/images/fit_together_logo.png",
+          "lib/images/fit_together_logo.png",
           height: 200,
           width: 200,
         ),
       ),
-    ); //TODO: Add splash image and stuff
+    );
   }
 
   @override

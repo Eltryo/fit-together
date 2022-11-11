@@ -12,9 +12,6 @@ class SignIn extends StatefulWidget {
 class _SignInState extends State<SignIn> {
   @override
   Widget build(BuildContext context) {
-    final TextEditingController emailController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-
     return Scaffold(
       backgroundColor: AppColors.appBackgroundColor,
       body: Container(
@@ -23,10 +20,9 @@ class _SignInState extends State<SignIn> {
             horizontal: 50.0,
             vertical: 20.0,
           ),
-          child: ValidationFormWidget(
-              entry: "Login",
-              emailController: emailController,
-              passwordController: passwordController)),
+          child: const ValidationFormWidget(
+            entry: "Login",
+          )),
     );
   }
 }

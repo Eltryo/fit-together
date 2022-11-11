@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sports_app/page/home_page.dart';
 import 'package:sports_app/page/profile_page.dart';
 
-import '../page/premium_page.dart';
-import '../utils/colors.dart';
+import '../premium_page.dart';
+import '../../utils/colors.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
