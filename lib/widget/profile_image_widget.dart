@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sports_app/page/routes/edit_profile.dart';
+import 'package:sports_app/page/routes/route_builder.dart';
 
 class ProfileImageWidget extends StatelessWidget {
   final String imagePath;
@@ -38,7 +39,11 @@ class ProfileImageWidget extends StatelessWidget {
 
   Widget buildEditIcon(BuildContext context, Color color) {
     return InkWell(
-      onTap: () => Navigator.push(context, _createRoute()),
+      onTap: () => Navigator.push(
+          context,
+          RouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  const EditProfile())),
       child: buildCircle(
           color: Colors.white,
           all: 3,
@@ -65,27 +70,5 @@ class ProfileImageWidget extends StatelessWidget {
         child: child,
       ),
     );
-  }
-
-  Route _createRoute() {
-    const Duration duration = Duration(milliseconds: 100);
-    return PageRouteBuilder(
-        transitionDuration: duration,
-        reverseTransitionDuration: duration,
-        pageBuilder: (context, animation, secondaryAnimation) =>
-            const EditProfile(),
-        transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          const Offset begin = Offset(1.0, 0.0);
-          const Offset end = Offset.zero;
-          const curve = Curves.easeOut;
-
-          var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-
-          return SlideTransition(
-            position: animation.drive(tween),
-            child: child,
-          );
-        }); // Offset begin = Offset.zero;
-    // Offset end = const Offset(1.0, 0.0);
   }
 }
