@@ -20,6 +20,7 @@ class _ValidationFormWidgetState extends State<ValidationFormWidget> {
   final AuthService _auth = AuthService();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  bool _passwordVisible = false;
 
   @override
   void dispose() {
@@ -43,22 +44,40 @@ class _ValidationFormWidgetState extends State<ValidationFormWidget> {
           const SizedBox(height: 10),
 
           //form field for email
-          buildTextFormField("email", emailController),
+          buildTextFormField(
+            hint: "Email",
+            controller: emailController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Please enter an email";
+              }
+              return null;
+            },
+          ),
 
           const SizedBox(height: 10),
 
           //form field for password
-          buildTextFormField("password", passwordController),
+          buildTextFormField(
+            hint: "Password",
+            controller: passwordController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return "Please enter a password";
+              }
+              return null;
+            },
+          ),
 
           const SizedBox(height: 10),
 
           RoundedButtonWidget(
               text: "Submit",
               onPressed: () {
-                if (_formKey.currentState!.validate()) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text("Processing Data")));
-                }
+                // if (_formKey.currentState!.validate()) {
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //       const SnackBar(content: Text("Processing Data")));
+                // }
 
                 if (widget.entry == "Login") {
                   _auth.signInToAccount(
@@ -73,17 +92,14 @@ class _ValidationFormWidgetState extends State<ValidationFormWidget> {
     );
   }
 
-  TextFormField buildTextFormField(
-      String hint, TextEditingController controller) {
+  TextFormField buildTextFormField( //TODO: separate function into email and password form field
+      {required String hint,
+      required TextEditingController controller,
+      required validator}) {
     return TextFormField(
       controller: controller,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return "Please enter a $hint";
-        }
-        return null;
-      },
-      obscureText: hint == "password", //TODO: implement optional visibility
+      validator: validator,
+      obscureText: hint == "Password" ? !_passwordVisible : false,
       decoration: InputDecoration(
           suffixIcon: hint == "Password"
               ? IconButton(

@@ -6,19 +6,19 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   //Create user object based on FirebaseUser
-  AppUser? _userFromFirebaseUser(User? user) {
-    return user != null ? AppUser(uid: user.uid) : null;
+  AppUser? _mapFirebaseUser(User? user) {
+    return user != null ? AppUser(uid: user.uid, firstName: "", lastName: "", email: "", imageUrl: "") : null; //TODO: build user api
   }
 
   //Get user stream on auth change
   Stream<AppUser?> get user {
-    return _auth.authStateChanges().map(_userFromFirebaseUser);
+    return _auth.authStateChanges().map(_mapFirebaseUser);
   }
 
   Future<AppUser?> signInAnon() async {
     try {
       UserCredential userCredential = await _auth.signInAnonymously();
-      return _userFromFirebaseUser(userCredential.user);
+      return _mapFirebaseUser(userCredential.user);
     } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());
       return null;
@@ -39,7 +39,7 @@ class AuthService {
     try {
       UserCredential userCredential = await _auth
           .createUserWithEmailAndPassword(email: email, password: password);
-      return _userFromFirebaseUser(userCredential.user);
+      return _mapFirebaseUser(userCredential.user);
     } on FirebaseAuthException catch (e) {
       if (e.code == "weak-password") {
         debugPrint("The password provided is too weak");
@@ -60,7 +60,7 @@ class AuthService {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      return _userFromFirebaseUser(userCredential.user);
+      return _mapFirebaseUser(userCredential.user);
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         debugPrint("No user found for that email");
