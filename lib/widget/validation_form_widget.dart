@@ -85,10 +85,25 @@ class _ValidationFormWidgetState extends State<ValidationFormWidget> {
       },
       obscureText: hint == "password", //TODO: implement optional visibility
       decoration: InputDecoration(
+          suffixIcon: hint == "Password"
+              ? IconButton(
+                  onPressed: () {
+                    _toggle();
+                  },
+                  icon: Icon(_passwordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off))
+              : null, //TODO: Add custom visibility icons
           border: const OutlineInputBorder(),
           hintText: "Enter your $hint",
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10)),
     );
+  }
+
+  void _toggle() {
+    setState(() {
+      _passwordVisible = !_passwordVisible;
+    });
   }
 }
