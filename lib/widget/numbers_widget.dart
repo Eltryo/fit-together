@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../utils/user_numbers.dart';
-
 class NumbersWidget extends StatefulWidget {
-  final UserNumbers userNumbers;
-
-  const NumbersWidget({required this.userNumbers, Key? key}) : super(key: key);
+  const NumbersWidget({Key? key}) : super(key: key);
 
   @override
   State<NumbersWidget> createState() => _NumbersWidgetState();
@@ -17,14 +13,11 @@ class _NumbersWidgetState extends State<NumbersWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        buildButton(
-            context, widget.userNumbers.pictureCount.toString(), "Pictures"),
+        buildButton(context, "0", "Pictures"), //TODO replace hardcoded values
         buildDivider(),
-        buildButton(
-            context, widget.userNumbers.followingCount.toString(), "Following"),
+        buildButton(context, "0", "Following"),
         buildDivider(),
-        buildButton(
-            context, widget.userNumbers.followerCount.toString(), "Follower"),
+        buildButton(context, "0", "Follower"),
       ],
     );
   }

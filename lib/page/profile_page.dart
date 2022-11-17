@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../models/user.dart';
 import '../widget/numbers_widget.dart';
 import '../widget/profile_image_widget.dart';
 
@@ -12,9 +11,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  var userPreferences = User.empty().getPreferences();
-  var userNumbers = User.empty().getUserNumbers();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,23 +20,21 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 40,
           ),
           ProfileImageWidget(
-            imagePath: _checkImagePath(userPreferences.imagePath),
+            imagePath: _checkImagePath("lib/images/prison_mike.jpg"),
+            //TODO replace hardcoded values
             onClicked: () async {},
           ),
           const SizedBox(height: 10),
-          Text(
-            userPreferences.username,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          const Text(
+            "Prison_Mike",
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          Text(
-            userPreferences.email,
-            style: const TextStyle(
-                fontStyle: FontStyle.italic, color: Colors.grey),
+          const Text(
+            "prison.mike@gmail.com",
+            style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
           ),
           const SizedBox(height: 20),
-          NumbersWidget(
-            userNumbers: userNumbers,
-          ),
+          const NumbersWidget(),
         ],
       ),
     );

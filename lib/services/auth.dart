@@ -7,22 +7,15 @@ class AuthService {
 
   //Create user object based on FirebaseUser
   AppUser? _mapFirebaseUser(User? user) {
-    return user != null ? AppUser(uid: user.uid, firstName: "", lastName: "", email: "", imageUrl: "") : null; //TODO: build user api
+    return user != null
+        ? AppUser(
+            uid: user.uid, firstName: "", lastName: "", email: "", imageUrl: "")
+        : null; //TODO: build user api
   }
 
   //Get user stream on auth change
   Stream<AppUser?> get user {
     return _auth.authStateChanges().map(_mapFirebaseUser);
-  }
-
-  Future<AppUser?> signInAnon() async {
-    try {
-      UserCredential userCredential = await _auth.signInAnonymously();
-      return _mapFirebaseUser(userCredential.user);
-    } on FirebaseAuthException catch (e) {
-      debugPrint(e.toString());
-      return null;
-    }
   }
 
   //sign out

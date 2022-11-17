@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sports_app/services/auth.dart';
 import 'package:sports_app/widget/validation_form_widget.dart';
 
 import '../utils/colors.dart';
@@ -13,8 +12,6 @@ class EmailPasswordRegistration extends StatefulWidget {
 }
 
 class _EmailPasswordRegistrationState extends State<EmailPasswordRegistration> {
-  final AuthService _auth = AuthService();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,9 +29,8 @@ class _EmailPasswordRegistrationState extends State<EmailPasswordRegistration> {
             Align(
               alignment: Alignment.centerLeft,
               child: InkWell(
-                onTap: () => {
-                  Navigator.pushReplacementNamed(context, "/wrapper")
-                },
+                onTap: () =>
+                    {Navigator.pushReplacementNamed(context, "/wrapper")},
                 child: const Text(
                   "Sign in",
                   style: TextStyle(

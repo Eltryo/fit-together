@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        //TODO: remove borders from splash image and add transition
+        //TODO: add transition
         alignment: Alignment.center,
         child: Image.asset(
           "lib/images/fit_together_logo.png",

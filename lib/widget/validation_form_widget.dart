@@ -92,7 +92,8 @@ class _ValidationFormWidgetState extends State<ValidationFormWidget> {
     );
   }
 
-  TextFormField buildTextFormField( //TODO: separate function into email and password form field
+  TextFormField buildTextFormField(
+      //TODO: separate function into email and password form field
       {required String hint,
       required TextEditingController controller,
       required validator}) {

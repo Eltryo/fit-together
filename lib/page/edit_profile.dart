@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:sports_app/widget/rounded_button_widget.dart';
 
-import '../../services/auth.dart';
-import '../../utils/colors.dart';
+import '../services/auth.dart';
+import '../utils/colors.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({Key? key}) : super(key: key);
@@ -24,7 +24,8 @@ class _EditProfileState extends State<EditProfile> {
           backgroundColor: Colors.transparent,
           iconTheme: const IconThemeData(color: AppColors.appIconColor),
         ),
-        body: Center( //TODO: implement edit features
+        body: Center(
+            //TODO: implement edit features
             child: RoundedButtonWidget(
                 color: color,
                 text: "log out",
