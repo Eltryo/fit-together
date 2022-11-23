@@ -2,6 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sports_app/page/email_password_registration.dart';
+import 'package:sports_app/page/route_builder.dart';
+import 'package:sports_app/page/wrapper.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -18,13 +21,16 @@ class _SplashScreenState extends State<SplashScreen> {
     var duration = const Duration(seconds: 3);
     if (firstTime != null && !firstTime) {
       return Timer(duration, () {
-        Navigator.of(context).pushReplacementNamed("/wrapper");
+        Navigator.of(context).pushReplacement(RouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const Wrapper()));
       });
     } else {
       prefs.setBool("first_time", false);
       return Timer(duration, () {
-        Navigator.of(context)
-            .pushReplacementNamed("/email_password_registration");
+        Navigator.of(context).pushReplacement(RouteBuilder(
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const EmailPasswordRegistration()));
       });
     }
   }
@@ -33,7 +39,6 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        //TODO: add transition
         alignment: Alignment.center,
         child: Image.asset(
           "lib/images/fit_together_logo.png",

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:sports_app/page/route_builder.dart';
+import 'package:sports_app/page/wrapper.dart';
 import 'package:sports_app/widget/validation_form_widget.dart';
 
 import '../utils/colors.dart';
@@ -29,8 +31,11 @@ class _EmailPasswordRegistrationState extends State<EmailPasswordRegistration> {
             Align(
               alignment: Alignment.centerLeft,
               child: InkWell(
-                onTap: () =>
-                    {Navigator.pushReplacementNamed(context, "/wrapper")},
+                onTap: () => {
+                  Navigator.of(context).pushReplacement(RouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          const Wrapper()))
+                },
                 child: const Text(
                   "Sign in",
                   style: TextStyle(
