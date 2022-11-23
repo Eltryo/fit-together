@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:sports_app/models/app_user.dart';
 import 'package:sports_app/page/authenticate.dart';
 
+import '../models/app_user.dart';
 import 'home.dart';
 
 class Wrapper extends StatelessWidget {

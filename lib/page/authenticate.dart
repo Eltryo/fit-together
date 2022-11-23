@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sports_app/page/email_password_registration.dart';
 import 'package:sports_app/page/sign_in.dart';
 
 class Authenticate extends StatefulWidget {
@@ -11,6 +12,6 @@ class Authenticate extends StatefulWidget {
 class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
-    return const SignIn();
+    return const EmailPasswordRegistration();
   }
 }
