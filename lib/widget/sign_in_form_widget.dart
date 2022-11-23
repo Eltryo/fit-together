@@ -3,19 +3,17 @@ import 'package:sports_app/widget/rounded_button_widget.dart';
 
 import '../services/auth.dart';
 
-class ValidationFormWidget extends StatefulWidget {
-  final String entry;
-
-  const ValidationFormWidget({
-    required this.entry,
+class SignInFormWidget extends StatefulWidget {
+  //TODO: separate into registration and login validation form
+  const SignInFormWidget({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<ValidationFormWidget> createState() => _ValidationFormWidgetState();
+  State<SignInFormWidget> createState() => _SignInFormWidgetState();
 }
 
-class _ValidationFormWidgetState extends State<ValidationFormWidget> {
+class _SignInFormWidgetState extends State<SignInFormWidget> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
   final TextEditingController emailController = TextEditingController();
@@ -36,16 +34,15 @@ class _ValidationFormWidgetState extends State<ValidationFormWidget> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            widget.entry,
-            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+          const Text(
+            "Sign in",
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
 
           const SizedBox(height: 10),
 
           //form field for email
-          buildTextFormField(
-            hint: "Email",
+          buildEmailFormField(
             controller: emailController,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -58,8 +55,7 @@ class _ValidationFormWidgetState extends State<ValidationFormWidget> {
           const SizedBox(height: 10),
 
           //form field for password
-          buildTextFormField(
-            hint: "Password",
+          buildPasswordFormField(
             controller: passwordController,
             validator: (value) {
               if (value == null || value.isEmpty) {
@@ -74,47 +70,45 @@ class _ValidationFormWidgetState extends State<ValidationFormWidget> {
           RoundedButtonWidget(
               text: "Submit",
               onPressed: () {
-                // if (_formKey.currentState!.validate()) {
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //       const SnackBar(content: Text("Processing Data")));
-                // }
-
-                if (widget.entry == "Login") {
-                  _auth.signInToAccount(
-                      emailController.text, passwordController.text);
-                } else if (widget.entry == "Registration") {
-                  _auth.createAccount(
-                      emailController.text, passwordController.text);
-                }
+                _auth.signInToAccount(
+                    emailController.text, passwordController.text);
               })
         ],
       ),
     );
   }
 
-  TextFormField buildTextFormField(
-      //TODO: separate function into email and password form field
-      {required String hint,
-      required TextEditingController controller,
-      required validator}) {
+  //TODO: fix code repetition
+  TextFormField buildPasswordFormField(
+      {required TextEditingController controller, required validator}) {
     return TextFormField(
       controller: controller,
       validator: validator,
-      obscureText: hint == "Password" ? !_passwordVisible : false,
+      obscureText: !_passwordVisible,
       decoration: InputDecoration(
-          suffixIcon: hint == "Password"
-              ? IconButton(
-                  onPressed: () {
-                    _toggle();
-                  },
-                  icon: Icon(_passwordVisible
-                      ? Icons.visibility
-                      : Icons.visibility_off))
-              : null, //TODO: Add custom visibility icons
+          suffixIcon: IconButton(
+              onPressed: () {
+                _toggle();
+              },
+              icon: Icon(_passwordVisible
+                  ? Icons.visibility
+                  : Icons.visibility_off)), //TODO: Add custom visibility icons
           border: const OutlineInputBorder(),
-          hintText: "Enter your $hint",
+          hintText: "Enter your Password",
           contentPadding:
               const EdgeInsets.symmetric(vertical: 10, horizontal: 10)),
+    );
+  }
+
+  TextFormField buildEmailFormField(
+      {required TextEditingController controller, required validator}) {
+    return TextFormField(
+      controller: controller,
+      validator: validator,
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: "Enter your Email",
+          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10)),
     );
   }
 

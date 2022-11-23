@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:sports_app/page/email_password_registration.dart';
-import 'package:sports_app/page/sign_in.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({Key? key}) : super(key: key);

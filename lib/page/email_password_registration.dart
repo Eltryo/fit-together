@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sports_app/page/route_builder.dart';
 import 'package:sports_app/page/wrapper.dart';
-import 'package:sports_app/widget/validation_form_widget.dart';
+import 'package:sports_app/widget/registration_form_widget.dart';
 
 import '../utils/colors.dart';
 
@@ -25,9 +25,7 @@ class _EmailPasswordRegistrationState extends State<EmailPasswordRegistration> {
             vertical: 20.0,
           ),
           child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            const ValidationFormWidget(
-              entry: "Registration",
-            ),
+            const RegistrationFormWidget(),
             Align(
               alignment: Alignment.centerLeft,
               child: InkWell(
