@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:sports_app/page/route_builder.dart';
+import 'package:sports_app/page/submit_registration.dart';
 import 'package:sports_app/widget/rounded_button_widget.dart';
 
 class CreateUsername extends StatefulWidget {
@@ -22,6 +25,8 @@ class _CreateUsernameState extends State<CreateUsername> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: create scaffold
+    Provider.of<String>(context);
     return Form(
       key: _formKey,
       child: Column(
@@ -53,6 +58,9 @@ class _CreateUsernameState extends State<CreateUsername> {
               text: "Next",
               onPressed: () {
                 //TODO: create user with controllers accordingly
+                Navigator.of(context).push(RouteBuilder(
+                    pageBuilder: (context, animation, secondaryAnimation) =>
+                        const SubmitRegistration()));
               })
         ],
       ),

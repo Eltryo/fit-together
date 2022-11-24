@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sports_app/page/email_password_registration.dart';
+import 'package:sports_app/page/create_email.dart';
 import 'package:sports_app/page/route_builder.dart';
 import 'package:sports_app/page/wrapper.dart';
 
@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
       return Timer(duration, () {
         Navigator.of(context).pushReplacement(RouteBuilder(
             pageBuilder: (context, animation, secondaryAnimation) =>
-                const EmailPasswordRegistration()));
+                const CreateEmail()));
       });
     }
   }
