@@ -10,10 +10,11 @@ class CreateEmail extends StatefulWidget {
   const CreateEmail({Key? key}) : super(key: key);
 
   @override
-  State<CreateEmail> createState() => _CreateEmailState();
+  State<CreateEmail> createState() => CreateEmailState();
 }
 
-class _CreateEmailState extends State<CreateEmail> {
+//TODO: think of better solution than making state public
+class CreateEmailState extends State<CreateEmail> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
 
@@ -58,6 +59,7 @@ class _CreateEmailState extends State<CreateEmail> {
                   RoundedButtonWidget(
                       text: "Next",
                       onPressed: () {
+                        email;
                         Navigator.of(context).push(RouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
@@ -80,5 +82,9 @@ class _CreateEmailState extends State<CreateEmail> {
           hintText: "Enter your Email",
           contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10)),
     );
+  }
+
+  String get email {
+    return emailController.text;
   }
 }

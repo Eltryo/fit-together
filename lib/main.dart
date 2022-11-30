@@ -1,11 +1,10 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sports_app/page/create_email.dart';
 import 'package:sports_app/page/edit_profile.dart';
 import 'package:sports_app/page/splash_screen.dart';
 import 'package:sports_app/page/wrapper.dart';
-import 'package:sports_app/services/auth.dart';
 import 'package:sports_app/utils/colors.dart';
 
 void main() async {
@@ -19,10 +18,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        StreamProvider(create: (_) => AuthService().user, initialData: null),
-      ],
+    return ProviderScope(
+      // providers: [
+      //   StreamProvider(create: (_) => AuthService().user, initialData: null),
+      // ],
       child: MaterialApp(
         title: "fit-together",
         theme: ThemeData(
