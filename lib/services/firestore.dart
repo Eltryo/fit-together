@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
-import '../models/profile_data.dart';
+import '../models/app_user.dart';
 
 class FirestoreService {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  void addUser(ProfileData profileData) {
+  void addUser(AppUser profileData) {
     db
         .collection("users")
         .add(profileData.toJson())

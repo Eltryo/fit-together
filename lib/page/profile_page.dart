@@ -10,6 +10,7 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
+//TODO replace hardcoded values
 class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
           ProfileImageWidget(
             imagePath: _checkImagePath("lib/images/prison_mike.jpg"),
-            //TODO replace hardcoded values
             onClicked: () async {},
           ),
           const SizedBox(height: 10),

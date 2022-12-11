@@ -30,10 +30,11 @@ class _EditProfileState extends State<EditProfile> {
                 color: color,
                 text: "log out",
                 onPressed: () async {
-                  await _auth.signOut();
+                  await _auth.signOut(); //TODO: fix sign out
+                  debugPrint("sign out process is done");
 
                   if (!mounted) return;
-                  Navigator.pop(context);
+                  Navigator.of(context).pop();
                 })));
   }
 }

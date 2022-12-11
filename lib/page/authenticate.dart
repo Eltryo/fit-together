@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sports_app/page/create_email.dart';
+import 'package:sports_app/page/sign_in.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({Key? key}) : super(key: key);
@@ -8,9 +8,10 @@ class Authenticate extends StatefulWidget {
   State<Authenticate> createState() => _AuthenticateState();
 }
 
+//TODO: remove unnecessary widget
 class _AuthenticateState extends State<Authenticate> {
   @override
   Widget build(BuildContext context) {
-    return const CreateEmail();
+    return const SignIn();
   }
 }

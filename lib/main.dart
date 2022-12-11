@@ -29,15 +29,7 @@ class MyApp extends StatelessWidget {
           dividerColor: Colors.black,
           scaffoldBackgroundColor: AppColors.appBackgroundColor,
         ),
-        // home: const Wrapper(),
-        initialRoute: '/splash_screen',
-        //TODO: fix route names
-        routes: {
-          '/splash_screen': (context) => const SplashScreen(),
-          '/wrapper': (context) => const Wrapper(),
-          '/edit_profile': (context) => const EditProfile(),
-          '/email_password_registration': (context) => const CreateEmail(),
-        },
+        home: const SplashScreen(),
       ),
     );
   }

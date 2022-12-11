@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_app/models/app_user.dart';
-import 'package:sports_app/models/profile_data.dart';
+import 'package:sports_app/models/auth_user.dart';
 import 'package:sports_app/services/firestore.dart';
 
 class AuthService {
@@ -9,18 +9,20 @@ class AuthService {
   final FirestoreService _firestoreService = FirestoreService();
 
   //Create user object based on FirebaseUser
-  AppUser? _mapToAppUser(User? user) {
-    return user != null ? AppUser(uid: user.uid) : null;
+  AuthUser? _mapToAppUser(User? user) {
+    return user != null ? AuthUser(uid: user.uid) : null;
   }
 
   //Get user stream on auth change
-  Stream<AppUser?> get user {
-    return _firebaseAuth.authStateChanges().map(_mapToAppUser);
+  Stream<AuthUser?> get user {
+    var map = _firebaseAuth.authStateChanges().map(_mapToAppUser);
+    return map;
   }
 
   //sign out
-  Future<void> signOut() async {
+  Future signOut() async {
     try {
+      debugPrint("hi");
       return await _firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());
@@ -33,10 +35,10 @@ class AuthService {
       await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((userCredential) {
-        //TODO think of a better identifier for profileDate
-        ProfileData profileData = ProfileData(
+        AppUser appUser = AppUser(
             uid: userCredential.user!.uid, username: username, email: email);
-        _firestoreService.addUser(profileData);
+        _firestoreService.addUser(appUser);
+
         return _mapToAppUser(userCredential.user);
       });
     } on FirebaseAuthException catch (e) {

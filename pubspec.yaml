@@ -40,7 +40,6 @@ dependencies:
   cloud_firestore: ^4.0.2
   rename: ^2.0.1
   firebase_core: ^2.1.0
-  provider: ^6.0.4
   shared_preferences: ^2.0.15
   equatable: ^2.0.5
   flutter_riverpod: ^2.1.1

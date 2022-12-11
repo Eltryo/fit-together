@@ -19,6 +19,7 @@ class HomeState extends State<Home> {
         length: 5,
         child: Scaffold(
             appBar: AppBar(
+              automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               titleTextStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
