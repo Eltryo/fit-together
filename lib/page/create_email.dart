@@ -1,22 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sports_app/page/route_builder.dart';
 
+import '../main.dart';
 import '../utils/colors.dart';
 import '../widget/rounded_button_widget.dart';
 import 'create_password.dart';
 
-//TODO: try using ChangeNotifierProviders
 class CreateEmail extends StatefulWidget {
   const CreateEmail({Key? key}) : super(key: key);
 
   @override
-  State<CreateEmail> createState() => CreateEmailState();
+  State<CreateEmail> createState() => _CreateEmailState();
 }
 
-//TODO: think of better solution than making state public
-class CreateEmailState extends State<CreateEmail> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+class _CreateEmailState extends State<CreateEmail> {
   final TextEditingController emailController = TextEditingController();
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    super.dispose();
+    emailController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +52,7 @@ class CreateEmailState extends State<CreateEmail> {
 
                   //form field for email
                   buildEmailFormField(
+                    context: context,
                     controller: emailController,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -59,11 +67,10 @@ class CreateEmailState extends State<CreateEmail> {
                   RoundedButtonWidget(
                       text: "Next",
                       onPressed: () {
-                        email;
                         Navigator.of(context).push(RouteBuilder(
                             pageBuilder:
                                 (context, animation, secondaryAnimation) =>
-                                    const CreatePassword()));
+                                    CreatePassword()));
                       })
                 ],
               ),
@@ -72,19 +79,22 @@ class CreateEmailState extends State<CreateEmail> {
         ));
   }
 
-  TextFormField buildEmailFormField(
-      {required TextEditingController controller, required validator}) {
-    return TextFormField(
-      controller: controller,
-      validator: validator,
-      decoration: const InputDecoration(
-          border: OutlineInputBorder(),
-          hintText: "Enter your Email",
-          contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10)),
-    );
-  }
-
-  String get email {
-    return emailController.text;
+  Consumer buildEmailFormField(
+      {required BuildContext context,
+      required TextEditingController controller,
+      required validator}) {
+    return Consumer(builder: (context, ref, child) {
+      return TextFormField(
+        controller: controller,
+        validator: validator,
+        decoration: const InputDecoration(
+            border: OutlineInputBorder(),
+            hintText: "Enter your Email",
+            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10)),
+        onChanged: (text) {
+          ref.read(MyApp.emailProvider.notifier).state = text;
+        },
+      );
+    });
   }
 }
