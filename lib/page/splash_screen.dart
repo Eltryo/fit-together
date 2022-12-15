@@ -14,26 +14,25 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  startTime() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool? firstTime = prefs.getBool('first_time');
-
-    var duration = const Duration(seconds: 3);
-    if (firstTime != null && !firstTime) {
-      return Timer(duration, () {
-        Navigator.of(context).pushReplacement(RouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const Wrapper()));
-      });
-    } else {
-      prefs.setBool("first_time", false);
-      return Timer(duration, () {
-        Navigator.of(context).pushReplacement(RouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const CreateEmail()));
-      });
-    }
-  }
+  //TODO: fix splash screen logic
+  // startTime() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   bool? firstTime = prefs.getBool('first_time');
+  //
+  //   var duration = const Duration(seconds: 3);
+  //   if (firstTime != null && !firstTime) {
+  //     return Timer(duration, () {
+  //       Navigator.of(context).pushReplacement(
+  //           RouteBuilder(widget: const Wrapper()).buildRoute());
+  //     });
+  //   } else {
+  //     prefs.setBool("first_time", false);
+  //     return Timer(duration, () {
+  //       Navigator.of(context).pushReplacement(
+  //           RouteBuilder(widget: const CreateEmail()).buildRoute());
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +46,9 @@ class _SplashScreenState extends State<SplashScreen> {
     );
   }
 
-  @override
-  void initState() {
-    super.initState();
-    startTime();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   startTime();
+  // }
 }

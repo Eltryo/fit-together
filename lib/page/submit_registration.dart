@@ -1,10 +1,6 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sports_app/main.dart';
-import 'package:sports_app/page/route_builder.dart';
-import 'package:sports_app/page/wrapper.dart';
 import 'package:sports_app/services/auth.dart';
 import 'package:sports_app/widget/rounded_button_widget.dart';
 
@@ -47,13 +43,6 @@ class SubmitRegistration extends StatelessWidget {
                     text: "Register",
                     onPressed: () async {
                       _auth.createAccount(email, password, username);
-
-                      Timer(const Duration(seconds: 3), () {
-                        Navigator.of(context).pushReplacement(RouteBuilder(
-                            pageBuilder:
-                                (context, animation, secondaryAnimation) =>
-                                    const Wrapper()));
-                      });
                     });
               })
             ],
