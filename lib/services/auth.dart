@@ -2,34 +2,61 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_app/models/app_user.dart';
 import 'package:sports_app/models/auth_user.dart';
+import 'package:sports_app/page/authenticate.dart';
 import 'package:sports_app/services/firestore.dart';
+
+import '../page/home.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirestoreService _firestoreService = FirestoreService();
 
-  //Create user object based on FirebaseUser
+  // Stream<AuthUser?> get user {
+  //   var map = _firebaseAuth.authStateChanges().map(_mapToAppUser);
+  //   debugPrint("auth state has changed");
+  //   return map;
+  // }
+
+  void routeToAuthenticationOrHome(){
+    final subscription = _firebaseAuth.authStateChanges().listen((user) {
+      user == null? debugPrint("user signed out") : debugPrint("user signed in");
+    });
+  }
+
+  Future<String> getCurrentUID() async {
+    return _firebaseAuth.currentUser!.uid;
+  }
+
   AuthUser? _mapToAppUser(User? user) {
     return user != null ? AuthUser(uid: user.uid) : null;
   }
 
-  //Get user stream on auth change
-  Stream<AuthUser?> get user {
-    var map = _firebaseAuth.authStateChanges().map(_mapToAppUser);
-    return map;
+  Future signInToAccount(String email, String password) async {
+    try {
+      await _firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((userCredential) {
+        return _mapToAppUser(userCredential.user);
+      });
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        debugPrint("No user found for that email");
+      } else if (e.code == "wrong-password") {
+        debugPrint("Wrong password provided for that user");
+      }
+    }
   }
 
-  //sign out
   Future signOut() async {
     try {
-      debugPrint("hi");
-      return await _firebaseAuth.signOut();
+      var result = await _firebaseAuth.signOut();
+      debugPrint(_firebaseAuth.currentUser.toString());
+      return result;
     } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());
     }
   }
 
-  //create account with email and password
   Future createAccount(String email, String password, String username) async {
     try {
       await _firebaseAuth
@@ -53,21 +80,6 @@ class AuthService {
       }
     } catch (e) {
       debugPrint(e.toString());
-    }
-  }
-
-  //sign in with email and password
-  Future signInToAccount(String email, String password) async {
-    try {
-      await _firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((value) => _mapToAppUser(value.user));
-    } on FirebaseAuthException catch (e) {
-      if (e.code == "user-not-found") {
-        debugPrint("No user found for that email");
-      } else if (e.code == "wrong-password") {
-        debugPrint("Wrong password provided for that user");
-      }
     }
   }
 }
