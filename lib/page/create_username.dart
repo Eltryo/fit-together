@@ -69,10 +69,7 @@ class _CreateUsernameState extends State<CreateUsername> {
                     RoundedButtonWidget(
                         text: "Next",
                         onPressed: () {
-                          Navigator.of(context).push(RouteBuilder(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      SubmitRegistration()));
+                          Navigator.of(context).push(RouteBuilder(widget: SubmitRegistration()).buildRoute());
                         })
                   ],
                 ),

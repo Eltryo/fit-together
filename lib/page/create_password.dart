@@ -67,10 +67,7 @@ class _CreatePasswordState extends State<CreatePassword> {
                     RoundedButtonWidget(
                         text: "Next",
                         onPressed: () {
-                          Navigator.of(context).push(RouteBuilder(
-                              pageBuilder:
-                                  (context, animation, secondaryAnimation) =>
-                                      CreateUsername()));
+                          Navigator.of(context).push(RouteBuilder(widget: const CreateUsername()).buildRoute());
                         })
                   ],
                 ),

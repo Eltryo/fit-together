@@ -40,10 +40,7 @@ class ProfileImageWidget extends StatelessWidget {
   Widget buildEditIcon(BuildContext context, Color color) {
     return InkWell(
       onTap: () => Navigator.push(
-          context,
-          RouteBuilder(
-              pageBuilder: (context, animation, secondaryAnimation) =>
-                  const EditProfile())),
+          context, RouteBuilder(widget: const EditProfile()).buildRoute()),
       child: buildCircle(
           color: Colors.white,
           all: 3,
