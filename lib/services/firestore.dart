@@ -16,8 +16,9 @@ class FirestoreService {
   }
 
   void getUsers() {
-    db.collection("users").get().then((event) => {
-          for (var doc in event.docs) {debugPrint("${doc.id} => ${doc.data()}")}
+    db.collection("users").get().then((collection) => {
+          for (var doc in collection.docs)
+            {debugPrint("${doc.id} => ${doc.data()}")}
         });
   }
 }

@@ -17,9 +17,12 @@ class RouteBuilder {
 
   Route buildRoute() {
     return PageRouteBuilder(
+      transitionDuration: duration,
+      reverseTransitionDuration: duration,
       pageBuilder: (context, animation, secondaryAnimation) => widget,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        var tween = Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+        var tween =
+            Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
         return SlideTransition(position: animation.drive(tween), child: child);
       },

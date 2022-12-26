@@ -20,20 +20,21 @@ class _EditProfileState extends State<EditProfile> {
 
     return Scaffold(
         appBar: AppBar(
+          //TODO: Add custom appbar
           elevation: 0,
           backgroundColor: Colors.transparent,
           iconTheme: const IconThemeData(color: AppColors.appIconColor),
         ),
         body: Center(
-            //TODO: implement edit features
+            //TODO: implement features
             child: RoundedButtonWidget(
                 color: color,
-                text: "log out",
+                text: "Log out",
                 onPressed: () async {
-                  await _auth.signOut(); //TODO: fix sign out
+                  await _auth.signOut();
 
                   if (!mounted) return;
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pop(); //TODO: pop with transition
                 })));
   }
 }

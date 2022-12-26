@@ -21,7 +21,7 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 40,
           ),
           ProfileImageWidget(
-            imagePath: _checkImagePath("lib/images/prison_mike.jpg"),
+            imagePath: _checkImagePath("assets/images/prison_mike.jpg"),
             onClicked: () async {},
           ),
           const SizedBox(height: 10),
@@ -42,7 +42,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   String _checkImagePath(String? imagePath) {
     if (imagePath == null) {
-      return "lib/images/default_user_image.png";
+      return "assets/images/default_user_image.png";
     }
     return imagePath;
   }

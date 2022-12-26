@@ -1,43 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_app/models/app_user.dart';
-import 'package:sports_app/models/auth_user.dart';
-import 'package:sports_app/page/authenticate.dart';
 import 'package:sports_app/services/firestore.dart';
-
-import '../page/home.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirestoreService _firestoreService = FirestoreService();
 
-  // Stream<AuthUser?> get user {
-  //   var map = _firebaseAuth.authStateChanges().map(_mapToAppUser);
-  //   debugPrint("auth state has changed");
-  //   return map;
-  // }
+  Stream<User?> get authState => _firebaseAuth.authStateChanges();
 
-  void routeToAuthenticationOrHome(){
-    final subscription = _firebaseAuth.authStateChanges().listen((user) {
-      user == null? debugPrint("user signed out") : debugPrint("user signed in");
-    });
-  }
-
-  Future<String> getCurrentUID() async {
-    return _firebaseAuth.currentUser!.uid;
-  }
-
-  AuthUser? _mapToAppUser(User? user) {
-    return user != null ? AuthUser(uid: user.uid) : null;
+  Future<String?> getCurrentUID() async {
+    return _firebaseAuth.currentUser?.uid;
   }
 
   Future signInToAccount(String email, String password) async {
     try {
-      await _firebaseAuth
-          .signInWithEmailAndPassword(email: email, password: password)
-          .then((userCredential) {
-        return _mapToAppUser(userCredential.user);
-      });
+      await _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         debugPrint("No user found for that email");
@@ -49,9 +28,7 @@ class AuthService {
 
   Future signOut() async {
     try {
-      var result = await _firebaseAuth.signOut();
-      debugPrint(_firebaseAuth.currentUser.toString());
-      return result;
+      await _firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());
     }
@@ -65,8 +42,6 @@ class AuthService {
         AppUser appUser = AppUser(
             uid: userCredential.user!.uid, username: username, email: email);
         _firestoreService.addUser(appUser);
-
-        return _mapToAppUser(userCredential.user);
       });
     } on FirebaseAuthException catch (e) {
       if (e.code == "weak-password") {

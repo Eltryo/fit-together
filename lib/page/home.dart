@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sports_app/page/home_page.dart';
 import 'package:sports_app/page/profile_page.dart';
 
@@ -15,11 +16,11 @@ class Home extends StatefulWidget {
 class HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    SystemChannels.textInput.invokeMethod("TextInput.hide");
     return DefaultTabController(
         length: 5,
         child: Scaffold(
             appBar: AppBar(
-              automaticallyImplyLeading: false,
               backgroundColor: Colors.transparent,
               titleTextStyle: const TextStyle(
                   fontWeight: FontWeight.w500,
@@ -28,11 +29,13 @@ class HomeState extends State<Home> {
               bottom: TabBar(
                 indicatorColor: Theme.of(context).primaryColor,
                 tabs: <Tab>[
-                  Tab(icon: Image.asset('lib/icons/home.png', height: 17)),
-                  Tab(icon: Image.asset('lib/icons/crown.png', height: 20)),
-                  Tab(icon: Image.asset('lib/icons/running.png', height: 20)),
-                  Tab(icon: Image.asset('lib/icons/clock.png', height: 20)),
-                  Tab(icon: Image.asset('lib/icons/user.png', height: 20)),
+                  Tab(icon: Image.asset('assets/icons/home.png', height: 20)),
+                  Tab(icon: Image.asset('assets/icons/crown.png', height: 20)),
+                  Tab(
+                      icon:
+                          Image.asset('assets/icons/running.png', height: 20)),
+                  Tab(icon: Image.asset('assets/icons/clock.png', height: 20)),
+                  Tab(icon: Image.asset('assets/icons/user.png', height: 20)),
                 ],
               ),
               title: const Center(

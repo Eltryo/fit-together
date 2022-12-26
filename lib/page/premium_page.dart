@@ -24,7 +24,7 @@ class PremiumPage extends StatelessWidget {
         ),
         RoundedButtonWidget(
           text: "Upgrade to PRO",
-          onPressed: () {}, //TODO: Add update function
+          onPressed: () {}, //TODO: Add upgrade function
         ),
       ],
     );

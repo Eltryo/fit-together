@@ -5,6 +5,5 @@ AppBar buildAppBar(BuildContext context) {
     leading: const BackButton(),
     backgroundColor: Colors.transparent,
     elevation: 0,
-    actions: [],
   );
 }
