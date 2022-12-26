@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sports_app/page/splash_screen.dart';
+import 'package:sports_app/page/wrapper.dart';
+import 'package:sports_app/services/auth.dart';
 import 'package:sports_app/utils/colors.dart';
 
 void main() async {
@@ -11,8 +13,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  // static final authServiceProvider =
-  //     StreamProvider<AuthUser?>((ref) => AuthService().user);
+  static final authStreamProvider =
+      StreamProvider<User?>((ref) => AuthService().authState);
   static final emailProvider = StateProvider<String>((ref) => "");
   static final passwordProvider = StateProvider((ref) => "");
   static final usernameProvider = StateProvider((ref) => "");
@@ -29,11 +31,13 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: "fit-together",
           theme: ThemeData(
+            progressIndicatorTheme:
+                const ProgressIndicatorThemeData(color: Colors.teal),
             primaryColor: Colors.teal,
             dividerColor: Colors.black,
             scaffoldBackgroundColor: AppColors.appBackgroundColor,
           ),
-          home: const SplashScreen(),
+          home: const Wrapper(),
         ),
       ),
     );

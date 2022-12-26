@@ -48,12 +48,8 @@ class _CreateUsernameState extends State<CreateUsername> {
                       style:
                           TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                     ),
-
                     const Text("Please enter your username"),
-
                     const SizedBox(height: 10),
-
-                    //form field for email
                     buildUsernameFormField(
                       controller: usernameController,
                       validator: (value) {
@@ -63,13 +59,13 @@ class _CreateUsernameState extends State<CreateUsername> {
                         return null;
                       },
                     ),
-
                     const SizedBox(height: 10),
-
                     RoundedButtonWidget(
                         text: "Next",
                         onPressed: () {
-                          Navigator.of(context).push(RouteBuilder(widget: SubmitRegistration()).buildRoute());
+                          Navigator.of(context).push(
+                              RouteBuilder(widget: const SubmitRegistration())
+                                  .buildRoute());
                         })
                   ],
                 ),
