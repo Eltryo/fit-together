@@ -34,7 +34,7 @@ class _SubmitRegistrationState extends State<SubmitRegistration> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  "Move on and join our ambitious community.\nShare your progress, find connections and reach your goals.",
+                  "Move on and join our ambitious community.",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                       fontSize: 18,
@@ -57,7 +57,7 @@ class _SubmitRegistrationState extends State<SubmitRegistration> {
                             context,
                             (route) =>
                                 route.isFirst); //TODO: pop with transition
-                        hideLoadingScreen();
+                        _isLoading = false;
                       });
                 })
               ],
@@ -74,8 +74,10 @@ class _SubmitRegistrationState extends State<SubmitRegistration> {
               )),
         ),
       if (_isLoading)
-        const Center(
-          child: CircularProgressIndicator(),
+        Center(
+          child: CircularProgressIndicator(
+            color: Theme.of(context).primaryColor,
+          ),
         )
     ]);
   }
@@ -83,12 +85,6 @@ class _SubmitRegistrationState extends State<SubmitRegistration> {
   void showLoadingScreen() {
     setState(() {
       _isLoading = true;
-    });
-  }
-
-  void hideLoadingScreen() {
-    setState(() {
-      _isLoading = false;
     });
   }
 }

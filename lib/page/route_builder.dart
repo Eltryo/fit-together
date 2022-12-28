@@ -19,8 +19,8 @@ class RouteBuilder {
     return PageRouteBuilder(
       transitionDuration: duration,
       reverseTransitionDuration: duration,
-      pageBuilder: (context, animation, secondaryAnimation) => widget,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      pageBuilder: (_, __, ___) => widget,
+      transitionsBuilder: (_, animation, __, child) {
         var tween =
             Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
 
