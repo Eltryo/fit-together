@@ -34,10 +34,10 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
                 onPressed: () {
                   _toggle();
                 },
+            //TODO: Add custom visibility icons
                 icon: Icon(_passwordVisible
                     ? Icons.visibility
                     : Icons.visibility_off)),
-            //TODO: Add custom visibility icons
             border: const OutlineInputBorder(),
             hintText: "Enter your Password",
             contentPadding:

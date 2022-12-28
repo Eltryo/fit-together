@@ -14,8 +14,6 @@ class ProfileImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).primaryColor;
-
     return Center(
       child: Stack(
         children: [
@@ -23,7 +21,7 @@ class ProfileImageWidget extends StatelessWidget {
           Positioned(
             bottom: 0,
             right: 0,
-            child: buildEditIcon(context, color),
+            child: buildEditIcon(context, Theme.of(context).primaryColor),
           )
         ],
       ),
@@ -32,6 +30,7 @@ class ProfileImageWidget extends StatelessWidget {
 
   Widget buildImage() {
     return CircleAvatar(
+      backgroundColor: Colors.transparent,
       backgroundImage: AssetImage(imagePath),
       radius: 50,
     );
@@ -43,10 +42,10 @@ class ProfileImageWidget extends StatelessWidget {
           context, RouteBuilder(widget: const EditProfile()).buildRoute()),
       child: buildCircle(
           color: Colors.white,
-          all: 3,
+          paddingOffset: 3,
           child: buildCircle(
               color: color,
-              all: 8,
+              paddingOffset: 8,
               child: const Icon(
                 Icons.edit,
                 size: 15,
@@ -57,13 +56,13 @@ class ProfileImageWidget extends StatelessWidget {
 
   Widget buildCircle({
     required Color color,
-    required double all,
+    required double paddingOffset,
     required Widget child,
   }) {
     return ClipOval(
       child: Container(
         color: color,
-        padding: EdgeInsets.all(all),
+        padding: EdgeInsets.all(paddingOffset),
         child: child,
       ),
     );

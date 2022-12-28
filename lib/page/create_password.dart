@@ -41,13 +41,13 @@ class _CreatePasswordState extends State<CreatePassword> {
                     ),
                     const Text("Please enter a save password"),
                     const SizedBox(height: 10),
+                    //TODO make controller not required
                     Consumer(
                         builder: (BuildContext context, WidgetRef ref,
                                 Widget? child) =>
                             PasswordFormField(
                                 passwordController: passwordController,
                                 ref: ref)),
-                    //TODO make controller not required
                     const SizedBox(height: 10),
                     RoundedButtonWidget(
                         text: "Next",
