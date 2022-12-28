@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class AppUser extends Equatable {
@@ -16,37 +17,29 @@ class AppUser extends Equatable {
       this.lastName,
       this.imageUrl});
 
-  factory AppUser.fromJson(Map<String, dynamic> json) {
+  factory AppUser.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot,
+      SnapshotOptions? options) {
+    final data = snapshot.data();
     return AppUser(
-        uid: json["uid"] ?? "",
-        username: json["username"] ?? "",
-        firstName: json["firstName"] ?? "",
-        lastName: json["lastName"] ?? "",
-        email: json["email"] ?? "",
-        imageUrl: json["imageUrl"] ?? "");
-  }
-
-  factory AppUser.empty() {
-    return const AppUser(
-        uid: "",
-        username: "",
-        firstName: "",
-        lastName: "",
-        email: "",
-        imageUrl: "");
+        uid: data?["uid"],
+        username: data?["username"],
+        email: data?["email"],
+        firstName: data?["firstName"],
+        lastName: data?["lastName"],
+        imageUrl: data?["imageUrl"]);
   }
 
   @override
   List<Object?> get props => [username, firstName, lastName, email, imageUrl];
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{
+    return {
       "uid": uid,
       "username": username,
-      "firstName": firstName,
-      "lastName": lastName,
       "email": email,
-      "imageUrl": imageUrl
+      if (firstName != null) "firstName": firstName,
+      if (lastName != null) "lastName": lastName,
+      if (imageUrl != null) "imageUrl": imageUrl
     };
   }
 }
