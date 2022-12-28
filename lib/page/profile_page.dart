@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:sports_app/services/auth.dart';
+import 'package:sports_app/services/firestore.dart';
 
+import '../models/app_user.dart';
 import '../widget/numbers_widget.dart';
 import '../widget/profile_image_widget.dart';
 
@@ -10,8 +13,19 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-//TODO replace hardcoded values
 class _ProfilePageState extends State<ProfilePage> {
+  final FirestoreService _firestoreService = FirestoreService();
+  final AuthService _authService = AuthService();
+  String _username = "";
+  String _email = "";
+  String? _imageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchAppUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,17 +35,18 @@ class _ProfilePageState extends State<ProfilePage> {
             height: 40,
           ),
           ProfileImageWidget(
-            imagePath: _checkImagePath("assets/images/prison_mike.jpg"),
+            imagePath: _checkImagePath(_imageUrl),
             onClicked: () async {},
           ),
           const SizedBox(height: 10),
-          const Text(
-            "Prison_Mike",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+          Text(
+            _username,
+            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          const Text(
-            "prison.mike@gmail.com",
-            style: TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+          Text(
+            _email,
+            style: const TextStyle(
+                fontStyle: FontStyle.italic, color: Colors.grey),
           ),
           const SizedBox(height: 20),
           const NumbersWidget(),
@@ -45,5 +60,16 @@ class _ProfilePageState extends State<ProfilePage> {
       return "assets/images/default_user_image.png";
     }
     return imagePath;
+  }
+
+  void fetchAppUser() async {
+    String? currentUID = await _authService.getCurrentUID();
+    if (currentUID == null) throw Exception(); //TODO: throw custom exception
+    AppUser appUser = await _firestoreService.getUserByUID(currentUID);
+    setState(() {
+      _username = appUser.username;
+      _email = appUser.email;
+      _imageUrl = appUser.imageUrl;
+    });
   }
 }
