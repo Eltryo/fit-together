@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sports_app/page/wrapper.dart';
 import 'package:sports_app/services/auth.dart';
 import 'package:sports_app/utils/colors.dart';
+import 'package:sports_app/widget/loading_overlay.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +38,7 @@ class MyApp extends StatelessWidget {
             dividerColor: Colors.black,
             scaffoldBackgroundColor: AppColors.appBackgroundColor,
           ),
-          home: const Wrapper(),
+          home: const LoadingOverlay(child: Wrapper()),
         ),
       ),
     );

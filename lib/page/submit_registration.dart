@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sports_app/main.dart';
 import 'package:sports_app/services/auth.dart';
+import 'package:sports_app/widget/loading_overlay.dart';
 import 'package:sports_app/widget/rounded_button_widget.dart';
 
 import '../utils/colors.dart';
@@ -17,12 +18,11 @@ class SubmitRegistration extends StatefulWidget {
 
 class _SubmitRegistrationState extends State<SubmitRegistration> {
   final AuthService _auth = AuthService();
-  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Scaffold(
+    return LoadingOverlay(
+      child: Scaffold(
           backgroundColor: AppColors.appBackgroundColor,
           body: Container(
             alignment: Alignment.center,
@@ -50,41 +50,19 @@ class _SubmitRegistrationState extends State<SubmitRegistration> {
                   return RoundedButtonWidget(
                       text: "Register",
                       onPressed: () async {
-                        showLoadingScreen();
+                        LoadingOverlay.of(context).showLoadingScreen();
                         await _auth.createAccount(email, password, username);
                         if (!mounted) return;
                         Navigator.popUntil(
                             context,
                             (route) =>
                                 route.isFirst); //TODO: pop with transition
-                        _isLoading = false;
+                        LoadingOverlay.of(context).hideLoadingScreen();
                       });
                 })
               ],
             ),
           )),
-      if (_isLoading) //TODO: extracting loading overlay
-        BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
-          child: const Opacity(
-              opacity: 0.8,
-              child: ModalBarrier(
-                dismissible: false,
-                color: AppColors.loadingBackgroundColor,
-              )),
-        ),
-      if (_isLoading)
-        Center(
-          child: CircularProgressIndicator(
-            color: Theme.of(context).primaryColor,
-          ),
-        )
-    ]);
-  }
-
-  void showLoadingScreen() {
-    setState(() {
-      _isLoading = true;
-    });
+    );
   }
 }
