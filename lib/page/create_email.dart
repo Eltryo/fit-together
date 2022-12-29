@@ -47,21 +47,24 @@ class _CreateEmailState extends State<CreateEmail> {
                   ),
                   const Text("Please enter your email address "),
                   const SizedBox(height: 10),
-                  Consumer(
-                      builder: (BuildContext context, WidgetRef ref,
-                              Widget? child) =>
-                          EmailFormField(
-                            emailController: emailController,
-                            ref: ref,
-                          )),
+                  EmailFormField(
+                    emailController: emailController,
+                  ),
                   const SizedBox(height: 10),
-                  RoundedButtonWidget(
-                      text: "Next",
-                      onPressed: () {
-                        Navigator.of(context).push(
-                            RouteBuilder(widget: const CreatePassword())
-                                .buildRoute());
-                      })
+                  Consumer(
+                    builder: (BuildContext context, WidgetRef ref,
+                            Widget? child) =>
+                        RoundedButtonWidget(
+                            text: "Next",
+                            onPressed: () {
+                              if (!_formKey.currentState!.validate()) return;
+                              ref.read(emailProvider.notifier).state =
+                                  emailController.text;
+                              Navigator.of(context).push(
+                                  RouteBuilder(widget: const CreatePassword())
+                                      .buildRoute());
+                            }),
+                  )
                 ],
               ),
             )

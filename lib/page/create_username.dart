@@ -50,23 +50,22 @@ class _CreateUsernameState extends State<CreateUsername> {
                     ),
                     const Text("Please enter your username"),
                     const SizedBox(height: 10),
-                    buildUsernameFormField(
-                      controller: usernameController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return "Please enter an username";
-                        }
-                        return null;
-                      },
-                    ),
+                    UsernameFormField(usernameController: usernameController),
                     const SizedBox(height: 10),
-                    RoundedButtonWidget(
-                        text: "Next",
-                        onPressed: () {
-                          Navigator.of(context).push(
-                              RouteBuilder(widget: const SubmitRegistration())
-                                  .buildRoute());
-                        })
+                    Consumer(
+                      builder: (BuildContext context, WidgetRef ref,
+                              Widget? child) =>
+                          RoundedButtonWidget(
+                              text: "Next",
+                              onPressed: () {
+                                if (!_formKey.currentState!.validate()) return;
+                                ref.read(usernameProvider.notifier).state =
+                                    usernameController.text;
+                                Navigator.of(context).push(RouteBuilder(
+                                        widget: const SubmitRegistration())
+                                    .buildRoute());
+                              }),
+                    )
                   ],
                 ),
               ),

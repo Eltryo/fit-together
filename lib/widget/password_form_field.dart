@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../main.dart';
 
 class PasswordFormField extends StatefulWidget {
   final TextEditingController passwordController;
-  final WidgetRef? ref;
 
-  const PasswordFormField(
-      {required this.passwordController, this.ref, Key? key})
+  const PasswordFormField({required this.passwordController, Key? key})
       : super(key: key);
 
   @override
@@ -21,31 +16,27 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        controller: widget.passwordController,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "Please enter a password";
-          }
-          return null;
-        },
-        obscureText: !_passwordVisible,
-        decoration: InputDecoration(
-            suffixIcon: IconButton(
-                onPressed: () {
-                  _toggle();
-                },
-            //TODO: Add custom visibility icons
-                icon: Icon(_passwordVisible
-                    ? Icons.visibility
-                    : Icons.visibility_off)),
-            border: const OutlineInputBorder(),
-            hintText: "Enter your Password",
-            contentPadding:
-                const EdgeInsets.symmetric(vertical: 10, horizontal: 10)),
-        onChanged: (text) => widget.ref
-            ?.read(MyApp.passwordProvider.notifier)
-            .state = text //only feed provider if ref is not null
-        );
+      controller: widget.passwordController,
+      validator: (password) { //TODO: Add custom validator
+        if (password == null || password.isEmpty) {
+          return "Please enter a password";
+        }
+        return null;
+      },
+      obscureText: !_passwordVisible,
+      decoration: InputDecoration(
+          suffixIcon: IconButton(
+              onPressed: () {
+                _toggle();
+              },
+              //TODO: Add custom visibility icons
+              icon: Icon(
+                  _passwordVisible ? Icons.visibility : Icons.visibility_off)),
+          border: const OutlineInputBorder(),
+          hintText: "Enter your password",
+          contentPadding:
+              const EdgeInsets.symmetric(vertical: 10, horizontal: 10)),
+    );
   }
 
   void _toggle() {

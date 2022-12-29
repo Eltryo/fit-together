@@ -41,21 +41,24 @@ class _CreatePasswordState extends State<CreatePassword> {
                     ),
                     const Text("Please enter a save password"),
                     const SizedBox(height: 10),
-                    //TODO make controller not required
-                    Consumer(
-                        builder: (BuildContext context, WidgetRef ref,
-                                Widget? child) =>
-                            PasswordFormField(
-                                passwordController: passwordController,
-                                ref: ref)),
+                    PasswordFormField(
+                      passwordController: passwordController,
+                    ),
                     const SizedBox(height: 10),
-                    RoundedButtonWidget(
-                        text: "Next",
-                        onPressed: () {
-                          Navigator.of(context).push(
-                              RouteBuilder(widget: const CreateUsername())
-                                  .buildRoute());
-                        })
+                    Consumer(
+                      builder: (BuildContext context, WidgetRef ref,
+                              Widget? child) =>
+                          RoundedButtonWidget(
+                              text: "Next",
+                              onPressed: () {
+                                if (!_formKey.currentState!.validate()) return;
+                                ref.read(passwordProvider.notifier).state =
+                                    passwordController.text;
+                                Navigator.of(context).push(
+                                    RouteBuilder(widget: const CreateUsername())
+                                        .buildRoute());
+                              }),
+                    )
                   ],
                 ),
               ),
