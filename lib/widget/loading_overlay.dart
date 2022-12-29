@@ -7,12 +7,9 @@ import '../utils/colors.dart';
 class LoadingOverlay extends StatefulWidget {
   final Widget child;
 
-  const LoadingOverlay({
-    required this.child,
-    Key? key
-  }) : super(key: key);
+  const LoadingOverlay({required this.child, Key? key}) : super(key: key);
 
-  static LoadingOverlayState of(BuildContext context){
+  static LoadingOverlayState of(BuildContext context) {
     return context.findAncestorStateOfType<LoadingOverlayState>()!;
   }
 

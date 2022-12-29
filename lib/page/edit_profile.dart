@@ -34,7 +34,7 @@ class _EditProfileState extends State<EditProfile> {
                   await _auth.signOut();
 
                   if (!mounted) return;
-                  Navigator.of(context).pop(); //TODO: pop with transition
+                  Navigator.of(context).pop();
                 })));
   }
 }

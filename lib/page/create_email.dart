@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sports_app/page/route_builder.dart';
+import 'package:sports_app/utils/providers.dart';
 
 import '../utils/colors.dart';
 import '../widget/email_form_field.dart';
@@ -16,7 +17,6 @@ class CreateEmail extends StatefulWidget {
 
 class _CreateEmailState extends State<CreateEmail> {
   final TextEditingController emailController = TextEditingController();
-
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override

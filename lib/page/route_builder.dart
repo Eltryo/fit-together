@@ -8,7 +8,7 @@ class RouteBuilder {
   final Curve curve;
 
   RouteBuilder({
-    this.duration = const Duration(milliseconds: 100),
+    this.duration = const Duration(milliseconds: 200),
     this.begin = const Offset(1.0, 0.0),
     this.end = Offset.zero,
     this.curve = Curves.easeOut,

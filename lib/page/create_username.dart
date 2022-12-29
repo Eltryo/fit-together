@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sports_app/main.dart';
 import 'package:sports_app/page/route_builder.dart';
 import 'package:sports_app/page/submit_registration.dart';
 import 'package:sports_app/utils/colors.dart';
+import 'package:sports_app/utils/providers.dart';
 import 'package:sports_app/widget/rounded_button_widget.dart';
+import 'package:sports_app/widget/username_form_field.dart';
 
 class CreateUsername extends StatefulWidget {
   const CreateUsername({
@@ -72,22 +73,5 @@ class _CreateUsernameState extends State<CreateUsername> {
             ],
           ),
         ));
-  }
-
-  Consumer buildUsernameFormField(
-      {required TextEditingController controller, required validator}) {
-    return Consumer(builder: (context, ref, child) {
-      return TextFormField(
-        controller: controller,
-        validator: validator,
-        decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: "Enter your Username",
-            contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 10)),
-        onChanged: (text) {
-          ref.read(MyApp.usernameProvider.notifier).state = text;
-        },
-      );
-    });
   }
 }

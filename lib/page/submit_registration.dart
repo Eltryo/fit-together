@@ -1,13 +1,11 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sports_app/main.dart';
 import 'package:sports_app/services/auth.dart';
 import 'package:sports_app/widget/loading_overlay.dart';
 import 'package:sports_app/widget/rounded_button_widget.dart';
 
 import '../utils/colors.dart';
+import '../utils/providers.dart';
 
 class SubmitRegistration extends StatefulWidget {
   const SubmitRegistration({Key? key}) : super(key: key);
@@ -53,10 +51,7 @@ class _SubmitRegistrationState extends State<SubmitRegistration> {
                         LoadingOverlay.of(context).showLoadingScreen();
                         await _auth.createAccount(email, password, username);
                         if (!mounted) return;
-                        Navigator.popUntil(
-                            context,
-                            (route) =>
-                                route.isFirst); //TODO: pop with transition
+                        Navigator.popUntil(context, (route) => route.isFirst);
                         LoadingOverlay.of(context).hideLoadingScreen();
                       });
                 })

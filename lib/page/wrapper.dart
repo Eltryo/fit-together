@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../main.dart';
+import '../utils/providers.dart';
 import 'authenticate.dart';
 import 'home.dart';
 

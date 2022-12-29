@@ -17,7 +17,8 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.passwordController,
-      validator: (password) { //TODO: Add custom validator
+      validator: (password) {
+        //TODO: Add custom validator
         if (password == null || password.isEmpty) {
           return "Please enter a password";
         }

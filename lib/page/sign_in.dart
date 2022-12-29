@@ -53,10 +53,9 @@ class _SignInState extends State<SignIn> {
                 RoundedButtonWidget(
                     text: "Submit",
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        _auth.signInToAccount(
-                            emailController.text, passwordController.text);
-                      }
+                      if (!_formKey.currentState!.validate()) return;
+                      _auth.signInToAccount(
+                          emailController.text, passwordController.text);
                     })
               ],
             ),

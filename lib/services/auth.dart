@@ -32,7 +32,6 @@ class AuthService {
     try {
       await _firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
-
       return e.code; //TODO: research sign out error codes
     }
   }
