@@ -11,7 +11,7 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer(builder: (context, ref, child) {
-      final user = ref.watch(MyApp.authStreamProvider);
+      final user = ref.watch(authStreamProvider);
 
       return user.when(
           data: (data) {

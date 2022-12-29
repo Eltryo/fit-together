@@ -43,9 +43,9 @@ class _SubmitRegistrationState extends State<SubmitRegistration> {
                 ),
                 const SizedBox(height: 20),
                 Consumer(builder: (context, ref, child) {
-                  final email = ref.watch(MyApp.emailProvider);
-                  final password = ref.watch(MyApp.passwordProvider);
-                  final username = ref.watch(MyApp.usernameProvider);
+                  final email = ref.watch(emailProvider);
+                  final password = ref.watch(passwordProvider);
+                  final username = ref.watch(usernameProvider);
 
                   return RoundedButtonWidget(
                       text: "Register",
