@@ -23,6 +23,8 @@ class AuthService {
       } else if (e.code == "wrong-password") {
         debugPrint("Wrong password provided for that user");
       }
+
+      return e.code;
     }
   }
 
@@ -30,7 +32,8 @@ class AuthService {
     try {
       await _firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
-      debugPrint(e.toString());
+
+      return e.code; //TODO: research sign out error codes
     }
   }
 
@@ -53,8 +56,8 @@ class AuthService {
       } else if (e.code == "operation-not-allowed") {
         debugPrint("email/password accounts are not enabled");
       }
-    } catch (e) {
-      debugPrint(e.toString());
+
+      return e.code;
     }
   }
 }
