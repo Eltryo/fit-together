@@ -15,8 +15,7 @@ class _EmailFormFieldState extends State<EmailFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
         controller: widget.emailController,
-        validator: (value) => //TODO: Add custom validator
-            value == null || value.isEmpty ? "Please enter a email" : null,
+        validator: validateEmail,
         keyboardType: TextInputType.emailAddress,
         decoration: const InputDecoration(
             border: OutlineInputBorder(),
@@ -24,4 +23,17 @@ class _EmailFormFieldState extends State<EmailFormField> {
             contentPadding:
                 EdgeInsets.symmetric(vertical: 10, horizontal: 10)));
   }
+
+  String? validateEmail(String? formEmail) {
+    if (formEmail == null || formEmail.isEmpty) {
+      return 'E-mail address is required.';
+    }
+
+    String pattern = r'\w+@\w+\.\w+';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(formEmail)) return 'Invalid E-mail Address format.';
+
+    return null;
+  }
+
 }
