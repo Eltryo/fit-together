@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:sports_app/utils/colors.dart';
 import 'package:sports_app/widget/password_form_field.dart';
@@ -18,6 +19,7 @@ class _SignInState extends State<SignIn> {
   final AuthService _auth = AuthService();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  String errorMessage = "";
 
   @override
   void dispose() {
@@ -50,12 +52,28 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(height: 10),
                 PasswordFormField(passwordController: passwordController),
                 const SizedBox(height: 10),
+                Center(
+                    child: Text(
+                  errorMessage,
+                  style: TextStyle(color: Theme.of(context).errorColor),
+                )),
+                const SizedBox(height: 10),
                 RoundedButtonWidget(
                     text: "Submit",
-                    onPressed: () {
-                      if (!_formKey.currentState!.validate()) return;
-                      _auth.signInToAccount(
-                          emailController.text, passwordController.text);
+                    onPressed: () async {
+                      if (!_formKey.currentState!.validate()) {
+                        setState(() {
+                          errorMessage = "";
+                        });
+                      }
+                      try {
+                        await _auth.signInToAccount(
+                            emailController.text, passwordController.text);
+                      } on FirebaseAuthException catch (e) {
+                        setState(() {
+                          errorMessage = e.message!;
+                        });
+                      }
                     })
               ],
             ),

@@ -20,11 +20,11 @@ class AuthService {
     } on FirebaseAuthException catch (e) {
       if (e.code == "user-not-found") {
         debugPrint("No user found for that email");
+        rethrow;
       } else if (e.code == "wrong-password") {
         debugPrint("Wrong password provided for that user");
+        rethrow;
       }
-
-      return e.code;
     }
   }
 
@@ -55,8 +55,6 @@ class AuthService {
       } else if (e.code == "operation-not-allowed") {
         debugPrint("email/password accounts are not enabled");
       }
-
-      return e.code;
     }
   }
 }
