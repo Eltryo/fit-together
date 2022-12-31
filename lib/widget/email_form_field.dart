@@ -35,5 +35,4 @@ class _EmailFormFieldState extends State<EmailFormField> {
 
     return null;
   }
-
 }
