@@ -52,6 +52,7 @@ class _SignInState extends State<SignIn> {
                 const SizedBox(height: 10),
                 PasswordFormField(passwordController: passwordController),
                 const SizedBox(height: 10),
+                //TODO: Add fade animation
                 Center(
                     child: Text(
                   errorMessage,
