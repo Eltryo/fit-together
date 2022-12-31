@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: "fit-together",
           theme: ThemeData(
+            errorColor: Colors.red[700],
             progressIndicatorTheme:
                 const ProgressIndicatorThemeData(color: Colors.teal),
             primaryColor: Colors.teal,

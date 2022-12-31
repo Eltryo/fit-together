@@ -40,7 +40,7 @@ class _SubmitRegistrationState extends State<SubmitRegistration> {
                       fontStyle: FontStyle.italic),
                 ),
                 const SizedBox(height: 20),
-                Consumer(builder: (context, ref, child) {
+                Consumer(builder: (context, ref, _) {
                   final email = ref.watch(emailProvider);
                   final password = ref.watch(passwordProvider);
                   final username = ref.watch(usernameProvider);
