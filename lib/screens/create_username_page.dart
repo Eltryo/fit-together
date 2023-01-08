@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sports_app/screens/submit_registration_page.dart';
-import 'package:sports_app/providers.dart';
-import 'package:sports_app/widgets/rounded_button_widget.dart';
-import 'package:sports_app/widgets/route_builder.dart';
-import 'package:sports_app/widgets/username_form_field.dart';
+import 'package:fit_together/screens/submit_registration_page.dart';
+import 'package:fit_together/providers.dart';
+import 'package:fit_together/widgets/rounded_button_widget.dart';
+import 'package:fit_together/widgets/route_builder.dart';
+import 'package:fit_together/widgets/username_form_field.dart';
 
 class CreateUsernamePage extends StatefulWidget {
   const CreateUsernamePage({

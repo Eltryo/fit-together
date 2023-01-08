@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sports_app/models/app_user.dart';
-import 'package:sports_app/services/firestore.dart';
+import 'package:fit_together/models/app_user.dart';
+import 'package:fit_together/services/firestore.dart';
 
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;

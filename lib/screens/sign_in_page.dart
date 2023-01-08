@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:sports_app/widgets/password_form_field.dart';
+import 'package:fit_together/widgets/password_form_field.dart';
 
 import '../services/auth.dart';
 import '../widgets/email_form_field.dart';

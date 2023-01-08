@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sports_app/providers.dart';
-import 'package:sports_app/widgets/route_builder.dart';
+import 'package:fit_together/providers.dart';
+import 'package:fit_together/widgets/route_builder.dart';
 
 import '../widgets/email_form_field.dart';
 import '../widgets/rounded_button_widget.dart';

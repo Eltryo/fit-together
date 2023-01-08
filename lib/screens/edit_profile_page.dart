@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sports_app/widgets/rounded_button_widget.dart';
+import 'package:fit_together/widgets/rounded_button_widget.dart';
 
 import '../services/auth.dart';
 

@@ -1,8 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sports_app/screens/wrapper.dart';
-import 'package:sports_app/widgets/loading_overlay.dart';
+import 'package:fit_together/screens/wrapper.dart';
+import 'package:fit_together/widgets/loading_overlay.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

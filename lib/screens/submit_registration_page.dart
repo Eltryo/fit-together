@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sports_app/services/auth.dart';
-import 'package:sports_app/widgets/loading_overlay.dart';
-import 'package:sports_app/widgets/rounded_button_widget.dart';
+import 'package:fit_together/services/auth.dart';
+import 'package:fit_together/widgets/loading_overlay.dart';
+import 'package:fit_together/widgets/rounded_button_widget.dart';
 
 import '../providers.dart';
 
