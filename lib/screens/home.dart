@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sports_app/screens/profile_page.dart';
-import 'package:sports_app/screens/subscription_content_page.dart';
+import 'package:fit_together/screens/profile_page.dart';
+import 'package:fit_together/screens/subscription_content_page.dart';
 
 import 'premium_page.dart';
 

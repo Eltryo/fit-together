@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:sports_app/services/auth.dart';
-import 'package:sports_app/services/firestore.dart';
+import 'package:fit_together/services/auth.dart';
+import 'package:fit_together/services/firestore.dart';
 
 import '../models/app_user.dart';
 import '../widgets/profile_image_widget.dart';

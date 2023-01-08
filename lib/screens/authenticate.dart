@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sports_app/screens/create_email_page.dart';
-import 'package:sports_app/screens/sign_in_page.dart';
+import 'package:fit_together/screens/create_email_page.dart';
+import 'package:fit_together/screens/sign_in_page.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({Key? key}) : super(key: key);

@@ -1,4 +1,4 @@
-package com.example.sports_app
+package fit_together
 
 import io.flutter.embedding.android.FlutterActivity
 
