@@ -3,8 +3,8 @@ import 'package:sports_app/services/auth.dart';
 import 'package:sports_app/services/firestore.dart';
 
 import '../models/app_user.dart';
-import '../widget/numbers_widget.dart';
-import '../widget/profile_image_widget.dart';
+import '../widgets/profile_image_widget.dart';
+import '../widgets/profile_stats_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -28,30 +28,28 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 40,
-          ),
-          ProfileImageWidget(
-            imagePath: _checkImagePath(_imageUrl),
-            onClicked: () async {},
-          ),
-          const SizedBox(height: 10),
-          Text(
-            _username,
-            style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-          ),
-          Text(
-            _email,
-            style: const TextStyle(
-                fontStyle: FontStyle.italic, color: Colors.grey),
-          ),
-          const SizedBox(height: 20),
-          const NumbersWidget(),
-        ],
-      ),
+    return Column(
+      children: [
+        const SizedBox(
+          height: 40,
+        ),
+        ProfileImage(
+          imagePath: _checkImagePath(_imageUrl),
+          onClicked: () async {},
+        ),
+        const SizedBox(height: 10),
+        Text(
+          _username,
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          _email,
+          style:
+              const TextStyle(fontStyle: FontStyle.italic, color: Colors.grey),
+        ),
+        const SizedBox(height: 20),
+        const ProfileStats(),
+      ],
     );
   }
 

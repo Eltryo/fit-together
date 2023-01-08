@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 
-class NumbersWidget extends StatefulWidget {
-  const NumbersWidget({Key? key}) : super(key: key);
+class ProfileStats extends StatefulWidget {
+  const ProfileStats({Key? key}) : super(key: key);
 
   @override
-  State<NumbersWidget> createState() => _NumbersWidgetState();
+  State<ProfileStats> createState() => _ProfileStatsState();
 }
 
-class _NumbersWidgetState extends State<NumbersWidget> {
+class _ProfileStatsState extends State<ProfileStats> {
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        buildButton(context, "0", "Pictures"), //TODO replace hardcoded values
+        //TODO replace hardcoded values and add interactivity
+        buildButton(context, "0", "Pictures"),
         buildDivider(),
         buildButton(context, "0", "Following"),
         buildDivider(),

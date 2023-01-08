@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sports_app/page/create_username.dart';
-import 'package:sports_app/page/route_builder.dart';
-import 'package:sports_app/utils/providers.dart';
+import 'package:sports_app/screens/create_username_page.dart';
+import 'package:sports_app/providers.dart';
+import 'package:sports_app/widgets/route_builder.dart';
 
-import '../widget/password_form_field.dart';
-import '../widget/rounded_button_widget.dart';
+import '../widgets/password_form_field.dart';
+import '../widgets/rounded_button_widget.dart';
 
-class CreatePassword extends StatefulWidget {
-  const CreatePassword({Key? key}) : super(key: key);
+class CreatePasswordPage extends StatefulWidget {
+  const CreatePasswordPage({Key? key}) : super(key: key);
 
   @override
-  State<CreatePassword> createState() => _CreatePasswordState();
+  State<CreatePasswordPage> createState() => _CreatePasswordPageState();
 }
 
-class _CreatePasswordState extends State<CreatePassword> {
+class _CreatePasswordPageState extends State<CreatePasswordPage> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController passwordController = TextEditingController();
 
@@ -49,15 +49,15 @@ class _CreatePasswordState extends State<CreatePassword> {
                     Consumer(
                       builder: (BuildContext context, WidgetRef ref,
                               Widget? child) =>
-                          RoundedButtonWidget(
+                          RoundedButton(
                               text: "Next",
                               onPressed: () {
                                 if (!_formKey.currentState!.validate()) return;
                                 ref.read(passwordProvider.notifier).state =
                                     passwordController.text;
-                                Navigator.of(context).push(
-                                    RouteBuilder(widget: const CreateUsername())
-                                        .buildRoute());
+                                Navigator.of(context).push(RouteBuilder(
+                                        widget: const CreateUsernamePage())
+                                    .buildRoute());
                               }),
                     )
                   ],

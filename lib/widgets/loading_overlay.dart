@@ -2,8 +2,6 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 
-import '../utils/colors.dart';
-
 class LoadingOverlay extends StatefulWidget {
   final Widget child;
 
@@ -32,7 +30,7 @@ class LoadingOverlayState extends State<LoadingOverlay> {
                 opacity: 0.8,
                 child: ModalBarrier(
                   dismissible: false,
-                  color: AppColors.loadingBackgroundColor,
+                  color: Colors.black,
                 )),
           ),
         if (_isLoading)

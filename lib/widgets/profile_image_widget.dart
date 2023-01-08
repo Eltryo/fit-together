@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:sports_app/page/edit_profile.dart';
-import 'package:sports_app/page/route_builder.dart';
+import 'package:sports_app/screens/edit_profile_page.dart';
+import 'package:sports_app/widgets/route_builder.dart';
 
-class ProfileImageWidget extends StatelessWidget {
+class ProfileImage extends StatelessWidget {
   final String imagePath;
   final VoidCallback onClicked;
 
-  const ProfileImageWidget({
+  const ProfileImage({
     Key? key,
     required this.imagePath,
     required this.onClicked,
@@ -39,7 +39,7 @@ class ProfileImageWidget extends StatelessWidget {
   Widget buildEditIcon(BuildContext context, Color color) {
     return InkWell(
       onTap: () => Navigator.push(
-          context, RouteBuilder(widget: const EditProfile()).buildRoute()),
+          context, RouteBuilder(widget: const EditProfilePage()).buildRoute()),
       child: buildCircle(
           color: Colors.white,
           paddingOffset: 3,

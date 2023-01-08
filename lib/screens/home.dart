@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:sports_app/page/home_page.dart';
-import 'package:sports_app/page/profile_page.dart';
+import 'package:sports_app/screens/profile_page.dart';
+import 'package:sports_app/screens/subscription_content_page.dart';
 
-import '../utils/colors.dart';
 import 'premium_page.dart';
 
 class Home extends StatefulWidget {
@@ -21,11 +20,6 @@ class HomeState extends State<Home> {
         length: 5,
         child: Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              titleTextStyle: const TextStyle(
-                  fontWeight: FontWeight.w500,
-                  fontSize: 20,
-                  color: AppColors.appTextColor),
               bottom: TabBar(
                 indicatorColor: Theme.of(context).primaryColor,
                 tabs: <Tab>[
@@ -43,10 +37,9 @@ class HomeState extends State<Home> {
                 "FitTogether",
                 style: TextStyle(fontStyle: FontStyle.italic),
               )),
-              elevation: 0,
             ),
             body: const TabBarView(children: [
-              HomePage(),
+              SubscriptionContentPage(),
               PremiumPage(),
               Center(),
               Center(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sports_app/page/create_email.dart';
-import 'package:sports_app/page/sign_in.dart';
+import 'package:sports_app/screens/create_email_page.dart';
+import 'package:sports_app/screens/sign_in_page.dart';
 
 class Authenticate extends StatefulWidget {
   const Authenticate({Key? key}) : super(key: key);
@@ -29,12 +29,12 @@ class _AuthenticateState extends State<Authenticate> {
     bool? firstTime = prefs.getBool("first_time");
     if (firstTime != null && !firstTime) {
       setState(() {
-        currentWidget = const SignIn();
+        currentWidget = const SignInPage();
       });
     } else {
       prefs.setBool("first_time", false);
       setState(() {
-        currentWidget = const CreateEmail();
+        currentWidget = const CreateEmailPage();
       });
     }
   }

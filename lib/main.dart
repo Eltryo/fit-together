@@ -1,9 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:sports_app/page/wrapper.dart';
-import 'package:sports_app/utils/colors.dart';
-import 'package:sports_app/widget/loading_overlay.dart';
+import 'package:sports_app/screens/wrapper.dart';
+import 'package:sports_app/widgets/loading_overlay.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,12 +23,21 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: "fit-together",
           theme: ThemeData(
+            appBarTheme: const AppBarTheme(
+              titleTextStyle: TextStyle(
+                  fontWeight: FontWeight.w500,
+                  fontSize: 20,
+                  color: Colors.black),
+              iconTheme: IconThemeData(color: Colors.black),
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
             errorColor: Colors.red[700],
             progressIndicatorTheme:
                 const ProgressIndicatorThemeData(color: Colors.teal),
             primaryColor: Colors.teal,
             dividerColor: Colors.black,
-            scaffoldBackgroundColor: AppColors.appBackgroundColor,
+            scaffoldBackgroundColor: Colors.white,
           ),
           home: const LoadingOverlay(child: Wrapper()),
         ),

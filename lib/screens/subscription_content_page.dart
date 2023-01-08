@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+class SubscriptionContentPage extends StatefulWidget {
+  const SubscriptionContentPage({Key? key}) : super(key: key);
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<SubscriptionContentPage> createState() =>
+      _SubscriptionContentPageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _SubscriptionContentPageState extends State<SubscriptionContentPage> {
   @override
   Widget build(BuildContext context) {
     return GridView.count(

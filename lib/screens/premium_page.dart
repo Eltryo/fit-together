@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sports_app/widget/rounded_button_widget.dart';
+import 'package:sports_app/widgets/rounded_button_widget.dart';
 
 class PremiumPage extends StatelessWidget {
   const PremiumPage({Key? key}) : super(key: key);
@@ -22,7 +22,7 @@ class PremiumPage extends StatelessWidget {
                 fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
           ),
         ),
-        RoundedButtonWidget(
+        RoundedButton(
           text: "Upgrade to PRO",
           onPressed: () {}, //TODO: Add upgrade function
         ),

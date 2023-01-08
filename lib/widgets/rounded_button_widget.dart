@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class RoundedButtonWidget extends StatelessWidget {
+class RoundedButton extends StatelessWidget {
   final Color? color;
   final String text;
   final dynamic onPressed;
 
-  const RoundedButtonWidget(
+  const RoundedButton(
       {this.color, required this.text, required this.onPressed, Key? key})
       : super(key: key);
 
