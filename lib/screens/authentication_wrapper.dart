@@ -21,10 +21,10 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
   @override
   void initState() {
     super.initState();
-    route();
+    routeToAuthenticationPage();
   }
 
-  Future route() async {
+  Future routeToAuthenticationPage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? firstTime = prefs.getBool("first_time");
     if (firstTime != null && !firstTime) {
