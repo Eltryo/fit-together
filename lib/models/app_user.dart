@@ -1,21 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:equatable/equatable.dart';
+import 'package:fit_together/models/app_user_stats.dart';
 
-class AppUser extends Equatable {
+class AppUser {
   final String uid;
   final String username;
   final String email;
   final String? firstName;
   final String? lastName;
   final String? imageUrl;
+  final AppUserStats appUserStats;
 
-  const AppUser(
+  AppUser(
       {required this.uid,
       required this.username,
       required this.email,
       this.firstName,
       this.lastName,
-      this.imageUrl});
+      this.imageUrl,
+      this.appUserStats = const AppUserStats()});
 
   factory AppUser.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot,
       SnapshotOptions? options) {
@@ -26,20 +28,23 @@ class AppUser extends Equatable {
         email: data?["email"],
         firstName: data?["firstName"],
         lastName: data?["lastName"],
-        imageUrl: data?["imageUrl"]);
+        imageUrl: data?["imageUrl"],
+        appUserStats: data?["appUserStats"]
+    );
   }
-
-  @override
-  List<Object?> get props => [username, firstName, lastName, email, imageUrl];
 
   Map<String, dynamic> toJson() {
     return {
       "uid": uid,
       "username": username,
       "email": email,
+      "appUserStats": appUserStats,
       if (firstName != null) "firstName": firstName,
       if (lastName != null) "lastName": lastName,
       if (imageUrl != null) "imageUrl": imageUrl
     };
   }
+
+  @override
+  List<Object?> get props => [username, firstName, lastName, email, imageUrl];
 }
