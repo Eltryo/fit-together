@@ -3,14 +3,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fit_together/screens/create_email_page.dart';
 import 'package:fit_together/screens/sign_in_page.dart';
 
-class Authenticate extends StatefulWidget {
-  const Authenticate({Key? key}) : super(key: key);
+class AuthenticationWrapper extends StatefulWidget {
+  const AuthenticationWrapper({Key? key}) : super(key: key);
 
   @override
-  State<Authenticate> createState() => _AuthenticateState();
+  State<AuthenticationWrapper> createState() => _AuthenticationWrapperState();
 }
 
-class _AuthenticateState extends State<Authenticate> {
+class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
   Widget currentWidget = const Scaffold();
 
   @override

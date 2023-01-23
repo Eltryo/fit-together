@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers.dart';
-import 'authenticate.dart';
-import 'home.dart';
+import 'authentication_wrapper.dart';
+import '../widgets/home_tab_controller.dart';
 
-class Wrapper extends StatelessWidget {
-  const Wrapper({Key? key}) : super(key: key);
+class EntryWrapper extends StatelessWidget {
+  const EntryWrapper({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +17,10 @@ class Wrapper extends StatelessWidget {
           data: (data) {
             if (data != null) {
               debugPrint("user is logged in");
-              return const Home();
+              return const HomeTabController();
             } else {
               debugPrint("user is logged out");
-              return const Authenticate();
+              return const AuthenticationWrapper();
             }
           },
           error: (error, _) => Text("Error: $error"),

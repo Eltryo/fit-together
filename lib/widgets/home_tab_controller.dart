@@ -1,18 +1,18 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:fit_together/screens/profile_page.dart';
 import 'package:fit_together/screens/subscription_content_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-import 'premium_page.dart';
+import '../screens/premium_page.dart';
 
-class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+class HomeTabController extends StatefulWidget {
+  const HomeTabController({Key? key}) : super(key: key);
 
   @override
-  State<Home> createState() => HomeState();
+  State<HomeTabController> createState() => HomeTabControllerState();
 }
 
-class HomeState extends State<Home> {
+class HomeTabControllerState extends State<HomeTabController> {
   @override
   Widget build(BuildContext context) {
     SystemChannels.textInput.invokeMethod("TextInput.hide");

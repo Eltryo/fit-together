@@ -6,10 +6,10 @@ import '../models/app_user.dart';
 class FirestoreService {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  void addUser(AppUser profileData) {
+  void addUser(AppUser appUser) {
     db
         .collection("users")
-        .add(profileData.toJson())
+        .add(appUser.toJson())
         .then((DocumentReference doc) =>
             debugPrint("Successfully add document with ID: ${doc.id}"))
         .onError((error, _) => debugPrint("Error: $error"));
