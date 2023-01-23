@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:fit_together/widgets/password_form_field.dart';
+import 'package:flutter/material.dart';
 
 import '../services/auth.dart';
 import '../widgets/email_form_field.dart';
@@ -13,18 +13,23 @@ class SignInPage extends StatefulWidget {
   State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage> {
+class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final AuthService _auth = AuthService();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  late final AnimationController _animationController = AnimationController(
+      duration: const Duration(milliseconds: 500), vsync: this);
+  late final Animation<double> _animation =
+      CurvedAnimation(parent: _animationController, curve: Curves.easeOut);
   String errorMessage = "";
 
   @override
   void dispose() {
-    super.dispose();
+    _animationController.dispose();
     emailController.dispose();
     passwordController.dispose();
+    super.dispose();
   }
 
   @override
@@ -51,28 +56,29 @@ class _SignInPageState extends State<SignInPage> {
             PasswordFormField(passwordController: passwordController),
             const SizedBox(height: 10),
             //TODO: Add fade animation
-            Center(
-                child: Text(
-              errorMessage,
-              style: TextStyle(color: Theme.of(context).errorColor),
-            )),
+            FadeTransition(
+                opacity: _animation,
+                child: Center(
+                  child: Text(
+                    errorMessage,
+                    style: TextStyle(color: Theme.of(context).errorColor),
+                  ),
+                )),
             const SizedBox(height: 10),
             RoundedButton(
                 text: "Submit",
                 onPressed: () async {
-                  if (!_formKey.currentState!.validate()) {
-                    setState(() {
-                      errorMessage = "";
-                    });
-                  }
-                  try {
-                    await _auth.signInToAccount(
-                        emailController.text, passwordController.text);
-                  } on FirebaseAuthException catch (e) {
-                    setState(() {
+                  errorMessage = "";
+                  if (_formKey.currentState!.validate()) {
+                    try {
+                      await _auth.signInToAccount(
+                          emailController.text, passwordController.text);
+                    } on FirebaseAuthException catch (e) {
                       errorMessage = e.message!;
-                    });
+                    }
                   }
+
+                  setState(() {});
                 })
           ],
         ),
