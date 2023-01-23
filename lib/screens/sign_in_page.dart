@@ -21,8 +21,8 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   late final AnimationController _animationController = AnimationController(
       duration: const Duration(milliseconds: 500), vsync: this);
   late final Animation<double> _animation =
-      CurvedAnimation(parent: _animationController, curve: Curves.easeOut);
-  String errorMessage = "";
+      CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
+  String? errorMessage;
 
   @override
   void dispose() {
@@ -56,33 +56,41 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
             PasswordFormField(passwordController: passwordController),
             const SizedBox(height: 10),
             //TODO: Add fade animation
-            FadeTransition(
-                opacity: _animation,
-                child: Center(
-                  child: Text(
-                    errorMessage,
-                    style: TextStyle(color: Theme.of(context).errorColor),
-                  ),
-                )),
+            buildErrorMessage(errorMessage),
             const SizedBox(height: 10),
             RoundedButton(
                 text: "Submit",
                 onPressed: () async {
-                  errorMessage = "";
                   if (_formKey.currentState!.validate()) {
                     try {
                       await _auth.signInToAccount(
                           emailController.text, passwordController.text);
+                      debugPrint("Sign in attempt");
                     } on FirebaseAuthException catch (e) {
-                      errorMessage = e.message!;
+                      debugPrint("Sign in attempt failed");
+                      setState(() {
+                        errorMessage = e.message!;
+                      });
                     }
                   }
-
-                  setState(() {});
                 })
           ],
         ),
       ),
     ));
+  }
+
+  dynamic buildErrorMessage(String? errorMessage) {
+    if (errorMessage == null) return const SizedBox(height: 0);
+
+    _animationController.forward();
+    return FadeTransition(
+        opacity: _animation,
+        child: Center(
+          child: Text(
+            errorMessage,
+            style: TextStyle(color: Theme.of(context).errorColor),
+          ),
+        ));
   }
 }
