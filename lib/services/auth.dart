@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:fit_together/models/app_user.dart';
 import 'package:fit_together/services/firestore.dart';
 
+//TODO: Add debug prints for error codes
 class AuthService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirestoreService _firestoreService = FirestoreService();
@@ -24,6 +25,8 @@ class AuthService {
       } else if (e.code == "wrong-password") {
         debugPrint("Wrong password provided for that user");
         rethrow;
+      }else{
+        rethrow;
       }
     }
   }
@@ -32,7 +35,7 @@ class AuthService {
     try {
       await _firebaseAuth.signOut();
     } on FirebaseAuthException catch (e) {
-      return e.code; //TODO: research sign out error codes
+      debugPrint("Sign out failed");
     }
   }
 

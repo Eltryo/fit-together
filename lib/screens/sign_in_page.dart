@@ -19,10 +19,10 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   late final AnimationController _animationController = AnimationController(
-      duration: const Duration(milliseconds: 500), vsync: this);
+      duration: const Duration(milliseconds: 200), vsync: this);
   late final Animation<double> _animation =
       CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
-  String? errorMessage;
+  String errorMessage = "";
 
   @override
   void dispose() {
@@ -72,7 +72,13 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                         errorMessage = e.message!;
                       });
                     }
+
+                    return;
                   }
+
+                  setState(() {
+                    errorMessage = "";
+                  });
                 })
           ],
         ),
@@ -80,9 +86,10 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
     ));
   }
 
-  dynamic buildErrorMessage(String? errorMessage) {
-    if (errorMessage == null) return const SizedBox(height: 0);
+  dynamic buildErrorMessage(String errorMessage) {
+    if (errorMessage.isEmpty) return const SizedBox(height: 0);
 
+    _animationController.reset();
     _animationController.forward();
     return FadeTransition(
         opacity: _animation,
