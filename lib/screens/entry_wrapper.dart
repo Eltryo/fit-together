@@ -10,10 +10,10 @@ class EntryWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, ref, child) {
-      final user = ref.watch(authStreamProvider);
-
-      return user.when(
+    return Consumer(
+      builder: (context, ref, child) {
+        final user = ref.watch(authStreamProvider);
+        return user.when(
           data: (data) {
             if (data != null) {
               debugPrint("user is logged in");
@@ -24,7 +24,9 @@ class EntryWrapper extends StatelessWidget {
             }
           },
           error: (error, _) => Text("Error: $error"),
-          loading: () => const CircularProgressIndicator());
-    });
+          loading: () => const CircularProgressIndicator(),
+        );
+      },
+    );
   }
 }

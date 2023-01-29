@@ -8,29 +8,32 @@ class AppUser {
   final String? firstName;
   final String? lastName;
   final String? imageUrl;
+
   // final AppUserStats? appUserStats;
 
-  AppUser(
-      {required this.uid,
-      required this.username,
-      required this.email,
-      this.firstName,
-      this.lastName,
-      this.imageUrl,
-      // this.appUserStats = const AppUserStats()
-      });
+  AppUser({
+    required this.uid,
+    required this.username,
+    required this.email,
+    this.firstName,
+    this.lastName,
+    this.imageUrl,
+    // this.appUserStats = const AppUserStats()
+  });
 
-  factory AppUser.fromJson(DocumentSnapshot<Map<String, dynamic>> snapshot,
-      SnapshotOptions? options) {
+  factory AppUser.fromJson(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
     final data = snapshot.data();
     return AppUser(
-        uid: data?["uid"],
-        username: data?["username"],
-        email: data?["email"],
-        firstName: data?["firstName"],
-        lastName: data?["lastName"],
-        imageUrl: data?["imageUrl"],
-        // appUserStats: data?["appUserStats"]
+      uid: data?["uid"],
+      username: data?["username"],
+      email: data?["email"],
+      firstName: data?["firstName"],
+      lastName: data?["lastName"],
+      imageUrl: data?["imageUrl"],
+      // appUserStats: data?["appUserStats"]
     );
   }
 

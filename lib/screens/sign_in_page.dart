@@ -19,9 +19,13 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   late final AnimationController _animationController = AnimationController(
-      duration: const Duration(milliseconds: 200), vsync: this);
-  late final Animation<double> _animation =
-      CurvedAnimation(parent: _animationController, curve: Curves.easeIn);
+    duration: const Duration(milliseconds: 200),
+    vsync: this,
+  );
+  late final Animation<double> _animation = CurvedAnimation(
+    parent: _animationController,
+    curve: Curves.easeIn,
+  );
   String errorMessage = "";
 
   @override
@@ -35,69 +39,70 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
-      alignment: Alignment.center,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 50.0,
-        vertical: 20.0,
-      ),
-      child: Form(
-        key: _formKey,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Text(
-              "Sign in",
-              style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            EmailFormField(emailController: emailController),
-            const SizedBox(height: 10),
-            PasswordFormField(passwordController: passwordController),
-            const SizedBox(height: 10),
-            //TODO: Add fade animation
-            buildErrorMessage(errorMessage),
-            const SizedBox(height: 10),
-            RoundedButton(
+      body: Container(
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 50.0,
+          vertical: 20.0,
+        ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Sign in",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 10),
+              EmailFormField(emailController: emailController),
+              const SizedBox(height: 10),
+              PasswordFormField(passwordController: passwordController),
+              const SizedBox(height: 10),
+              RoundedButton(
                 text: "Submit",
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    try {
-                      await _auth.signInToAccount(
-                          emailController.text, passwordController.text);
-                      debugPrint("Sign in attempt");
-                    } on FirebaseAuthException catch (e) {
-                      debugPrint("Sign in attempt failed");
-                      setState(() {
-                        errorMessage = e.message!;
-                      });
-                    }
-
-                    return;
-                  }
-
-                  setState(() {
-                    errorMessage = "";
-                  });
-                })
-          ],
+                onPressed: submitSignIn,
+              ),
+              const SizedBox(height: 10),
+              if (errorMessage.isNotEmpty) buildErrorMessage(errorMessage),
+            ],
+          ),
         ),
       ),
-    ));
+    );
   }
 
-  dynamic buildErrorMessage(String errorMessage) {
-    if (errorMessage.isEmpty) return const SizedBox(height: 0);
+  void submitSignIn() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        await _auth.signInToAccount(
+            emailController.text, passwordController.text);
+      } on FirebaseAuthException catch (e) {
+        setState(() {
+          errorMessage = e.message!;
+        });
+      }
 
+      return;
+    }
+
+    setState(() {
+      errorMessage = "";
+    });
+  }
+
+  Widget buildErrorMessage(String errorMessage) {
     _animationController.reset();
     _animationController.forward();
+    //TODO: Add dropdown animation
     return FadeTransition(
-        opacity: _animation,
-        child: Center(
-          child: Text(
-            errorMessage,
-            style: TextStyle(color: Theme.of(context).errorColor),
-          ),
-        ));
+      opacity: _animation,
+      child: Center(
+        child: Text(
+          errorMessage,
+          style: TextStyle(color: Theme.of(context).errorColor),
+        ),
+      ),
+    );
   }
 }

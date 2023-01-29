@@ -7,9 +7,9 @@ class ProfileImage extends StatelessWidget {
   final VoidCallback onClicked;
 
   const ProfileImage({
-    Key? key,
     required this.imagePath,
     required this.onClicked,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -39,18 +39,22 @@ class ProfileImage extends StatelessWidget {
   Widget buildEditIcon(BuildContext context, Color color) {
     return InkWell(
       onTap: () => Navigator.push(
-          context, RouteBuilder(widget: const EditProfilePage()).buildRoute()),
+        context,
+        RouteBuilder(widget: const EditProfilePage()).buildRoute(),
+      ),
       child: buildCircle(
-          color: Colors.white,
-          paddingOffset: 3,
-          child: buildCircle(
-              color: color,
-              paddingOffset: 8,
-              child: const Icon(
-                Icons.edit,
-                size: 15,
-                color: Colors.white,
-              ))),
+        color: Colors.white,
+        paddingOffset: 3,
+        child: buildCircle(
+          color: color,
+          paddingOffset: 8,
+          child: const Icon(
+            Icons.edit,
+            size: 15,
+            color: Colors.white,
+          ),
+        ),
+      ),
     );
   }
 

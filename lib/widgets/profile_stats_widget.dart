@@ -13,7 +13,7 @@ class _ProfileStatsState extends State<ProfileStats> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        //TODO replace hardcoded values and add interactivity
+        //TODO: replace hardcoded values and add interactivity
         buildButton(context, "0", "Pictures"),
         buildDivider(),
         buildButton(context, "0", "Following"),
@@ -25,6 +25,7 @@ class _ProfileStatsState extends State<ProfileStats> {
 
   Widget buildButton(BuildContext context, String value, String text) {
     return MaterialButton(
+      //TODO: implement button function
       onPressed: () {},
       child: Column(
         children: [
@@ -32,12 +33,8 @@ class _ProfileStatsState extends State<ProfileStats> {
             value,
             style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
-          const SizedBox(
-            height: 2,
-          ),
-          Text(
-            text,
-          )
+          const SizedBox(height: 2),
+          Text(text)
         ],
       ),
     );

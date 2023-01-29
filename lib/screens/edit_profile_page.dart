@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:fit_together/widgets/rounded_button_widget.dart';
+import 'package:flutter/material.dart';
 
 import '../services/auth.dart';
 
@@ -15,19 +15,25 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    final color = Theme.of(context).primaryColor;
-
     return Scaffold(
-        appBar: AppBar(),
-        body: Center(
-            //TODO: implement features
-            child: RoundedButton(
-                color: color,
-                text: "Log out",
-                onPressed: () async {
-                  await _auth.signOut();
-                  if (!mounted) return;
+      appBar: AppBar(),
+      body: Center(
+        child: Column(
+          //TODO: implement features
+          children: [
+            RoundedButton(
+              color: Theme.of(context).primaryColor,
+              text: "Log out",
+              onPressed: () async {
+                await _auth.signOut();
+                if(mounted){
                   Navigator.of(context).pop();
-                })));
+                }
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

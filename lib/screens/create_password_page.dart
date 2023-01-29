@@ -22,49 +22,48 @@ class _CreatePasswordPageState extends State<CreatePasswordPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(
-            horizontal: 50.0,
-            vertical: 20.0,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      "Password",
-                      style:
-                          TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+        alignment: Alignment.center,
+        padding: const EdgeInsets.symmetric(
+          horizontal: 50.0,
+          vertical: 20.0,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Form(
+              key: _formKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Password",
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  ),
+                  const Text("Please enter a save password"),
+                  const SizedBox(height: 10),
+                  PasswordFormField(passwordController: passwordController),
+                  const SizedBox(height: 10),
+                  Consumer(
+                    builder: (context, ref, _) => RoundedButton(
+                      text: "Next",
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          ref.read(passwordProvider.notifier).state =
+                              passwordController.text;
+                          Navigator.of(context).push(
+                            RouteBuilder(widget: const CreateUsernamePage())
+                                .buildRoute(),
+                          );
+                        }
+                      },
                     ),
-                    const Text("Please enter a save password"),
-                    const SizedBox(height: 10),
-                    PasswordFormField(
-                      passwordController: passwordController,
-                    ),
-                    const SizedBox(height: 10),
-                    Consumer(
-                      builder: (BuildContext context, WidgetRef ref,
-                              Widget? child) =>
-                          RoundedButton(
-                              text: "Next",
-                              onPressed: () {
-                                if (!_formKey.currentState!.validate()) return;
-                                ref.read(passwordProvider.notifier).state =
-                                    passwordController.text;
-                                Navigator.of(context).push(RouteBuilder(
-                                        widget: const CreateUsernamePage())
-                                    .buildRoute());
-                              }),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

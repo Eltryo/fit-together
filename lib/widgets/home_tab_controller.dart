@@ -17,33 +17,36 @@ class HomeTabControllerState extends State<HomeTabController> {
   Widget build(BuildContext context) {
     SystemChannels.textInput.invokeMethod("TextInput.hide");
     return DefaultTabController(
-        length: 5,
-        child: Scaffold(
-            appBar: AppBar(
-              bottom: TabBar(
-                indicatorColor: Theme.of(context).primaryColor,
-                tabs: <Tab>[
-                  Tab(icon: Image.asset('assets/icons/home.png', height: 20)),
-                  Tab(icon: Image.asset('assets/icons/crown.png', height: 20)),
-                  Tab(
-                      icon:
-                          Image.asset('assets/icons/running.png', height: 20)),
-                  Tab(icon: Image.asset('assets/icons/clock.png', height: 20)),
-                  Tab(icon: Image.asset('assets/icons/user.png', height: 20)),
-                ],
-              ),
-              title: const Center(
-                  child: Text(
-                "FitTogether",
-                style: TextStyle(fontStyle: FontStyle.italic),
-              )),
+      length: 5,
+      child: Scaffold(
+        appBar: AppBar(
+          bottom: TabBar(
+            indicatorColor: Theme.of(context).primaryColor,
+            tabs: <Tab>[
+              Tab(icon: Image.asset('assets/icons/home.png', height: 20)),
+              Tab(icon: Image.asset('assets/icons/crown.png', height: 20)),
+              Tab(icon: Image.asset('assets/icons/running.png', height: 20)),
+              Tab(icon: Image.asset('assets/icons/clock.png', height: 20)),
+              Tab(icon: Image.asset('assets/icons/user.png', height: 20)),
+            ],
+          ),
+          title: const Center(
+            child: Text(
+              "FitTogether",
+              style: TextStyle(fontStyle: FontStyle.italic),
             ),
-            body: const TabBarView(children: [
-              SubscriptionContentPage(),
-              PremiumPage(),
-              Center(),
-              Center(),
-              ProfilePage(),
-            ])));
+          ),
+        ),
+        body: const TabBarView(
+          children: [
+            SubscriptionContentPage(),
+            PremiumPage(),
+            Center(),
+            Center(),
+            ProfilePage(),
+          ],
+        ),
+      ),
+    );
   }
 }

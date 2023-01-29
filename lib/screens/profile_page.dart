@@ -14,6 +14,7 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  //TODO: implement dependency injection
   final FirestoreService _firestoreService = FirestoreService();
   final AuthService _authService = AuthService();
   String _username = "";
@@ -35,7 +36,7 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         ProfileImage(
           imagePath: _checkImagePath(_imageUrl),
-          onClicked: () async {},
+          onClicked: () {},
         ),
         const SizedBox(height: 10),
         Text(
@@ -62,12 +63,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void fetchAppUser() async {
     String? currentUID = await _authService.getCurrentUID();
-    if (currentUID == null) throw Exception(); //TODO: throw custom exception
-    AppUser appUser = await _firestoreService.getUserByUID(currentUID);
-    setState(() {
-      _username = appUser.username;
-      _email = appUser.email;
-      _imageUrl = appUser.imageUrl;
-    });
+    if(currentUID != null){
+      AppUser appUser = await _firestoreService.getUserByUID(currentUID);
+      setState(() {
+        _username = appUser.username;
+        _email = appUser.email;
+        _imageUrl = appUser.imageUrl;
+      });
+    }
   }
 }
