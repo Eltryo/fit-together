@@ -74,16 +74,13 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
 
   void submitSignIn() async {
     if (_formKey.currentState!.validate()) {
-      try {
-        await _auth.signInToAccount(
-            emailController.text, passwordController.text);
-      } on FirebaseAuthException catch (e) {
+      await _auth
+          .signInToAccount(emailController.text, passwordController.text)
+          .onError((error, _) {
         setState(() {
-          errorMessage = e.message!;
+          errorMessage = error.toString();
         });
-      }
-
-      return;
+      },);
     }
 
     setState(() {

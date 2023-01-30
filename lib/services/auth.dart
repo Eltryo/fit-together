@@ -13,6 +13,7 @@ class AuthService {
     return _firebaseAuth.currentUser?.uid;
   }
 
+  //TODO: remove rethrows
   Future signInToAccount(String email, String password) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(

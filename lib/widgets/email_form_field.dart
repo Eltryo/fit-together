@@ -27,6 +27,7 @@ class _EmailFormFieldState extends State<EmailFormField> {
     );
   }
 
+  //TODO: extend validator functionality
   String? validateEmail(String? formEmail) {
     if (formEmail == null || formEmail.isEmpty) {
       return 'E-mail address is required.';
