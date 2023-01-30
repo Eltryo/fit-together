@@ -29,7 +29,7 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
     bool? firstTime = prefs.getBool("first_time");
     if (firstTime != null && !firstTime) {
       setState(() {
-        currentWidget = const CreateEmailPage();
+        currentWidget = const SignInPage();
       });
     } else {
       prefs.setBool("first_time", false);
