@@ -48,9 +48,9 @@ class _SubmitRegistrationPageState extends State<SubmitRegistrationPage> {
 
                   return RoundedButton(
                     text: "Register",
-                    onPressed: () async {
+                    onPressed: () {
                       LoadingOverlay.of(context).showLoadingScreen();
-                      await _auth.createAccount(email, password, username);
+                      _auth.createAccount(email, password, username);
                       if (mounted) {
                         LoadingOverlay.of(context).hideLoadingScreen();
                         Future.delayed(const Duration(milliseconds: 500));

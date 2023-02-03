@@ -24,8 +24,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             RoundedButton(
               color: Theme.of(context).primaryColor,
               text: "Log out",
-              onPressed: () async {
-                await _auth.signOut();
+              onPressed: () {
+                _auth.signOut();
                 if(mounted){
                   Navigator.of(context).pop();
                 }

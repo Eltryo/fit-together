@@ -15,7 +15,7 @@ class FirestoreService {
         );
   }
 
-  Future<Iterable<AppUser>> getUsers() async {
+  Future<Iterable<AppUser>> getUsers() {
     return db
         .collection("users")
         .withConverter(
@@ -29,13 +29,13 @@ class FirestoreService {
         );
   }
 
-  Future<AppUser> getUserByUID(String id) {
+  Future<AppUser> getUserByUid(String uid) {
     return db
         .collection("users")
         .withConverter(
             fromFirestore: AppUser.fromJson,
             toFirestore: (AppUser appUser, _) => appUser.toJson())
-        .where("uid", isEqualTo: id)
+        .where("uid", isEqualTo: uid)
         .get()
         .then(
           (colSnap) => colSnap.docs.map((docSnap) => docSnap.data()).single,

@@ -61,15 +61,20 @@ class _ProfilePageState extends State<ProfilePage> {
     return imagePath;
   }
 
-  void fetchAppUser() async {
-    String? currentUID = await _authService.getCurrentUID();
-    if(currentUID != null){
-      AppUser appUser = await _firestoreService.getUserByUID(currentUID);
-      setState(() {
-        _username = appUser.username;
-        _email = appUser.email;
-        _imageUrl = appUser.imageUrl;
-      });
+  void fetchAppUser() {
+    if (_authService.currentUid != null) {
+      _firestoreService.getUserByUid(_authService.currentUid!).then(
+        (appUser) {
+          setState(
+            () {
+              _username = appUser.username;
+              _email = appUser.email;
+              _imageUrl = appUser.imageUrl;
+            },
+          );
+        },
+        onError: (error) => debugPrint("Error: $error")
+      );
     }
   }
 }

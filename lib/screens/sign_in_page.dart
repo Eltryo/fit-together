@@ -61,7 +61,8 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
               const SizedBox(height: 10),
               RoundedButton(
                 text: "Submit",
-                onPressed: submitSignIn,
+                onPressed: () =>
+                    submitSignIn(emailController, passwordController),
               ),
               const SizedBox(height: 10),
               if (errorMessage.isNotEmpty) buildErrorMessage(errorMessage),
@@ -72,26 +73,36 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
     );
   }
 
-  void submitSignIn() async {
-    if (_formKey.currentState!.validate()) {
-      await _auth
-          .signInToAccount(emailController.text, passwordController.text)
-          .onError((error, _) {
-        setState(() {
-          errorMessage = error.toString();
-        });
-      },);
-    }
+  void submitSignIn(TextEditingController emailController,
+      TextEditingController passwordController) {
+    //TODO: add clientside validation
 
+    _auth
+        .signInToAccount(emailController.text, passwordController.text)
+        .then((_) => null)
+        .onError(
+      (FirebaseAuthException error, _) {
+        debugPrint("error caught: ${error.message}");
+        setState(() {
+          errorMessage = error.message!;
+        });
+
+        return;
+      },
+    );
+
+    debugPrint("error message will be set");
     setState(() {
       errorMessage = "";
     });
   }
 
+  //TODO: fix animation
   Widget buildErrorMessage(String errorMessage) {
     _animationController.reset();
     _animationController.forward();
-    //TODO: Add dropdown animation
+    debugPrint("Animation was started");
+
     return FadeTransition(
       opacity: _animation,
       child: Center(
