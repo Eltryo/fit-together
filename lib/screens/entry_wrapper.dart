@@ -12,10 +12,9 @@ class EntryWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer(
       builder: (context, ref, child) {
-        final user = ref.watch(authStreamProvider);
-        return user.when(
-          data: (data) {
-            if (data != null) {
+        return ref.watch(authStreamProvider).when(
+          data: (user) {
+            if (user != null) {
               debugPrint("user is logged in");
               return const HomeTabController();
             } else {
