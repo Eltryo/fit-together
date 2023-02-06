@@ -73,8 +73,10 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
     );
   }
 
-  void submitSignIn(TextEditingController emailController,
-      TextEditingController passwordController) {
+  void submitSignIn(
+    TextEditingController emailController,
+    TextEditingController passwordController,
+  ) {
     //TODO: add clientside validation
 
     _auth
@@ -83,18 +85,22 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
         .onError(
       (FirebaseAuthException error, _) {
         debugPrint("error caught: ${error.message}");
-        setState(() {
-          errorMessage = error.message!;
-        });
+        setState(
+          () {
+            errorMessage = error.message!;
+          },
+        );
 
         return;
       },
     );
 
     debugPrint("error message will be set");
-    setState(() {
-      errorMessage = "";
-    });
+    setState(
+      () {
+        errorMessage = "";
+      },
+    );
   }
 
   //TODO: fix animation

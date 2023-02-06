@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fit_together/screens/create_email_page.dart';
+import 'package:fit_together/screens/registration_page.dart';
 import 'package:fit_together/screens/sign_in_page.dart';
 
 class AuthenticationWrapper extends StatefulWidget {
@@ -34,7 +34,7 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
     } else {
       prefs.setBool("first_time", false);
       setState(() {
-        currentWidget = const CreateEmailPage();
+        currentWidget = const RegistrationPage();
       });
     }
   }
