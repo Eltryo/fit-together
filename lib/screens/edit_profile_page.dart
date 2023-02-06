@@ -1,20 +1,19 @@
+import 'package:fit_together/providers.dart';
 import 'package:fit_together/widgets/rounded_button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../services/auth.dart';
-
-class EditProfilePage extends StatefulWidget {
+class EditProfilePage extends ConsumerStatefulWidget {
   const EditProfilePage({Key? key}) : super(key: key);
 
   @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
+  ConsumerState<EditProfilePage> createState() => _EditProfilePageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
-  final AuthService _auth = AuthService();
-
+class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
+    final authService = ref.read(authServiceProvider);
     return Scaffold(
       appBar: AppBar(),
       body: Center(
@@ -25,12 +24,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
               color: Theme.of(context).primaryColor,
               text: "Log out",
               onPressed: () {
-                _auth.signOut();
-                if(mounted){
+                authService.signOut();
+                if (mounted) {
                   Navigator.of(context).pop();
                 }
               },
-            ),
+            )
           ],
         ),
       ),

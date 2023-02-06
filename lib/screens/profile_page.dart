@@ -1,22 +1,18 @@
+import 'package:fit_together/providers.dart';
 import 'package:flutter/material.dart';
-import 'package:fit_together/services/auth.dart';
-import 'package:fit_together/services/firestore.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../models/app_user.dart';
 import '../widgets/profile_image_widget.dart';
 import '../widgets/profile_stats_widget.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  ConsumerState<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
-  //TODO: implement dependency injection
-  final FirestoreService _firestoreService = FirestoreService();
-  final AuthService _authService = AuthService();
+class _ProfilePageState extends ConsumerState<ProfilePage> {
   String _username = "";
   String _email = "";
   String? _imageUrl;
@@ -62,8 +58,10 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void fetchAppUser() {
-    if (_authService.currentUid != null) {
-      _firestoreService.getUserByUid(_authService.currentUid!).then(
+    final authService = ref.read(authServiceProvider);
+    final firestoreService = ref.read(firestoreServiceProvider);
+    if (authService.currentUid != null) {
+      firestoreService.getUserByUid(authService.currentUid!).then(
         (appUser) {
           setState(
             () {

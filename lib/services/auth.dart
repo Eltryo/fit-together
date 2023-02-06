@@ -43,6 +43,7 @@ class AuthService {
         .createUserWithEmailAndPassword(email: email, password: password)
         .then(
       (userCredential) {
+        //TODO: user firestore provider for firestore instance
         _firestoreService.addUser(
           AppUser(
             uid: userCredential.user!.uid,

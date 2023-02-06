@@ -1,21 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_together/providers.dart';
 import 'package:fit_together/widgets/password_form_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../services/auth.dart';
 import '../widgets/email_form_field.dart';
 import '../widgets/rounded_button_widget.dart';
 
-class SignInPage extends StatefulWidget {
+class SignInPage extends ConsumerStatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 
   @override
-  State<SignInPage> createState() => _SignInPageState();
+  ConsumerState<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
+class _SignInPageState extends ConsumerState<SignInPage>
+    with TickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final AuthService _auth = AuthService();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   late final AnimationController _animationController = AnimationController(
@@ -78,8 +79,8 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
     TextEditingController passwordController,
   ) {
     //TODO: add clientside validation
-
-    _auth
+    final authService = ref.read(authServiceProvider);
+    authService
         .signInToAccount(emailController.text, passwordController.text)
         .then((_) => null)
         .onError(
