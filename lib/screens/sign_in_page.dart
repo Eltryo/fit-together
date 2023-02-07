@@ -78,11 +78,17 @@ class _SignInPageState extends ConsumerState<SignInPage>
     TextEditingController emailController,
     TextEditingController passwordController,
   ) {
+    debugPrint("error message will be reset");
+    setState(
+          () {
+        errorMessage = "";
+      },
+    );
+
     //TODO: add clientside validation
     final authService = ref.read(authServiceProvider);
     authService
         .signInToAccount(emailController.text, passwordController.text)
-        .then((_) => null)
         .onError(
       (FirebaseAuthException error, _) {
         debugPrint("error caught: ${error.message}");
@@ -91,20 +97,10 @@ class _SignInPageState extends ConsumerState<SignInPage>
             errorMessage = error.message!;
           },
         );
-
-        return;
-      },
-    );
-
-    debugPrint("error message will be set");
-    setState(
-      () {
-        errorMessage = "";
       },
     );
   }
 
-  //TODO: fix animation
   Widget buildErrorMessage(String errorMessage) {
     _animationController.reset();
     _animationController.forward();

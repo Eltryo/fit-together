@@ -17,7 +17,6 @@ class AuthService {
           email: email,
           password: password,
         )
-        .then((_) => null)
         .onError(
       (FirebaseAuthException error, _) {
         if (error.code == "user-not-found") {
@@ -41,18 +40,7 @@ class AuthService {
   Future createAccount(String email, String password, String username) {
     return _firebaseAuth
         .createUserWithEmailAndPassword(email: email, password: password)
-        .then(
-      (userCredential) {
-        //TODO: user firestore provider for firestore instance
-        _firestoreService.addUser(
-          AppUser(
-            uid: userCredential.user!.uid,
-            username: username,
-            email: email,
-          ),
-        );
-      },
-    ).onError(
+        .onError(
       (FirebaseAuthException error, _) {
         if (error.code == "weak-password") {
           debugPrint("The password provided is too weak");

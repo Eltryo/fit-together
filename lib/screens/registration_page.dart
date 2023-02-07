@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_together/models/app_user.dart';
 import 'package:fit_together/providers.dart';
+import 'package:fit_together/widgets/loading_overlay.dart';
 import 'package:fit_together/widgets/password_form_field.dart';
 import 'package:fit_together/widgets/username_form_field.dart';
 import 'package:flutter/material.dart';
@@ -91,6 +93,14 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
     TextEditingController passwordController,
     TextEditingController usernameController,
   ) {
+    debugPrint("error message will be reset");
+    setState(
+          () {
+        errorMessage = "";
+      },
+    );
+
+    //TODO: Add client side validation
     final authService = ref.read(authServiceProvider);
     authService
         .createAccount(
@@ -98,9 +108,22 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
       passwordController.text,
       usernameController.text,
     )
-        .then((_) {
-      Navigator.popUntil(context, (route) => route.isFirst);
-    }).onError(
+        .then(
+      (userCredential) {
+        //TODO: fix loading screen
+        LoadingOverlay.of(context).showLoadingScreen();
+        final firestoreService = ref.read(firestoreServiceProvider);
+        firestoreService.addUser(
+          AppUser(
+            uid: userCredential.user!.uid,
+            username: usernameController.text,
+            email: emailController.text,
+          ),
+        );
+        Navigator.popUntil(context, (route) => route.isFirst);
+        LoadingOverlay.of(context).hideLoadingScreen();
+      },
+    ).onError(
       (FirebaseAuthException error, stackTrace) {
         debugPrint("error caught: ${error.message}");
         setState(
@@ -108,13 +131,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
             errorMessage = error.message!;
           },
         );
-      },
-    );
-
-    debugPrint("error message will be set");
-    setState(
-      () {
-        errorMessage = "";
       },
     );
   }
