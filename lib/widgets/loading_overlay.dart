@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 class LoadingOverlay extends StatefulWidget {
@@ -26,42 +24,44 @@ class LoadingOverlayState extends State<LoadingOverlay> {
     return Stack(
       children: [
         widget.child,
-        if(_isLoading) buildBackdropFilter(),
-        if(_isLoading) buildProgressIndicator(),
+        if (_isLoading) buildModalBarrier(),
+        if (_isLoading) buildProgressIndicator(),
       ],
     );
   }
 
-  Widget buildBackdropFilter() {
-    return BackdropFilter(
-      filter: ImageFilter.blur(sigmaX: 4.0, sigmaY: 4.0),
-      child: const Opacity(
-        opacity: 0.8,
-        child: ModalBarrier(
-          dismissible: false,
-          color: Colors.black,
-        ),
-      ),
+  Widget buildModalBarrier() {
+    return const ModalBarrier(
+      dismissible: false,
+      color: Colors.transparent,
     );
   }
 
   Widget buildProgressIndicator() {
     return Center(
-      child: CircularProgressIndicator(
-        color: Theme.of(context).primaryColor,
+      child: Column(
+        children: [
+          const Spacer(flex: 80),
+          CircularProgressIndicator(color: Theme.of(context).primaryColor),
+          const Spacer(flex: 20)
+        ],
       ),
     );
   }
 
   void showLoadingScreen() {
-    setState(() {
-      _isLoading = true;
-    });
+    setState(
+      () {
+        _isLoading = true;
+      },
+    );
   }
 
   void hideLoadingScreen() {
-    setState(() {
-      _isLoading = false;
-    });
+    setState(
+      () {
+        _isLoading = false;
+      },
+    );
   }
 }

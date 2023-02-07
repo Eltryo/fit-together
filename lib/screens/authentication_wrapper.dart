@@ -1,3 +1,4 @@
+import 'package:fit_together/widgets/loading_overlay.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:fit_together/screens/registration_page.dart';
@@ -24,17 +25,17 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
     routeToAuthenticationPage();
   }
 
-  Future routeToAuthenticationPage() async {
+  void routeToAuthenticationPage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? firstTime = prefs.getBool("first_time");
     if (firstTime != null && !firstTime) {
       setState(() {
-        currentWidget = const SignInPage();
+        currentWidget = const LoadingOverlay(child: RegistrationPage());
       });
     } else {
       prefs.setBool("first_time", false);
       setState(() {
-        currentWidget = const RegistrationPage();
+        currentWidget = const LoadingOverlay(child: RegistrationPage());
       });
     }
   }

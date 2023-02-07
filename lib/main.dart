@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
             dividerColor: Colors.black,
             scaffoldBackgroundColor: Colors.white,
           ),
-          home: const LoadingOverlay(child: EntryWrapper()),
+          home: const EntryWrapper(),
         ),
       ),
     );
