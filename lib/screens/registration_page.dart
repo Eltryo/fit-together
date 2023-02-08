@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_together/models/app_user.dart';
 import 'package:fit_together/providers.dart';
-import 'package:fit_together/widgets/loading_overlay.dart';
 import 'package:fit_together/widgets/password_form_field.dart';
 import 'package:fit_together/widgets/username_form_field.dart';
 import 'package:flutter/material.dart';

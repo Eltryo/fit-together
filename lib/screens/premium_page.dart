@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:fit_together/widgets/rounded_button_widget.dart';
+import 'package:flutter/material.dart';
 
 class PremiumPage extends StatelessWidget {
   const PremiumPage({Key? key}) : super(key: key);

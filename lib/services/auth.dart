@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fit_together/models/app_user.dart';
 import 'package:fit_together/services/firestore.dart';
 import 'package:flutter/material.dart';
 

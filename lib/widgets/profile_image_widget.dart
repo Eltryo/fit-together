@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:fit_together/screens/edit_profile_page.dart';
 import 'package:fit_together/widgets/route_builder.dart';
+import 'package:flutter/material.dart';
 
 class ProfileImage extends StatelessWidget {
   final String imagePath;

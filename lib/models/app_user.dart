@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fit_together/models/app_user_stats.dart';
 
 class AppUser {
   final String uid;
