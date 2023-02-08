@@ -1,8 +1,6 @@
-import 'package:fit_together/widgets/loading_overlay.dart';
+import 'package:fit_together/screens/registration_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:fit_together/screens/registration_page.dart';
-import 'package:fit_together/screens/sign_in_page.dart';
 
 class AuthenticationWrapper extends StatefulWidget {
   const AuthenticationWrapper({Key? key}) : super(key: key);
@@ -30,12 +28,12 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
     bool? firstTime = prefs.getBool("first_time");
     if (firstTime != null && !firstTime) {
       setState(() {
-        currentWidget = const LoadingOverlay(child: RegistrationPage());
+        currentWidget = const RegistrationPage();
       });
     } else {
       prefs.setBool("first_time", false);
       setState(() {
-        currentWidget = const LoadingOverlay(child: RegistrationPage());
+        currentWidget = const RegistrationPage();
       });
     }
   }

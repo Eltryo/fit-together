@@ -110,8 +110,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
     )
         .then(
       (userCredential) {
-        //TODO: fix loading screen
-        LoadingOverlay.of(context).showLoadingScreen();
         final firestoreService = ref.read(firestoreServiceProvider);
         firestoreService.addUser(
           AppUser(
@@ -120,8 +118,6 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
             email: emailController.text,
           ),
         );
-        Navigator.popUntil(context, (route) => route.isFirst);
-        LoadingOverlay.of(context).hideLoadingScreen();
       },
     ).onError(
       (FirebaseAuthException error, stackTrace) {
