@@ -50,57 +50,93 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
           horizontal: 50.0,
           vertical: 20.0,
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Registration",
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 10),
-                  EmailFormField(emailController: emailController),
-                  const SizedBox(height: 10),
-                  PasswordFormField(passwordController: passwordController),
-                  const SizedBox(height: 10),
-                  UsernameFormField(usernameController: usernameController),
-                  const SizedBox(height: 10),
-                  RoundedButton(
-                    text: "Register",
-                    onPressed: () => submitSignIn(
-                      emailController,
-                      passwordController,
-                      usernameController,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  if (errorMessage.isNotEmpty) buildErrorMessage(errorMessage),
-                ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Registration",
+                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
-            )
-          ],
+              const SizedBox(height: 10),
+              EmailFormField(emailController: emailController),
+              const SizedBox(height: 10),
+              PasswordFormField(passwordController: passwordController),
+              const SizedBox(height: 10),
+              UsernameFormField(usernameController: usernameController),
+              const SizedBox(height: 10),
+              RoundedButton(
+                text: "Register",
+                onPressed: () => submitSignIn(
+                  emailController.text,
+                  passwordController.text,
+                  usernameController.text,
+                ),
+              ),
+              const SizedBox(height: 10),
+              if (errorMessage.isNotEmpty) buildErrorMessage(errorMessage),
+            ],
+          ),
         ),
       ),
     );
   }
 
   void submitSignIn(
-    TextEditingController emailController,
-    TextEditingController passwordController,
-    TextEditingController usernameController,
+    String email,
+    String password,
+    String username,
   ) {
     debugPrint("error message will be reset");
     setState(
-          () {
+      () {
         errorMessage = "";
       },
     );
 
     //TODO: Add client side validation
+    if (email.isEmpty) {
+      setState(
+        () {
+          errorMessage = 'E-mail address is required.';
+        },
+      );
+      return;
+    }
+
+    RegExp emailRegex = RegExp(r'\w+@\w+\.\w+');
+    if (!emailRegex.hasMatch(email)) {
+      setState(
+        () {
+          errorMessage = 'Invalid E-mail Address format.';
+        },
+      );
+      return;
+    }
+
+    if (password.isEmpty) {
+      setState(
+        () {
+          errorMessage = 'Password is required.';
+        },
+      );
+      return;
+    }
+
+    String pattern =
+        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
+    RegExp regex = RegExp(pattern);
+    if (!regex.hasMatch(password)) {
+      setState(
+        () {
+          errorMessage =
+              'Password must be at least 8 characters, include an uppercase letter, number and symbol.';
+        },
+      );
+      return;
+    }
+
     final authService = ref.read(authServiceProvider);
     authService
         .createAccount(
@@ -120,7 +156,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
         );
       },
     ).onError(
-      (FirebaseAuthException error, stackTrace) {
+      (FirebaseAuthException error, _) {
         debugPrint("error caught: ${error.message}");
         setState(
           () {
@@ -141,6 +177,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
       child: Center(
         child: Text(
           errorMessage,
+          textAlign: TextAlign.center,
           style: TextStyle(color: Theme.of(context).errorColor),
         ),
       ),

@@ -19,14 +19,12 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.passwordController,
-      validator: validatePassword,
       obscureText: !_passwordVisible,
       decoration: InputDecoration(
         suffixIcon: IconButton(
           onPressed: () {
             _toggle();
           },
-          //TODO: Add custom visibility icons
           icon: Icon(
             _passwordVisible ? Icons.visibility : Icons.visibility_off,
           ),
@@ -42,26 +40,10 @@ class _PasswordFormFieldState extends State<PasswordFormField> {
   }
 
   void _toggle() {
-    setState(() {
-      _passwordVisible = !_passwordVisible;
-    });
-  }
-
-  String? validatePassword(String? formPassword) {
-    if (formPassword == null || formPassword.isEmpty) {
-      return 'Password is required.';
-    }
-
-    String pattern =
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-    RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(formPassword)) {
-      return '''
-      Password must be at least 8 characters,
-      include an uppercase letter, number and symbol.
-      ''';
-    }
-
-    return null;
+    setState(
+      () {
+        _passwordVisible = !_passwordVisible;
+      },
+    );
   }
 }
