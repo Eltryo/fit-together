@@ -2,17 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../providers.dart';
-import 'authentication_wrapper.dart';
 import '../widgets/home_tab_controller.dart';
+import 'authentication_wrapper.dart';
 
-class EntryWrapper extends StatelessWidget {
+class EntryWrapper extends ConsumerWidget {
   const EntryWrapper({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer(
-      builder: (context, ref, child) {
-        return ref.watch(authStreamProvider).when(
+  Widget build(BuildContext context, WidgetRef ref) {
+    return ref.watch(authStreamProvider).when(
           data: (user) {
             if (user != null) {
               debugPrint("user is logged in");
@@ -25,7 +23,5 @@ class EntryWrapper extends StatelessWidget {
           error: (error, _) => Text("Error: $error"),
           loading: () => const CircularProgressIndicator(),
         );
-      },
-    );
   }
 }

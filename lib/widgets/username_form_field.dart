@@ -15,7 +15,6 @@ class UsernameFormField extends StatefulWidget {
 class _UsernameFormFieldState extends State<UsernameFormField> {
   @override
   Widget build(BuildContext context) {
-    //TODO: add validator
     return TextFormField(
       controller: widget.usernameController,
       keyboardType: TextInputType.text,

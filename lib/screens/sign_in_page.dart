@@ -80,7 +80,7 @@ class _SignInPageState extends ConsumerState<SignInPage>
   ) {
     debugPrint("error message will be reset");
     setState(
-          () {
+      () {
         errorMessage = "";
       },
     );

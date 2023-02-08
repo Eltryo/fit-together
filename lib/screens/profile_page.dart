@@ -61,18 +61,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final authService = ref.read(authServiceProvider);
     final firestoreService = ref.read(firestoreServiceProvider);
     if (authService.currentUid != null) {
-      firestoreService.getUserByUid(authService.currentUid!).then(
-        (appUser) {
-          setState(
-            () {
-              _username = appUser.username;
-              _email = appUser.email;
-              _imageUrl = appUser.imageUrl;
-            },
-          );
-        },
-        onError: (error) => debugPrint("Error: $error")
-      );
+      firestoreService.getUserByUid(authService.currentUid!).then((appUser) {
+        setState(
+          () {
+            _username = appUser.username;
+            _email = appUser.email;
+            _imageUrl = appUser.imageUrl;
+          },
+        );
+      }, onError: (error) => debugPrint("Error: $error"));
     }
   }
 }

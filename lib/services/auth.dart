@@ -14,9 +14,9 @@ class AuthService {
   Future signInToAccount(String email, String password) {
     return _firebaseAuth
         .signInWithEmailAndPassword(
-          email: email,
-          password: password,
-        )
+      email: email,
+      password: password,
+    )
         .onError(
       (FirebaseAuthException error, _) {
         if (error.code == "user-not-found") {

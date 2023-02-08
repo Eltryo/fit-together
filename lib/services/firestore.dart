@@ -6,9 +6,9 @@ import '../models/app_user.dart';
 class FirestoreService {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  void addUser(AppUser appUser) {
+  Future<void> addUser(AppUser appUser) {
     //TODO: check if username already exists
-    db.collection("users").add(appUser.toJson()).then(
+    return db.collection("users").add(appUser.toJson()).then(
           (DocumentReference doc) =>
               debugPrint("Successfully add document with ID: ${doc.id}"),
           onError: (error) => debugPrint("Error: $error"),
