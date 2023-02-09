@@ -1,4 +1,5 @@
 import 'package:fit_together/screens/registration_page.dart';
+import 'package:fit_together/screens/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -28,7 +29,7 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
     bool? firstTime = prefs.getBool("first_time");
     if (firstTime != null && !firstTime) {
       setState(() {
-        currentWidget = const RegistrationPage();
+        currentWidget = const SignInPage();
       });
     } else {
       prefs.setBool("first_time", false);

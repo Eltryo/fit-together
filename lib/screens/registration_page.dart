@@ -87,39 +87,21 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
     String password,
     String username,
   ) {
-    debugPrint("error message will be reset");
-    setState(
-      () {
-        errorMessage = "";
-      },
-    );
+    updateErrorMessage('');
 
-    //TODO: Add client side validation
     if (email.isEmpty) {
-      setState(
-        () {
-          errorMessage = 'E-mail address is required.';
-        },
-      );
+      updateErrorMessage('E-mail address is required');
       return;
     }
 
     RegExp emailRegex = RegExp(r'\w+@\w+\.\w+');
     if (!emailRegex.hasMatch(email)) {
-      setState(
-        () {
-          errorMessage = 'Invalid E-mail Address format.';
-        },
-      );
+      updateErrorMessage('Invalid E-mail address format');
       return;
     }
 
     if (password.isEmpty) {
-      setState(
-        () {
-          errorMessage = 'Password is required.';
-        },
-      );
+      updateErrorMessage('Password is required');
       return;
     }
 
@@ -127,12 +109,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(password)) {
-      setState(
-        () {
-          errorMessage =
-              'Password must be at least 8 characters, include an uppercase letter, number and symbol.';
-        },
-      );
+      updateErrorMessage('Password must be at least 8 characters, include an uppercase letter, number and symbol.');
       return;
     }
 
@@ -154,14 +131,19 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
           ),
         );
       },
-    ).onError(
-      (FirebaseAuthException error, _) {
-        debugPrint("error caught: ${error.message}");
-        setState(
+    ).catchError(
+      (error, _) {
+        updateErrorMessage(error.message!);
+      },
+      test: (error) => error is FirebaseAuthException
+    );
+  }
+
+  void updateErrorMessage(String errorMessage) {
+    debugPrint(errorMessage);
+    setState(
           () {
-            errorMessage = error.message!;
-          },
-        );
+        this.errorMessage = errorMessage;
       },
     );
   }

@@ -63,7 +63,7 @@ class _SignInPageState extends ConsumerState<SignInPage>
               RoundedButton(
                 text: "Submit",
                 onPressed: () =>
-                    submitSignIn(emailController, passwordController),
+                    submitSignIn(emailController.text, passwordController.text),
               ),
               const SizedBox(height: 10),
               if (errorMessage.isNotEmpty) buildErrorMessage(errorMessage),
@@ -75,28 +75,44 @@ class _SignInPageState extends ConsumerState<SignInPage>
   }
 
   void submitSignIn(
-    TextEditingController emailController,
-    TextEditingController passwordController,
+    String email,
+    String password,
   ) {
-    debugPrint("error message will be reset");
-    setState(
-      () {
-        errorMessage = "";
-      },
-    );
+    updateErrorMessage('');
 
-    //TODO: add clientside validation
+    if (email.isEmpty) {
+      updateErrorMessage('E-mail address is required');
+      return;
+    }
+
+    RegExp emailRegex = RegExp(r'\w+@\w+\.\w+');
+    if (!emailRegex.hasMatch(email)) {
+      updateErrorMessage('Invalid E-mail Address format.');
+      return;
+    }
+
+    if (password.isEmpty) {
+      updateErrorMessage('Password is required.');
+      return;
+    }
+
     final authService = ref.read(authServiceProvider);
     authService
-        .signInToAccount(emailController.text, passwordController.text)
-        .onError(
-      (FirebaseAuthException error, _) {
-        debugPrint("error caught: ${error.message}");
-        setState(
-          () {
-            errorMessage = error.message!;
-          },
-        );
+        .signInToAccount(email, password)
+        .then((value) => null)
+        .catchError(
+      (error, _) {
+        updateErrorMessage(error.message!);
+      },
+      test: (error) => error is FirebaseAuthException,
+    );
+  }
+
+  void updateErrorMessage(String errorMessage) {
+    debugPrint(errorMessage);
+    setState(
+      () {
+        this.errorMessage = errorMessage;
       },
     );
   }
