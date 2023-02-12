@@ -101,7 +101,7 @@ class _SignInPageState extends ConsumerState<SignInPage>
         .signInToAccount(email, password)
         .then((value) => null)
         .catchError(
-      (error, _) {
+      (error) {
         updateErrorMessage(error.message!);
       },
       test: (error) => error is FirebaseAuthException,

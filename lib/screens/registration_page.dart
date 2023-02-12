@@ -109,7 +109,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(password)) {
-      updateErrorMessage('Password must be at least 8 characters, include an uppercase letter, number and symbol.');
+      updateErrorMessage(
+          'Password must be at least 8 characters, include an uppercase letter, number and symbol.');
       return;
     }
 
@@ -131,18 +132,15 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
           ),
         );
       },
-    ).catchError(
-      (error, _) {
-        updateErrorMessage(error.message!);
-      },
-      test: (error) => error is FirebaseAuthException
-    );
+    ).catchError((error) {
+      updateErrorMessage(error.message!);
+    }, test: (error) => error is FirebaseAuthException);
   }
 
   void updateErrorMessage(String errorMessage) {
     debugPrint(errorMessage);
     setState(
-          () {
+      () {
         this.errorMessage = errorMessage;
       },
     );

@@ -28,14 +28,18 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? firstTime = prefs.getBool("first_time");
     if (firstTime != null && !firstTime) {
-      setState(() {
-        currentWidget = const SignInPage();
-      });
+      setState(
+        () {
+          currentWidget = const RegistrationPage();
+        },
+      );
     } else {
       prefs.setBool("first_time", false);
-      setState(() {
-        currentWidget = const RegistrationPage();
-      });
+      setState(
+        () {
+          currentWidget = const RegistrationPage();
+        },
+      );
     }
   }
 }
