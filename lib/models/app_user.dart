@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'app_user_stats.dart';
+
 class AppUser {
   final String uid;
   final String username;
@@ -7,8 +9,7 @@ class AppUser {
   final String? firstName;
   final String? lastName;
   final String? imageUrl;
-
-  // final AppUserStats? appUserStats;
+  final AppUserStats? appUserStats;
 
   AppUser({
     required this.uid,
@@ -17,7 +18,7 @@ class AppUser {
     this.firstName,
     this.lastName,
     this.imageUrl,
-    // this.appUserStats = const AppUserStats()
+    this.appUserStats = const AppUserStats()
   });
 
   factory AppUser.fromJson(
@@ -32,7 +33,7 @@ class AppUser {
       firstName: data?["firstName"],
       lastName: data?["lastName"],
       imageUrl: data?["imageUrl"],
-      // appUserStats: data?["appUserStats"]
+      appUserStats: data?["appUserStats"]
     );
   }
 
@@ -41,7 +42,7 @@ class AppUser {
       "uid": uid,
       "username": username,
       "email": email,
-      // "appUserStats": appUserStats,
+      "appUserStats": appUserStats,
       if (firstName != null) "firstName": firstName,
       if (lastName != null) "lastName": lastName,
       if (imageUrl != null) "imageUrl": imageUrl

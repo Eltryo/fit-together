@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../models/app_user.dart';
 
-//TODO: test api
+//TODO: test api, implement delete and update logic
 class FirestoreService {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -32,7 +32,6 @@ class FirestoreService {
         .get()
         .then(
           (colSnap) => colSnap.docs.map((docSnap) => docSnap.data()),
-          //onError: (error) => debugPrint("Error: $error"),
         );
   }
 
@@ -46,7 +45,6 @@ class FirestoreService {
         .get()
         .then(
           (colSnap) => colSnap.docs.map((docSnap) => docSnap.data()).single,
-          //onError: (error) => debugPrint("Error: $error"),
         );
   }
 }
