@@ -32,12 +32,13 @@ class MyApp extends StatelessWidget {
               backgroundColor: Colors.transparent,
               elevation: 0,
             ),
-            errorColor: Colors.red[700],
             progressIndicatorTheme:
                 const ProgressIndicatorThemeData(color: Colors.teal),
             primaryColor: Colors.teal,
             dividerColor: Colors.black,
             scaffoldBackgroundColor: Colors.white,
+            floatingActionButtonTheme: const FloatingActionButtonThemeData(
+                backgroundColor: Colors.teal),
           ),
           home: const EntryWrapper(),
         ),

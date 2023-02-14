@@ -28,43 +28,55 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          ProfileImage(
-            imagePath: _checkImagePath(_imageUrl),
-            onClicked: () {},
-          ),
-          const SizedBox(height: 10),
-          ShimmerLoading(
-            isLoading: _isLoading,
-            child: buildText(
-              Text(
-                  _username,
-                  style:
-                  const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+    return Stack(
+      children: [
+        SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20,
               ),
-            ),
-          ),
-          ShimmerLoading(
-            isLoading: _isLoading,
-            child: buildText(
-              Text(
-                _email,
-                style: const TextStyle(
-                    fontStyle: FontStyle.italic, color: Colors.grey)
+              ProfileImage(
+                imagePath: _checkImagePath(_imageUrl),
+                onClicked: () {},
               ),
-            ),
+              const SizedBox(height: 10),
+              ShimmerLoading(
+                isLoading: _isLoading,
+                child: buildText(
+                  Text(
+                    _username,
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                ),
+              ),
+              ShimmerLoading(
+                isLoading: _isLoading,
+                child: buildText(
+                  Text(
+                    _email,
+                    style: const TextStyle(
+                        fontStyle: FontStyle.italic, color: Colors.grey),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const ProfileStats(),
+              const SizedBox(height: 20),
+              const ProfilePagePosts()
+            ],
           ),
-          const SizedBox(height: 20),
-          const ProfileStats(),
-          const SizedBox(height: 20),
-          const ProfilePagePosts()
-        ],
-      ),
+        ),
+        Container(
+          alignment: Alignment.bottomRight,
+          margin: const EdgeInsets.all(kFloatingActionButtonMargin),
+          child: FloatingActionButton(
+            onPressed: () {},
+            child: const Icon(Icons.add),
+          ),
+        )
+      ],
     );
   }
 
@@ -72,10 +84,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     if (_isLoading) {
       return Container(
         padding: const EdgeInsets.only(bottom: 1),
-        width: MediaQuery
-            .of(context)
-            .size
-            .width / 2,
+        width: MediaQuery.of(context).size.width / 2,
         height: 15, //TODO change hardcoded height
         decoration: BoxDecoration(
           color: Colors.black,
@@ -100,7 +109,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     if (authService.currentUid != null) {
       firestoreService.getUserByUid(authService.currentUid!).then((appUser) {
         setState(
-              () {
+          () {
             _username = appUser.username;
             _email = appUser.email;
             _imageUrl = appUser.imageUrl;
