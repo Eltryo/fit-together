@@ -157,7 +157,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
         child: Text(
           errorMessage,
           textAlign: TextAlign.center,
-          style: TextStyle(color: Theme.of(context).errorColor),
+          style: TextStyle(color: Theme.of(context).colorScheme.error),
         ),
       ),
     );

@@ -11,33 +11,33 @@ class AuthenticationWrapper extends StatefulWidget {
 }
 
 class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
-  Widget currentWidget = const Scaffold();
+  Widget? _currentWidget;
 
   @override
   Widget build(BuildContext context) {
-    return currentWidget;
+    return _currentWidget?? const SizedBox.shrink();
   }
 
   @override
   void initState() {
     super.initState();
-    routeToAuthenticationPage();
+    buildAuthenticationPage();
   }
 
-  void routeToAuthenticationPage() async {
+  void buildAuthenticationPage() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool? firstTime = prefs.getBool("first_time");
     if (firstTime != null && !firstTime) {
       setState(
         () {
-          currentWidget = const RegistrationPage();
+          _currentWidget = const RegistrationPage();
         },
       );
     } else {
       prefs.setBool("first_time", false);
       setState(
         () {
-          currentWidget = const RegistrationPage();
+          _currentWidget = const RegistrationPage();
         },
       );
     }

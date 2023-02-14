@@ -12,9 +12,9 @@ class FirestoreService {
       (error) {
         if (error.message == "No element") {
           db.collection("users").add(appUser.toJson()).then(
-                (DocumentReference doc) =>
+                (doc) =>
                     debugPrint("Successfully add document with ID: ${doc.id}"),
-                onError: (error) => debugPrint("Error: $error"),
+                onError: (error) => debugPrint("Error in firestore line 17: $error"),
               );
         }
       },
@@ -27,7 +27,7 @@ class FirestoreService {
         .collection("users")
         .withConverter(
           fromFirestore: AppUser.fromJson,
-          toFirestore: (AppUser appUser, _) => appUser.toJson(),
+          toFirestore: (appUser, _) => appUser.toJson(),
         )
         .get()
         .then(
