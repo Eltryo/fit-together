@@ -37,7 +37,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 height: 20,
               ),
               ProfileImage(
-                imagePath: _checkImagePath(_imageUrl),
+                imagePath: _imageUrl?? "assets/images/default_user_image.png",
                 onClicked: () {},
               ),
               const SizedBox(height: 10),
@@ -91,20 +91,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     );
   }
 
-  String _checkImagePath(String? imagePath) {
-    if (imagePath == null) {
-      return "assets/images/default_user_image.png";
-    }
-    return imagePath;
-  }
-
   void fetchAppUserData() {
     final authService = ref.read(authServiceProvider);
     final firestoreService = ref.read(firestoreServiceProvider);
     if (authService.currentUid != null) {
-      firestoreService.getUserByUid(authService.currentUid!).then(
-          (appUser) async {
-        await Future.delayed(const Duration(seconds: 5));
+      firestoreService.getUserByUid(authService.currentUid!).then((appUser) {
         setState(
           () {
             _username = appUser.username;

@@ -85,8 +85,7 @@ class _ProfileStatsState extends ConsumerState<ProfileStats> {
     final firestoreService = ref.read(firestoreServiceProvider);
     if (authService.currentUid != null) {
       firestoreService.getUserByUid(authService.currentUid!).then(
-          (appUser) async {
-        await Future.delayed(const Duration(seconds: 5));
+          (appUser) {
         setState(
           () {
             _pictureCount = appUser.appUserStats.pictureCount;
