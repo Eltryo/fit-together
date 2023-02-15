@@ -125,8 +125,8 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
       (userCredential) {
         final firestoreService = ref.read(firestoreServiceProvider);
         firestoreService.addUser(
+          userCredential.user!.uid,
           AppUser(
-            uid: userCredential.user!.uid,
             username: usernameController.text,
             email: emailController.text,
           ),

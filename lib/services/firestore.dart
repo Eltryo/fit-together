@@ -7,20 +7,12 @@ import '../models/app_user.dart';
 class FirestoreService {
   static final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  Future<void> addUser(AppUser appUser) {
-    return getUserByUid(appUser.uid).then((appUser) => null).catchError(
-      (error) {
-        if (error.message == "No element") {
-          db.collection("users").add(appUser.toJson()).then(
-                (doc) =>
-                    debugPrint("Successfully add document with ID: ${doc.id}"),
-                onError: (error) =>
-                    debugPrint("Error in firestore line 17: $error"),
-              );
-        }
-      },
-      test: (error) => error is StateError,
-    );
+  Future<void> addUser(String uid, AppUser appUser) {
+    return db
+        .collection("users")
+        .doc(uid)
+        .set(appUser.toJson())
+        .catchError((error, _) => debugPrint("Error: $error")); //TODO fix error handler error
   }
 
   Future<Iterable<AppUser>> getUsers() {
@@ -33,6 +25,7 @@ class FirestoreService {
         .get()
         .then(
           (colSnap) => colSnap.docs.map((docSnap) => docSnap.data()),
+          onError: (error) => debugPrint("Error: $error"),
         );
   }
 
@@ -46,6 +39,7 @@ class FirestoreService {
         .get()
         .then(
           (colSnap) => colSnap.docs.map((docSnap) => docSnap.data()).single,
+          onError: (error) => debugPrint("Error: $error"),
         );
   }
 }

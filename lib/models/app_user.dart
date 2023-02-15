@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'app_user_stats.dart';
 
 class AppUser {
-  final String uid;
   final String username;
   final String email;
   final String? firstName;
@@ -12,7 +11,6 @@ class AppUser {
   final AppUserStats appUserStats;
 
   AppUser({
-    required this.uid,
     required this.username,
     required this.email,
     this.firstName,
@@ -27,7 +25,6 @@ class AppUser {
   ) {
     final data = snapshot.data();
     return AppUser(
-      uid: data?["uid"],
       username: data?["username"],
       email: data?["email"],
       firstName: data?["firstName"],
@@ -39,7 +36,6 @@ class AppUser {
 
   Map<String, dynamic> toJson() {
     return {
-      "uid": uid,
       "username": username,
       "email": email,
       "appUserStats": appUserStats.toJson(),
