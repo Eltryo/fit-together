@@ -39,7 +39,7 @@ class _ProfilePagePostsState extends ConsumerState<ProfilePagePosts> {
               crossAxisSpacing: 5,
               mainAxisSpacing: 5,
               children: List<Container>.generate(
-                0, //TODO: implement picture count
+                appUser.appUserStats.pictureCount, //TODO: implement picture count
                 (index) => Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
