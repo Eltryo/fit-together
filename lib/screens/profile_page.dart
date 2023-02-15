@@ -18,7 +18,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   String _username = "";
   String _email = "";
   String? _imageUrl;
-  late bool _isLoading = true;
+  bool _isLoading = true;
 
   @override
   void initState() {
@@ -41,24 +41,19 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 onClicked: () {},
               ),
               const SizedBox(height: 10),
-              ShimmerLoading(
-                isLoading: _isLoading,
-                child: buildText(
-                  Text(
-                    _username,
-                    style: const TextStyle(
-                        fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
+              buildText(
+                Text(
+                  _username,
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
-              ShimmerLoading(
-                isLoading: _isLoading,
-                child: buildText(
-                  Text(
-                    _email,
-                    style: const TextStyle(
-                        fontStyle: FontStyle.italic, color: Colors.grey),
-                  ),
+              const SizedBox(height: 3),
+              buildText(
+                Text(
+                  _email,
+                  style: const TextStyle(
+                      fontStyle: FontStyle.italic, color: Colors.grey),
                 ),
               ),
               const SizedBox(height: 20),
@@ -81,19 +76,19 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   }
 
   Widget buildText(Text text) {
-    if (_isLoading) {
-      return Container(
-        padding: const EdgeInsets.only(bottom: 1),
-        width: MediaQuery.of(context).size.width / 2,
-        height: 15, //TODO change hardcoded height
-        decoration: BoxDecoration(
-          color: Colors.black,
-          borderRadius: BorderRadius.circular(16),
-        ),
-      );
-    } else {
-      return text;
-    }
+    return ShimmerLoading(
+      isLoading: _isLoading,
+      child: _isLoading
+          ? Container(
+              width: MediaQuery.of(context).size.width / 2,
+              height: 15, //TODO change hardcoded height
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            )
+          : text,
+    );
   }
 
   String _checkImagePath(String? imagePath) {
@@ -107,7 +102,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final authService = ref.read(authServiceProvider);
     final firestoreService = ref.read(firestoreServiceProvider);
     if (authService.currentUid != null) {
-      firestoreService.getUserByUid(authService.currentUid!).then((appUser) {
+      firestoreService.getUserByUid(authService.currentUid!).then(
+          (appUser) async {
+        await Future.delayed(const Duration(seconds: 5));
         setState(
           () {
             _username = appUser.username;
