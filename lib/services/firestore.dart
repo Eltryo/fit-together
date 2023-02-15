@@ -14,7 +14,8 @@ class FirestoreService {
           db.collection("users").add(appUser.toJson()).then(
                 (doc) =>
                     debugPrint("Successfully add document with ID: ${doc.id}"),
-                onError: (error) => debugPrint("Error in firestore line 17: $error"),
+                onError: (error) =>
+                    debugPrint("Error in firestore line 17: $error"),
               );
         }
       },
@@ -26,7 +27,7 @@ class FirestoreService {
     return db
         .collection("users")
         .withConverter(
-          fromFirestore: AppUser.fromJson,
+          fromFirestore: AppUser.fromFirestore,
           toFirestore: (appUser, _) => appUser.toJson(),
         )
         .get()
@@ -39,7 +40,7 @@ class FirestoreService {
     return db
         .collection("users")
         .withConverter(
-            fromFirestore: AppUser.fromJson,
+            fromFirestore: AppUser.fromFirestore,
             toFirestore: (appUser, _) => appUser.toJson())
         .where("uid", isEqualTo: uid)
         .get()

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class AppUserStats {
   final int pictureCount;
   final int followingCount;
@@ -8,4 +10,32 @@ class AppUserStats {
     this.followingCount = 0,
     this.followerCount = 0,
   });
+
+  factory AppUserStats.fromFirestore(
+    DocumentSnapshot<Map<String, dynamic>> snapshot,
+    SnapshotOptions? options,
+  ) {
+    final data = snapshot.data();
+    return AppUserStats(
+      pictureCount: data?["pictureCount"],
+      followingCount: data?["followingCount"],
+      followerCount: data?["followerCount"],
+    );
+  }
+
+  factory AppUserStats.fromJson(Map<String, dynamic> json) {
+    return AppUserStats(
+      pictureCount: json["pictureCount"],
+      followingCount: json["followingCount"],
+      followerCount: json["followerCount"],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      "pictureCount": pictureCount,
+      "followingCount": followingCount,
+      "followerCount": followerCount,
+    };
+  }
 }
