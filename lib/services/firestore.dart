@@ -29,16 +29,17 @@ class FirestoreService {
         );
   }
 
-  Future<AppUser> getUserByUid(String uid) {
+  Future<AppUser> getUserById(String id) {
     return db
         .collection("users")
+        .doc(id)
         .withConverter(
-            fromFirestore: AppUser.fromFirestore,
-            toFirestore: (appUser, _) => appUser.toJson())
-        .where("uid", isEqualTo: uid)
+          fromFirestore: AppUser.fromFirestore,
+          toFirestore: (appUser, _) => appUser.toJson(),
+        )
         .get()
         .then(
-          (colSnap) => colSnap.docs.map((docSnap) => docSnap.data()).single,
+          (docSnap) => docSnap.data()!,
           onError: (error) => debugPrint("Error: $error"),
         );
   }
