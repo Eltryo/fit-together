@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:fit_together/providers.dart';
 import 'package:fit_together/widgets/profile_page_posts.dart';
 import 'package:fit_together/widgets/shimmer_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../widgets/profile_image_widget.dart';
 import '../widgets/profile_stats_widget.dart';
@@ -66,9 +69,17 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         Container(
           alignment: Alignment.bottomRight,
           margin: const EdgeInsets.all(kFloatingActionButtonMargin),
-          child: FloatingActionButton(
-            onPressed: () {},
-            child: const Icon(Icons.add),
+          child: Consumer(
+            builder: (_, ref, __) => FloatingActionButton(
+              onPressed: () {
+                final storageService = ref.read(storageServiceProvider);
+                ImagePicker().pickImage(source: ImageSource.gallery).then(
+                      (image) => storageService.addImageFile(File(image!.path)),
+                      onError: (error) => debugPrint("Error: $error"),
+                    );
+              },
+              child: const Icon(Icons.add),
+            ),
           ),
         )
       ],
