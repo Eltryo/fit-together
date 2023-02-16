@@ -16,7 +16,7 @@ class AppUser {
     this.firstName,
     this.lastName,
     this.imageUrl,
-    this.appUserStats = const AppUserStats()
+    this.appUserStats = const AppUserStats(),
   });
 
   factory AppUser.fromFirestore(
@@ -30,7 +30,7 @@ class AppUser {
       firstName: data?["firstName"],
       lastName: data?["lastName"],
       imageUrl: data?["imageUrl"],
-      appUserStats: AppUserStats.fromJson(data?["appUserStats"])
+      appUserStats: AppUserStats.fromJson(data?["appUserStats"]),
     );
   }
 
@@ -41,7 +41,7 @@ class AppUser {
       "appUserStats": appUserStats.toJson(),
       if (firstName != null) "firstName": firstName,
       if (lastName != null) "lastName": lastName,
-      if (imageUrl != null) "imageUrl": imageUrl
+      if (imageUrl != null) "imageUrl": imageUrl,
     };
   }
 }

@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class AuthService {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+class AuthenticationService {
+  static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   Stream<User?> get authState => _firebaseAuth.authStateChanges();
 
@@ -14,7 +14,7 @@ class AuthService {
       email: email,
       password: password,
     )
-        .catchError((error, _) {
+        .catchError((error) {
       if (error.code == "user-not-found") {
         debugPrint("No user found for that email");
       } else if (error.code == "wrong-password") {
@@ -29,14 +29,13 @@ class AuthService {
 
   Future<void> signOut() {
     return _firebaseAuth.signOut();
-    //apparently does not produce error
   }
 
   Future<UserCredential> createAccount(
       String email, String password, String username) {
     return _firebaseAuth
         .createUserWithEmailAndPassword(email: email, password: password)
-        .onError((FirebaseAuthException error, _) {
+        .catchError((error) {
       if (error.code == "weak-password") {
         debugPrint("The password provided is too weak");
       } else if (error.code == "email-already-in-use") {

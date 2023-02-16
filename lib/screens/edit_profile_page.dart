@@ -13,7 +13,7 @@ class EditProfilePage extends ConsumerStatefulWidget {
 class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
-    final authService = ref.read(authServiceProvider);
+    final authService = ref.read(authenticationServiceProvider);
     return Scaffold(
       appBar: AppBar(),
       body: Center(

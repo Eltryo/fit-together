@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
                 backgroundColor: Colors.teal),
           ),
           home: const EntryWrapper(),
+          debugShowCheckedModeBanner: false,
         ),
       ),
     );

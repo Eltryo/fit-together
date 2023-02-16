@@ -114,7 +114,7 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
       return;
     }
 
-    final authService = ref.read(authServiceProvider);
+    final authService = ref.read(authenticationServiceProvider);
     authService
         .createAccount(
       emailController.text,
@@ -132,9 +132,12 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
           ),
         );
       },
-    ).catchError((error) {
-      updateErrorMessage(error.message!);
-    }, test: (error) => error is FirebaseAuthException);
+    ).catchError(
+      (error) {
+        updateErrorMessage(error.toString());
+      },
+      test: (error) => error is FirebaseAuthException,
+    );
   }
 
   void updateErrorMessage(String errorMessage) {

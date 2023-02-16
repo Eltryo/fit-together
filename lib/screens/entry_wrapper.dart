@@ -10,7 +10,7 @@ class EntryWrapper extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(authStreamProvider).when(
+    return ref.watch(authenticationStreamProvider).when(
           data: (user) {
             if (user != null) {
               debugPrint("user is logged in");

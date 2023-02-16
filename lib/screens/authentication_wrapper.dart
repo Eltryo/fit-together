@@ -15,7 +15,7 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
 
   @override
   Widget build(BuildContext context) {
-    return _currentWidget?? const SizedBox.shrink();
+    return _currentWidget ?? const SizedBox.shrink();
   }
 
   @override

@@ -28,17 +28,17 @@ class _ProfileStatsState extends ConsumerState<ProfileStats> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        //TODO: replace hardcoded values and add interactivity
-        buildButton(context, "Pictures", _pictureCount),
+        //TODO: add interactivity
+        buildButton("Pictures", _pictureCount),
         buildDivider(),
-        buildButton(context, "Following", _followingCount),
+        buildButton("Following", _followingCount),
         buildDivider(),
-        buildButton(context, "Follower", _followerCount),
+        buildButton("Follower", _followerCount),
       ],
     );
   }
 
-  Widget buildButton(BuildContext context, String text, int? value) {
+  Widget buildButton(String text, int? value) {
     return MaterialButton(
       //TODO: implement button function
       onPressed: () {},
@@ -81,11 +81,10 @@ class _ProfileStatsState extends ConsumerState<ProfileStats> {
   }
 
   void fetchAppUserStats() {
-    final authService = ref.read(authServiceProvider);
+    final authService = ref.read(authenticationServiceProvider);
     final firestoreService = ref.read(firestoreServiceProvider);
     if (authService.currentUid != null) {
-      firestoreService.getUserByUid(authService.currentUid!).then(
-          (appUser) {
+      firestoreService.getUserById(authService.currentUid!).then((appUser) {
         setState(
           () {
             _pictureCount = appUser.appUserStats.pictureCount;

@@ -5,18 +5,18 @@ import '../models/app_user.dart';
 
 //TODO: test api, implement delete and update logic
 class FirestoreService {
-  static final FirebaseFirestore db = FirebaseFirestore.instance;
+  static final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
 
   Future<void> addUser(String uid, AppUser appUser) {
-    return db
+    return _firebaseFirestore
         .collection("users")
         .doc(uid)
         .set(appUser.toJson())
-        .catchError((error, _) => debugPrint("Error: $error")); //TODO fix error handler error
+        .catchError((error) => debugPrint("Error: $error"));
   }
 
   Future<Iterable<AppUser>> getUsers() {
-    return db
+    return _firebaseFirestore
         .collection("users")
         .withConverter(
           fromFirestore: AppUser.fromFirestore,
@@ -30,7 +30,7 @@ class FirestoreService {
   }
 
   Future<AppUser> getUserById(String id) {
-    return db
+    return _firebaseFirestore
         .collection("users")
         .doc(id)
         .withConverter(

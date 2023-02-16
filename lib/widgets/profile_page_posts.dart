@@ -25,9 +25,9 @@ class _ProfilePagePostsState extends ConsumerState<ProfilePagePosts> {
 
   void buildGridView() {
     final firestoreService = ref.read(firestoreServiceProvider);
-    final authService = ref.read(authServiceProvider);
+    final authService = ref.read(authenticationServiceProvider);
 
-    firestoreService.getUserByUid(authService.currentUid!).then(
+    firestoreService.getUserById(authService.currentUid!).then(
       (appUser) {
         setState(
           () {
@@ -39,7 +39,8 @@ class _ProfilePagePostsState extends ConsumerState<ProfilePagePosts> {
               crossAxisSpacing: 5,
               mainAxisSpacing: 5,
               children: List<Container>.generate(
-                appUser.appUserStats.pictureCount, //TODO: implement picture count
+                appUser.appUserStats.pictureCount,
+                //TODO: implement picture count
                 (index) => Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(

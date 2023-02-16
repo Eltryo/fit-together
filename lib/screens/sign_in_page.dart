@@ -96,13 +96,13 @@ class _SignInPageState extends ConsumerState<SignInPage>
       return;
     }
 
-    final authService = ref.read(authServiceProvider);
+    final authService = ref.read(authenticationServiceProvider);
     authService
         .signInToAccount(email, password)
         .then((value) => null)
         .catchError(
       (error) {
-        updateErrorMessage(error.message!);
+        updateErrorMessage(error.toString());
       },
       test: (error) => error is FirebaseAuthException,
     );
@@ -127,7 +127,7 @@ class _SignInPageState extends ConsumerState<SignInPage>
       child: Center(
         child: Text(
           errorMessage,
-          style: TextStyle(color: Theme.of(context).errorColor),
+          style: TextStyle(color: Theme.of(context).colorScheme.error),
         ),
       ),
     );
