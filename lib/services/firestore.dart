@@ -12,7 +12,7 @@ class FirestoreService {
         .collection("users")
         .doc(uid)
         .set(appUser.toJson())
-        .catchError((error, _) => debugPrint("Error: $error")); //TODO fix error handler error
+        .catchError((error) => debugPrint("Error: $error"));
   }
 
   Future<Iterable<AppUser>> getUsers() {

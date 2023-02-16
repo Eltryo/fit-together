@@ -37,7 +37,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 height: 20,
               ),
               ProfileImage(
-                imagePath: _imageUrl?? "assets/images/default_user_image.png",
+                imagePath: _imageUrl ?? "assets/images/default_user_image.png",
                 onClicked: () {},
               ),
               const SizedBox(height: 10),
@@ -95,16 +95,19 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     final authService = ref.read(authServiceProvider);
     final firestoreService = ref.read(firestoreServiceProvider);
     if (authService.currentUid != null) {
-      firestoreService.getUserByUid(authService.currentUid!).then((appUser) {
-        setState(
-          () {
-            _username = appUser.username;
-            _email = appUser.email;
-            _imageUrl = appUser.imageUrl;
-            _isLoading = false;
-          },
-        );
-      }, onError: (error) => debugPrint("Error: $error"));
+      firestoreService.getUserById(authService.currentUid!).then(
+        (appUser) {
+          setState(
+            () {
+              _username = appUser.username;
+              _email = appUser.email;
+              _imageUrl = appUser.imageUrl;
+              _isLoading = false;
+            },
+          );
+        },
+        onError: (error) => debugPrint("Error: $error"),
+      );
     }
   }
 }

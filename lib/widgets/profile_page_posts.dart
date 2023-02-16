@@ -27,7 +27,7 @@ class _ProfilePagePostsState extends ConsumerState<ProfilePagePosts> {
     final firestoreService = ref.read(firestoreServiceProvider);
     final authService = ref.read(authServiceProvider);
 
-    firestoreService.getUserByUid(authService.currentUid!).then(
+    firestoreService.getUserById(authService.currentUid!).then(
       (appUser) {
         setState(
           () {
@@ -39,7 +39,8 @@ class _ProfilePagePostsState extends ConsumerState<ProfilePagePosts> {
               crossAxisSpacing: 5,
               mainAxisSpacing: 5,
               children: List<Container>.generate(
-                appUser.appUserStats.pictureCount, //TODO: implement picture count
+                appUser.appUserStats.pictureCount,
+                //TODO: implement picture count
                 (index) => Container(
                   decoration: const BoxDecoration(
                     image: DecorationImage(
