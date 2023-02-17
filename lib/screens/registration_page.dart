@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fit_together/models/app_user.dart';
 import 'package:fit_together/providers.dart';
 import 'package:fit_together/widgets/password_form_field.dart';
 import 'package:fit_together/widgets/username_form_field.dart';
@@ -117,22 +116,12 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
     final authService = ref.read(authenticationServiceProvider);
     authService
         .createAccount(
+      ref,
       emailController.text,
       passwordController.text,
       usernameController.text,
     )
-        .then(
-      (userCredential) {
-        final firestoreService = ref.read(firestoreServiceProvider);
-        firestoreService.addUser(
-          userCredential.user!.uid,
-          AppUser(
-            username: usernameController.text,
-            email: emailController.text,
-          ),
-        );
-      },
-    ).catchError(
+        .catchError(
       (error) {
         updateErrorMessage(error.toString());
       },

@@ -1,5 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_together/models/app_user.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import '../providers.dart';
 
 class AuthenticationService {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -8,12 +12,10 @@ class AuthenticationService {
 
   String? get currentUid => _firebaseAuth.currentUser?.uid;
 
-  Future<UserCredential> signInToAccount(String email, String password) {
+  Future<void> signInToAccount(String email, String password) {
     return _firebaseAuth
-        .signInWithEmailAndPassword(
-      email: email,
-      password: password,
-    )
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((value) => null)
         .catchError((error) {
       if (error.code == "user-not-found") {
         debugPrint("No user found for that email");
@@ -31,11 +33,22 @@ class AuthenticationService {
     return _firebaseAuth.signOut();
   }
 
-  Future<UserCredential> createAccount(
-      String email, String password, String username) {
+  Future<void> createAccount(
+      WidgetRef ref, String email, String password, String username) {
     return _firebaseAuth
         .createUserWithEmailAndPassword(email: email, password: password)
-        .catchError((error) {
+        .then(
+      (userCredential) {
+        final firestoreService = ref.read(firestoreServiceProvider);
+        firestoreService.addUser(
+          userCredential.user!.uid,
+          AppUser(
+            username: username,
+            email: email,
+          ),
+        );
+      },
+    ).catchError((error) {
       if (error.code == "weak-password") {
         debugPrint("The password provided is too weak");
       } else if (error.code == "email-already-in-use") {

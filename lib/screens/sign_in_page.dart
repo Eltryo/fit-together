@@ -97,10 +97,7 @@ class _SignInPageState extends ConsumerState<SignInPage>
     }
 
     final authService = ref.read(authenticationServiceProvider);
-    authService
-        .signInToAccount(email, password)
-        .then((value) => null)
-        .catchError(
+    authService.signInToAccount(email, password).catchError(
       (error) {
         updateErrorMessage(error.toString());
       },
