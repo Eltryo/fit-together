@@ -23,11 +23,16 @@ class _ProfilePagePostsState extends ConsumerState<ProfilePagePosts> {
     buildGridView();
   }
 
-  void buildGridView() {
+  void buildGridView() async{
     final firestoreService = ref.read(firestoreServiceProvider);
-    final authService = ref.read(authenticationServiceProvider);
+    final authenticationService = ref.read(authenticationServiceProvider);
+    final storageService = ref.read(storageServiceProvider);
 
-    firestoreService.getUserById(authService.currentUid!).then(
+    //TODO: use functional approach and consider removing firestore instance
+    final imageFiles = await storageService.getAllImageFiles(authenticationService.currentUid!);
+    final mappedImageFiles = await Future.wait(imageFiles);
+
+    firestoreService.getUserById(authenticationService.currentUid!).then(
       (appUser) {
         setState(
           () {
@@ -40,13 +45,12 @@ class _ProfilePagePostsState extends ConsumerState<ProfilePagePosts> {
               mainAxisSpacing: 5,
               children: List<Container>.generate(
                 appUser.appUserStats.pictureCount,
-                //TODO: implement picture count
                 (index) => Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage("assets/images/prison_mike.jpg"),
+                      image: MemoryImage(mappedImageFiles.elementAt(index)!),
                     ),
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                       Radius.circular(2),
                     ),
                   ),
@@ -56,6 +60,7 @@ class _ProfilePagePostsState extends ConsumerState<ProfilePagePosts> {
           },
         );
       },
+      onError: (error) => debugPrint("Error: $error"),
     );
   }
 }

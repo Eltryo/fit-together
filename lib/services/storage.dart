@@ -1,14 +1,17 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fit_together/providers.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class StorageService {
   static final _firebaseStorageRef = FirebaseStorage.instance.ref();
 
-  void addImageFile(File file) {
+  void addImageFile(WidgetRef ref, File file, String uid) {
     _firebaseStorageRef
-        .child("images/$file") //TODO: get file name
+        .child("users/$uid/images/${getFilename(file)}")
         .putFile(file)
         .snapshotEvents
         .listen(
@@ -33,16 +36,20 @@ class StorageService {
             // Handle successful uploads on complete
             // ...
             debugPrint("Upload was successful");
+            final firestoreService = ref.read(firestoreServiceProvider);
+            //TODO: update user stats or removing app user stats
             break;
         }
       },
     );
   }
 
-  void getAllImageFiles() {
-    _firebaseStorageRef
-        .child("images")
-        .listAll()
-        .then((images) => images.items.map((image) => image.getData()));
+  Future<Iterable<Future<Uint8List?>>> getAllImageFiles(String uid) async {
+    final listResult = await _firebaseStorageRef.child("users/$uid/images").listAll();
+    return listResult.items.map((imageRef) => imageRef.getData());
+  }
+
+  String? getFilename(File file) {
+    return file.path.isEmpty ? null : file.path.split("/").last;
   }
 }
