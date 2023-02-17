@@ -74,7 +74,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               onPressed: () {
                 final storageService = ref.read(storageServiceProvider);
                 ImagePicker().pickImage(source: ImageSource.gallery).then(
-                      (image) => storageService.addImageFile(File(image!.path)),
+                      (image) => storageService.addImageFile(
+                        ref,
+                        File(image!.path),
+                        ref.read(authenticationServiceProvider).currentUid!,
+                      ),
                       onError: (error) => debugPrint("Error: $error"),
                     );
               },

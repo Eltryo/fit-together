@@ -28,7 +28,6 @@ class _ProfileStatsState extends ConsumerState<ProfileStats> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        //TODO: add interactivity
         buildButton("Pictures", _pictureCount),
         buildDivider(),
         buildButton("Following", _followingCount),
