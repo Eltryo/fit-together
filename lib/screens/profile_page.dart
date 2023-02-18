@@ -76,12 +76,20 @@ class _ProfilePageState extends State<ProfilePage> {
               final storageService = locator<StorageService>();
               final authenticationService = locator<AuthenticationService>();
               ImagePicker().pickImage(source: ImageSource.gallery).then(
-                    (image) => storageService.addImageFile(
-                      File(image!.path),
-                      authenticationService.currentUid!,
-                    ),
-                    onError: (error) => debugPrint("Error: $error"),
+                (image) {
+                  storageService.addImageFile(
+                    File(image!.path),
+                    authenticationService.currentUid!,
                   );
+                },
+                onError: (error) => debugPrint("Error: $error"),
+              ).then(
+                (value) {
+                  debugPrint("done uploading");
+                  setState(() {});
+                },
+                onError: (error) => debugPrint("Error: $error"),
+              );
             },
             child: const Icon(Icons.add),
           ),

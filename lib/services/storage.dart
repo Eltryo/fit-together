@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -44,10 +45,9 @@ class StorageService {
     );
   }
 
-  Future<Iterable<Future<Uint8List?>>> getAllImageFiles(String uid) async {
-    final listResult =
-        await _firebaseStorageRef.child("users/$uid/images").listAll();
-    return listResult.items.map((imageRef) => imageRef.getData());
+  Future<Iterable<Future<Uint8List?>>> getAllImageFiles(String uid) {
+    return _firebaseStorageRef.child("users/$uid/images").listAll().then(
+        (listResult) => listResult.items.map((imageRef) => imageRef.getData()));
   }
 
   String? getFilename(File file) {
