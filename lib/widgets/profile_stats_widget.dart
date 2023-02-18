@@ -1,17 +1,17 @@
+import 'package:fit_together/service_locator.dart';
+import 'package:fit_together/services/authentication.dart';
+import 'package:fit_together/services/firestore.dart';
 import 'package:fit_together/widgets/shimmer_loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../providers.dart';
-
-class ProfileStats extends ConsumerStatefulWidget {
+class ProfileStats extends StatefulWidget {
   const ProfileStats({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ProfileStats> createState() => _ProfileStatsState();
+  State<ProfileStats> createState() => _ProfileStatsState();
 }
 
-class _ProfileStatsState extends ConsumerState<ProfileStats> {
+class _ProfileStatsState extends State<ProfileStats> {
   int? _pictureCount;
   int? _followingCount;
   int? _followerCount;
@@ -80,8 +80,8 @@ class _ProfileStatsState extends ConsumerState<ProfileStats> {
   }
 
   void fetchAppUserStats() {
-    final authService = ref.read(authenticationServiceProvider);
-    final firestoreService = ref.read(firestoreServiceProvider);
+    final authService = locator<AuthenticationService>();
+    final firestoreService = locator<FirestoreService>();
     if (authService.currentUid != null) {
       firestoreService.getUserById(authService.currentUid!).then((appUser) {
         setState(

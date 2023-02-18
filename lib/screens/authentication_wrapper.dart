@@ -30,7 +30,7 @@ class _AuthenticationWrapperState extends State<AuthenticationWrapper> {
     if (firstTime != null && !firstTime) {
       setState(
         () {
-          _currentWidget = const RegistrationPage();
+          _currentWidget = const SignInPage();
         },
       );
     } else {

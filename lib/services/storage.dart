@@ -2,14 +2,14 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:fit_together/providers.dart';
+import 'package:fit_together/service_locator.dart';
+import 'package:fit_together/services/firestore.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class StorageService {
   static final _firebaseStorageRef = FirebaseStorage.instance.ref();
 
-  void addImageFile(WidgetRef ref, File file, String uid) {
+  void addImageFile(File file, String uid) {
     _firebaseStorageRef
         .child("users/$uid/images/${getFilename(file)}")
         .putFile(file)
@@ -36,7 +36,7 @@ class StorageService {
             // Handle successful uploads on complete
             // ...
             debugPrint("Upload was successful");
-            final firestoreService = ref.read(firestoreServiceProvider);
+            final firestoreService = locator<FirestoreService>();
             //TODO: update user stats or removing app user stats
             break;
         }
@@ -45,7 +45,8 @@ class StorageService {
   }
 
   Future<Iterable<Future<Uint8List?>>> getAllImageFiles(String uid) async {
-    final listResult = await _firebaseStorageRef.child("users/$uid/images").listAll();
+    final listResult =
+        await _firebaseStorageRef.child("users/$uid/images").listAll();
     return listResult.items.map((imageRef) => imageRef.getData());
   }
 

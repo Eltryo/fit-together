@@ -1,9 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_together/models/app_user.dart';
+import 'package:fit_together/service_locator.dart';
+import 'package:fit_together/services/firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-import '../providers.dart';
 
 class AuthenticationService {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
@@ -33,13 +32,12 @@ class AuthenticationService {
     return _firebaseAuth.signOut();
   }
 
-  Future<void> createAccount(
-      WidgetRef ref, String email, String password, String username) {
+  Future<void> createAccount(String email, String password, String username) {
     return _firebaseAuth
         .createUserWithEmailAndPassword(email: email, password: password)
         .then(
       (userCredential) {
-        final firestoreService = ref.read(firestoreServiceProvider);
+        final firestoreService = locator<FirestoreService>();
         firestoreService.addUser(
           userCredential.user!.uid,
           AppUser(
