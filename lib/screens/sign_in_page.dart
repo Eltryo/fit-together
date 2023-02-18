@@ -1,21 +1,20 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fit_together/providers.dart';
+import 'package:fit_together/service_locator.dart';
+import 'package:fit_together/services/authentication.dart';
 import 'package:fit_together/widgets/password_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../widgets/email_form_field.dart';
 import '../widgets/rounded_button_widget.dart';
 
-class SignInPage extends ConsumerStatefulWidget {
+class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<SignInPage> createState() => _SignInPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignInPageState extends ConsumerState<SignInPage>
-    with TickerProviderStateMixin {
+class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -96,7 +95,7 @@ class _SignInPageState extends ConsumerState<SignInPage>
       return;
     }
 
-    final authService = ref.read(authenticationServiceProvider);
+    final authService = locator<AuthenticationService>();
     authService.signInToAccount(email, password).catchError(
       (error) {
         updateErrorMessage(error.toString());

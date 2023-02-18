@@ -1,23 +1,25 @@
 import 'dart:io';
 
-import 'package:fit_together/providers.dart';
+import 'package:fit_together/service_locator.dart';
+import 'package:fit_together/services/authentication.dart';
+import 'package:fit_together/services/firestore.dart';
+import 'package:fit_together/services/storage.dart';
 import 'package:fit_together/widgets/profile_page_posts.dart';
 import 'package:fit_together/widgets/shimmer_loading.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../widgets/profile_image_widget.dart';
 import '../widgets/profile_stats_widget.dart';
 
-class ProfilePage extends ConsumerStatefulWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<ProfilePage> createState() => _ProfilePageState();
+  State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends ConsumerState<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage> {
   String _username = "";
   String _email = "";
   String? _imageUrl;
@@ -46,7 +48,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               const SizedBox(height: 10),
               buildText(
                 Text(
-                  _username,
+                  _username, //TODO: use null check
                   style: const TextStyle(
                       fontSize: 18, fontWeight: FontWeight.bold),
                 ),
@@ -54,7 +56,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               const SizedBox(height: 3),
               buildText(
                 Text(
-                  _email,
+                  _email, //TODO: use null check
                   style: const TextStyle(
                       fontStyle: FontStyle.italic, color: Colors.grey),
                 ),
@@ -69,23 +71,21 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         Container(
           alignment: Alignment.bottomRight,
           margin: const EdgeInsets.all(kFloatingActionButtonMargin),
-          child: Consumer(
-            builder: (_, ref, __) => FloatingActionButton(
-              onPressed: () {
-                final storageService = ref.read(storageServiceProvider);
-                ImagePicker().pickImage(source: ImageSource.gallery).then(
-                      (image) => storageService.addImageFile(
-                        ref,
-                        File(image!.path),
-                        ref.read(authenticationServiceProvider).currentUid!,
-                      ),
-                      onError: (error) => debugPrint("Error: $error"),
-                    );
-              },
-              child: const Icon(Icons.add),
-            ),
+          child: FloatingActionButton(
+            onPressed: () {
+              final storageService = locator<StorageService>();
+              final authenticationService = locator<AuthenticationService>();
+              ImagePicker().pickImage(source: ImageSource.gallery).then(
+                    (image) => storageService.addImageFile(
+                      File(image!.path),
+                      authenticationService.currentUid!,
+                    ),
+                    onError: (error) => debugPrint("Error: $error"),
+                  );
+            },
+            child: const Icon(Icons.add),
           ),
-        )
+        ),
       ],
     );
   }
@@ -107,8 +107,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   }
 
   void fetchAppUserData() {
-    final authService = ref.read(authenticationServiceProvider);
-    final firestoreService = ref.read(firestoreServiceProvider);
+    final authService = locator<AuthenticationService>();
+    final firestoreService = locator<FirestoreService>();
     if (authService.currentUid != null) {
       firestoreService.getUserById(authService.currentUid!).then(
         (appUser) {

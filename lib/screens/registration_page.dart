@@ -1,21 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fit_together/providers.dart';
+import 'package:fit_together/service_locator.dart';
+import 'package:fit_together/services/authentication.dart';
 import 'package:fit_together/widgets/password_form_field.dart';
 import 'package:fit_together/widgets/username_form_field.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../widgets/email_form_field.dart';
 import '../widgets/rounded_button_widget.dart';
 
-class RegistrationPage extends ConsumerStatefulWidget {
+class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<RegistrationPage> createState() => _RegistrationPageState();
+  State<RegistrationPage> createState() => _RegistrationPageState();
 }
 
-class _RegistrationPageState extends ConsumerState<RegistrationPage>
+class _RegistrationPageState extends State<RegistrationPage>
     with TickerProviderStateMixin {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -113,10 +113,9 @@ class _RegistrationPageState extends ConsumerState<RegistrationPage>
       return;
     }
 
-    final authService = ref.read(authenticationServiceProvider);
+    final authService = locator<AuthenticationService>();
     authService
         .createAccount(
-      ref,
       emailController.text,
       passwordController.text,
       usernameController.text,

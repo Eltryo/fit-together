@@ -5,7 +5,8 @@ import '../models/app_user.dart';
 
 //TODO: test api, implement delete and update logic
 class FirestoreService {
-  static final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  static final FirebaseFirestore _firebaseFirestore =
+      FirebaseFirestore.instance;
 
   Future<void> addUser(String uid, AppUser appUser) {
     return _firebaseFirestore
