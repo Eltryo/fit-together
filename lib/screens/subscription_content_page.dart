@@ -11,7 +11,7 @@ class SubscriptionContentPage extends StatefulWidget {
 class _SubscriptionContentPageState extends State<SubscriptionContentPage> {
   @override
   Widget build(BuildContext context) {
-    //TODO: change hardcode value
+    //TODO: change hardcode values
     return GridView.count(
       padding: const EdgeInsets.all(10),
       crossAxisCount: 2,
@@ -26,7 +26,7 @@ class _SubscriptionContentPageState extends State<SubscriptionContentPage> {
               image: AssetImage("assets/images/prison_mike.jpg"),
             ),
             borderRadius: BorderRadius.all(
-              Radius.circular(2),
+              Radius.circular(3),
             ),
           ),
         ),

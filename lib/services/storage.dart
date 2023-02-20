@@ -4,13 +4,16 @@ import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:fit_together/service_locator.dart';
+import 'package:fit_together/services/authentication.dart';
 import 'package:fit_together/services/firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 class StorageService {
   static final _firebaseStorageRef = FirebaseStorage.instance.ref();
 
-  void addImageFile(File file, String uid) {
+  void addImageFile(File file) {
+    final uid = locator<AuthenticationService>().currentUid;
+
     _firebaseStorageRef
         .child("users/$uid/images/${getFilename(file)}")
         .putFile(file)

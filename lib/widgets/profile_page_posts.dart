@@ -28,7 +28,6 @@ class _ProfilePagePostsState extends State<ProfilePagePosts> {
     final authenticationService = locator<AuthenticationService>();
     final storageService = locator<StorageService>();
 
-    //TODO: use functional approach and consider removing firestore instance
     storageService.getAllImageFiles(authenticationService.currentUid!).then(
       (imageFiles) {
         Future.wait(imageFiles).then(
@@ -49,9 +48,10 @@ class _ProfilePagePostsState extends State<ProfilePagePosts> {
                         image: DecorationImage(
                           image:
                               MemoryImage(mappedImageFiles.elementAt(index)!),
+                          fit: BoxFit.cover,
                         ),
                         borderRadius: const BorderRadius.all(
-                          Radius.circular(2),
+                          Radius.circular(3),
                         ),
                       ),
                     ),

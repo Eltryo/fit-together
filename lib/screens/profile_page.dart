@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
+import 'package:fit_together/screens/take_picture_screen.dart';
 import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/services/authentication.dart';
 import 'package:fit_together/services/firestore.dart';
@@ -72,29 +74,64 @@ class _ProfilePageState extends State<ProfilePage> {
           alignment: Alignment.bottomRight,
           margin: const EdgeInsets.all(kFloatingActionButtonMargin),
           child: FloatingActionButton(
-            onPressed: () {
-              final storageService = locator<StorageService>();
-              final authenticationService = locator<AuthenticationService>();
-              ImagePicker().pickImage(source: ImageSource.gallery).then(
-                (image) {
-                  storageService.addImageFile(
-                    File(image!.path),
-                    authenticationService.currentUid!,
-                  );
-                },
-                onError: (error) => debugPrint("Error: $error"),
-              ).then(
-                (value) {
-                  debugPrint("done uploading");
-                  setState(() {});
-                },
-                onError: (error) => debugPrint("Error: $error"),
-              );
-            },
+            onPressed: () => showDialog(
+              context: context,
+              builder: (context) => Dialog(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        _pickImageFromGallery();
+                        Navigator.pop(context);
+                      },
+                      child: const Text("From Gallery"),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        availableCameras().then(
+                          (cameras) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    TakePictureScreen(camera: cameras.first),
+                              ),
+                            );
+                          },
+                          onError: (error) => debugPrint("Error: $error"),
+                        );
+                      },
+                      child: const Text("From Camera"),
+                    )
+                  ],
+                ),
+              ),
+            ),
             child: const Icon(Icons.add),
           ),
         ),
       ],
+    );
+  }
+
+  void _pickImageFromGallery() {
+    final storageService = locator<StorageService>();
+    ImagePicker().pickImage(source: ImageSource.gallery).then(
+      (image) {
+        storageService.addImageFile(
+          File(image!.path),
+        );
+      },
+      onError: (error) => debugPrint("Error: $error"),
+    ).then(
+      //TODO: reload page after image was added
+      (value) {
+        debugPrint("done uploading");
+        setState(() {});
+      },
+      onError: (error) => debugPrint("Error: $error"),
     );
   }
 
