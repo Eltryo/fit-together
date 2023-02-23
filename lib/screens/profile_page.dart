@@ -22,6 +22,8 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  final authService = locator<AuthenticationService>();
+  final firestoreService = locator<FirestoreService>();
   String _username = "";
   String _email = "";
   String? _imageUrl;
@@ -116,6 +118,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  //TODO: reload page after image was added
   void _pickImageFromGallery() {
     final storageService = locator<StorageService>();
     ImagePicker().pickImage(source: ImageSource.gallery).then(
@@ -123,13 +126,6 @@ class _ProfilePageState extends State<ProfilePage> {
         storageService.addImageFile(
           File(image!.path),
         );
-      },
-      onError: (error) => debugPrint("Error: $error"),
-    ).then(
-      //TODO: reload page after image was added
-      (value) {
-        debugPrint("done uploading");
-        setState(() {});
       },
       onError: (error) => debugPrint("Error: $error"),
     );
@@ -152,8 +148,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void fetchAppUserData() {
-    final authService = locator<AuthenticationService>();
-    final firestoreService = locator<FirestoreService>();
     if (authService.currentUid != null) {
       firestoreService.getUserById(authService.currentUid!).then(
         (appUser) {
