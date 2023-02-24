@@ -17,7 +17,7 @@ class RoundedButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: color ?? Theme.of(context).primaryColor,
+        backgroundColor: color,
         shape: const StadiumBorder(),
       ),
       child: Text(

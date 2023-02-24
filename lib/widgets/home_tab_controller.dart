@@ -21,7 +21,6 @@ class HomeTabControllerState extends State<HomeTabController> {
       child: Scaffold(
         appBar: AppBar(
           bottom: TabBar(
-            indicatorColor: Theme.of(context).primaryColor,
             tabs: <Tab>[
               Tab(icon: Image.asset('assets/icons/home.png', height: 20)),
               Tab(icon: Image.asset('assets/icons/crown.png', height: 20)),

@@ -1,6 +1,7 @@
 import 'package:fit_together/screens/edit_profile_page.dart';
 import 'package:fit_together/widgets/route_builder.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ProfileImage extends StatelessWidget {
   final String imagePath;
@@ -17,57 +18,39 @@ class ProfileImage extends StatelessWidget {
     return Center(
       child: Stack(
         children: [
-          buildImage(),
+          CircleAvatar(
+            backgroundColor: Colors.transparent,
+            backgroundImage: AssetImage(imagePath),
+            radius: 50,
+          ),
           Positioned(
             bottom: 0,
             right: 0,
-            child: buildEditIcon(context, Theme.of(context).primaryColor),
+            child: InkWell(
+              onTap: () => Navigator.push(
+                context,
+                RouteBuilder(widget: const EditProfilePage()).buildRoute(),
+              ),
+              child: ClipOval(
+                child: Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(3),
+                  child: ClipOval(
+                    child: Container(
+                      color: Colors.teal,
+                      padding: const EdgeInsets.all(8),
+                      child: const Icon(
+                        Icons.edit,
+                        size: 15,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           )
         ],
-      ),
-    );
-  }
-
-  Widget buildImage() {
-    return CircleAvatar(
-      backgroundColor: Colors.transparent,
-      backgroundImage: AssetImage(imagePath),
-      radius: 50,
-    );
-  }
-
-  Widget buildEditIcon(BuildContext context, Color color) {
-    return InkWell(
-      onTap: () => Navigator.push(
-        context,
-        RouteBuilder(widget: const EditProfilePage()).buildRoute(),
-      ),
-      child: buildCircle(
-        color: Colors.white,
-        paddingOffset: 3,
-        child: buildCircle(
-          color: color,
-          paddingOffset: 8,
-          child: const Icon(
-            Icons.edit,
-            size: 15,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buildCircle({
-    required Color color,
-    required double paddingOffset,
-    required Widget child,
-  }) {
-    return ClipOval(
-      child: Container(
-        color: color,
-        padding: EdgeInsets.all(paddingOffset),
-        child: child,
       ),
     );
   }

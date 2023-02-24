@@ -38,12 +38,12 @@ class LoadingOverlayState extends State<LoadingOverlay> {
   }
 
   Widget buildProgressIndicator() {
-    return Center(
+    return const Center(
       child: Column(
         children: [
-          const Spacer(flex: 80),
-          CircularProgressIndicator(color: Theme.of(context).primaryColor),
-          const Spacer(flex: 20)
+          Spacer(flex: 80),
+          CircularProgressIndicator(),
+          Spacer(flex: 20)
         ],
       ),
     );

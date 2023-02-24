@@ -22,7 +22,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
           //TODO: implement features
           children: [
             RoundedButton(
-              color: Theme.of(context).primaryColor,
               text: "Log out",
               onPressed: () {
                 authService.signOut();

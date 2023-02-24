@@ -24,6 +24,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           title: "fit-together",
           theme: ThemeData(
+            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.teal),
             appBarTheme: const AppBarTheme(
               titleTextStyle: TextStyle(
                 fontWeight: FontWeight.w500,
@@ -34,13 +35,10 @@ class MyApp extends StatelessWidget {
               backgroundColor: Colors.transparent,
               elevation: 0,
             ),
+            indicatorColor: Colors.teal,
             progressIndicatorTheme:
                 const ProgressIndicatorThemeData(color: Colors.teal),
-            primaryColor: Colors.teal,
             dividerColor: Colors.black,
-            scaffoldBackgroundColor: Colors.white,
-            floatingActionButtonTheme: const FloatingActionButtonThemeData(
-                backgroundColor: Colors.teal),
           ),
           home: const EntryWrapper(),
           debugShowCheckedModeBanner: false,
