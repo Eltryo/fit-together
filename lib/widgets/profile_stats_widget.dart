@@ -15,7 +15,8 @@ class _ProfileStatsState extends State<ProfileStats> {
   int? _pictureCount;
   int? _followingCount;
   int? _followerCount;
-  bool _isLoading = true;
+
+  // bool _isLoading = true;
 
   @override
   void initState() {
@@ -43,12 +44,9 @@ class _ProfileStatsState extends State<ProfileStats> {
       onPressed: () {},
       child: Column(
         children: [
-          buildText(
-            Text(
-              value == null ? "" : value.toString(),
-              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-          ),
+          // buildText(
+          Text(value == null ? "" : value.toString()),
+          // ),
           const SizedBox(height: 2),
           Text(text)
         ],
@@ -56,21 +54,22 @@ class _ProfileStatsState extends State<ProfileStats> {
     );
   }
 
-  Widget buildText(Text text) {
-    return ShimmerLoading(
-      isLoading: _isLoading,
-      child: _isLoading
-          ? Container(
-              width: 15,
-              height: 15, //TODO change hardcoded height
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            )
-          : text,
-    );
-  }
+  //
+  // Widget buildText(Text text) {
+  //   return ShimmerLoading(
+  //     isLoading: _isLoading,
+  //     child: _isLoading
+  //         ? Container(
+  //             width: 15,
+  //             height: 15, //TODO change hardcoded height
+  //             decoration: BoxDecoration(
+  //               color: Colors.black,
+  //               borderRadius: BorderRadius.circular(2),
+  //             ),
+  //           )
+  //         : text,
+  //   );
+  // }
 
   Widget buildDivider() {
     return const SizedBox(
@@ -89,7 +88,7 @@ class _ProfileStatsState extends State<ProfileStats> {
             _pictureCount = appUser.appUserStats.pictureCount;
             _followingCount = appUser.appUserStats.followingCount;
             _followerCount = appUser.appUserStats.followerCount;
-            _isLoading = false;
+            // _isLoading = false;
           },
         );
       }, onError: (error) => debugPrint("Error: $error"));

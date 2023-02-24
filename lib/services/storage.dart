@@ -13,9 +13,8 @@ class StorageService {
 
   void addImageFile(File file) {
     final uid = locator<AuthenticationService>().currentUid;
-
     _firebaseStorageRef
-        .child("users/$uid/images/${getFilename(file)}")
+        .child("users/$uid/images/${_getFilename(file.path)}")
         .putFile(file)
         .snapshotEvents
         .listen(
@@ -48,12 +47,30 @@ class StorageService {
     );
   }
 
-  Future<Iterable<Future<Uint8List?>>> getAllImageFiles(String uid) {
+  Future<Iterable<Future<Uint8List?>>> getAllImages(String uid) {
+    final uid = locator<AuthenticationService>().currentUid;
     return _firebaseStorageRef.child("users/$uid/images").listAll().then(
-        (listResult) => listResult.items.map((imageRef) => imageRef.getData()));
+          (listResult) => listResult.items.map(
+            (imageRef) => imageRef.getData(),
+          ),
+        );
   }
 
-  String? getFilename(File file) {
-    return file.path.isEmpty ? null : file.path.split("/").last;
+  Future<bool> imageExists(String path) {
+    final uid = locator<AuthenticationService>().currentUid;
+    return _firebaseStorageRef
+        .child("users/$uid/images/${_getFilename(path)}")
+        .getDownloadURL()
+        .then(
+      (value) => true,
+      onError: (error) {
+        debugPrint("Error: $error");
+        return false;
+      },
+    );
+  }
+
+  String? _getFilename(String path) {
+    return path.isEmpty ? null : path.split("/").last;
   }
 }

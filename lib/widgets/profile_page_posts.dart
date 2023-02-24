@@ -28,7 +28,7 @@ class _ProfilePagePostsState extends State<ProfilePagePosts> {
     final authenticationService = locator<AuthenticationService>();
     final storageService = locator<StorageService>();
 
-    storageService.getAllImageFiles(authenticationService.currentUid!).then(
+    storageService.getAllImages(authenticationService.currentUid!).then(
       (imageFiles) {
         Future.wait(imageFiles).then(
           (mappedImageFiles) {
