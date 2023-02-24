@@ -24,6 +24,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final authService = locator<AuthenticationService>();
   final firestoreService = locator<FirestoreService>();
+
   String? _username;
   String? _email;
   String? _imageUrl;
@@ -40,37 +41,48 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 20,
-              ),
-              ProfileImage(
-                imagePath: _imageUrl ?? "assets/images/default_user_image.png",
-                onClicked: () {},
-              ),
-              const SizedBox(height: 10),
-              // buildText(
-              Text(
-                _username ?? "", //TODO: use null check
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-              // ),
-              const SizedBox(height: 3),
-              // buildText(
-              Text(
-                _email ?? "", //TODO: use null check
-                style: const TextStyle(
-                    fontStyle: FontStyle.italic, color: Colors.grey),
-              ),
-              // ),
-              const SizedBox(height: 20),
-              const ProfileStats(),
-              const SizedBox(height: 20),
-              const ProfilePagePosts()
-            ],
+        RefreshIndicator(
+          onRefresh: () {
+            return Future.delayed(
+              const Duration(seconds: 1),
+              () {
+                setState(() {});
+              },
+            );
+          },
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                ProfileImage(
+                  imagePath:
+                      _imageUrl ?? "assets/images/default_user_image.png",
+                  onClicked: () {},
+                ),
+                const SizedBox(height: 10),
+                // buildText(
+                Text(
+                  _username ?? "",
+                  style: const TextStyle(
+                      fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+                // ),
+                const SizedBox(height: 3),
+                // buildText(
+                Text(
+                  _email ?? "",
+                  style: const TextStyle(
+                      fontStyle: FontStyle.italic, color: Colors.grey),
+                ),
+                // ),
+                const SizedBox(height: 20),
+                const ProfileStats(),
+                const SizedBox(height: 20),
+                const ProfilePagePosts()
+              ],
+            ),
           ),
         ),
         Container(
