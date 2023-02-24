@@ -24,10 +24,11 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   final authService = locator<AuthenticationService>();
   final firestoreService = locator<FirestoreService>();
-  String _username = "";
-  String _email = "";
+  String? _username;
+  String? _email;
   String? _imageUrl;
-  bool _isLoading = true;
+
+  // bool _isLoading = true;
 
   @override
   void initState() {
@@ -50,21 +51,21 @@ class _ProfilePageState extends State<ProfilePage> {
                 onClicked: () {},
               ),
               const SizedBox(height: 10),
-              buildText(
-                Text(
-                  _username, //TODO: use null check
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
+              // buildText(
+              Text(
+                _username ?? "", //TODO: use null check
+                style:
+                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
+              // ),
               const SizedBox(height: 3),
-              buildText(
-                Text(
-                  _email, //TODO: use null check
-                  style: const TextStyle(
-                      fontStyle: FontStyle.italic, color: Colors.grey),
-                ),
+              // buildText(
+              Text(
+                _email ?? "", //TODO: use null check
+                style: const TextStyle(
+                    fontStyle: FontStyle.italic, color: Colors.grey),
               ),
+              // ),
               const SizedBox(height: 20),
               const ProfileStats(),
               const SizedBox(height: 20),
@@ -131,21 +132,22 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget buildText(Text text) {
-    return ShimmerLoading(
-      isLoading: _isLoading,
-      child: _isLoading
-          ? Container(
-              width: MediaQuery.of(context).size.width / 2,
-              height: 15, //TODO change hardcoded height
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(2),
-              ),
-            )
-          : text,
-    );
-  }
+  //
+  // Widget buildText(Text text) {
+  //   return ShimmerLoading(
+  //     isLoading: _isLoading,
+  //     child: _isLoading
+  //         ? Container(
+  //             width: MediaQuery.of(context).size.width / 2,
+  //             height: 15, //TODO change hardcoded height
+  //             decoration: BoxDecoration(
+  //               color: Colors.black,
+  //               borderRadius: BorderRadius.circular(2),
+  //             ),
+  //           )
+  //         : text,
+  //   );
+  // }
 
   void fetchAppUserData() {
     if (authService.currentUid != null) {
@@ -156,7 +158,7 @@ class _ProfilePageState extends State<ProfilePage> {
               _username = appUser.username;
               _email = appUser.email;
               _imageUrl = appUser.imageUrl;
-              _isLoading = false;
+              // _isLoading = false;
             },
           );
         },
