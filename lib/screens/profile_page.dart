@@ -7,7 +7,6 @@ import 'package:fit_together/services/authentication.dart';
 import 'package:fit_together/services/firestore.dart';
 import 'package:fit_together/services/storage.dart';
 import 'package:fit_together/widgets/profile_page_posts.dart';
-import 'package:fit_together/widgets/shimmer_loading.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -105,18 +104,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     TextButton(
                       onPressed: () {
-                        availableCameras().then(
-                          (cameras) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    TakePictureScreen(camera: cameras.first),
-                              ),
-                            );
-                          },
-                          onError: (error) => debugPrint("Error: $error"),
-                        );
+                        _pickImageFromCamera();
                       },
                       child: const Text("From Camera"),
                     )
@@ -128,6 +116,20 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ],
+    );
+  }
+
+  void _pickImageFromCamera() {
+    availableCameras().then(
+      (cameras) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => TakePictureScreen(camera: cameras.first),
+          ),
+        );
+      },
+      onError: (error) => debugPrint("Error: $error"),
     );
   }
 

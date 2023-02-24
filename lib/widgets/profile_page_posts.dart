@@ -11,6 +11,9 @@ class ProfilePagePosts extends StatefulWidget {
 }
 
 class _ProfilePagePostsState extends State<ProfilePagePosts> {
+  final authenticationService = locator<AuthenticationService>();
+  final storageService = locator<StorageService>();
+
   Widget? _currentWidget;
 
   @override
@@ -25,13 +28,10 @@ class _ProfilePagePostsState extends State<ProfilePagePosts> {
   }
 
   void buildGridView() {
-    final authenticationService = locator<AuthenticationService>();
-    final storageService = locator<StorageService>();
-
     storageService.getAllImages(authenticationService.currentUid!).then(
       (imageFiles) {
         Future.wait(imageFiles).then(
-          (mappedImageFiles) {
+          (images) {
             setState(
               () {
                 _currentWidget = GridView.count(
@@ -42,12 +42,11 @@ class _ProfilePagePostsState extends State<ProfilePagePosts> {
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
                   children: List<Container>.generate(
-                    mappedImageFiles.length,
+                    images.length,
                     (index) => Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image:
-                              MemoryImage(mappedImageFiles.elementAt(index)!),
+                          image: MemoryImage(images.elementAt(index)!),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: const BorderRadius.all(
