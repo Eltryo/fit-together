@@ -38,6 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: use future builder
     return Stack(
       children: [
         RefreshIndicator(
@@ -119,6 +120,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  //TODO: reload page after image was added
   void _pickImageFromCamera() {
     availableCameras().then(
       (cameras) {
@@ -133,7 +135,6 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  //TODO: reload page after image was added
   void _pickImageFromGallery() {
     final storageService = locator<StorageService>();
     ImagePicker().pickImage(source: ImageSource.gallery).then(

@@ -1,3 +1,4 @@
+import 'package:fit_together/screens/posts_list_view.dart';
 import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/services/authentication.dart';
 import 'package:fit_together/services/storage.dart';
@@ -18,6 +19,7 @@ class _ProfilePagePostsState extends State<ProfilePagePosts> {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: use future builder
     return _currentWidget ?? const SizedBox.shrink();
   }
 
@@ -29,9 +31,9 @@ class _ProfilePagePostsState extends State<ProfilePagePosts> {
 
   void buildGridView() {
     storageService.getAllImages(authenticationService.currentUid!).then(
-      (imageFiles) {
-        Future.wait(imageFiles).then(
-          (images) {
+      (futureImagesData) {
+        Future.wait(futureImagesData).then(
+          (imagesData) {
             setState(
               () {
                 _currentWidget = GridView.count(

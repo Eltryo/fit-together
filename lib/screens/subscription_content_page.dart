@@ -17,7 +17,7 @@ class _SubscriptionContentPageState extends State<SubscriptionContentPage> {
       crossAxisCount: 2,
       crossAxisSpacing: 5,
       mainAxisSpacing: 5,
-      children: List<Container>.filled(
+      children: List.filled(
         10,
         growable: true,
         Container(
