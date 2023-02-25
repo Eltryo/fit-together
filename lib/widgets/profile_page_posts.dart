@@ -41,19 +41,32 @@ class _ProfilePagePostsState extends State<ProfilePagePosts> {
                   crossAxisCount: 3,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
-                  children: List<Container>.generate(
-                    images.length,
-                    (index) => Container(
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: MemoryImage(images.elementAt(index)!),
-                          fit: BoxFit.cover,
+                  children: List.generate(
+                    imagesData.length,
+                    (index) {
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  PostsListView(imagesData: imagesData),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: MemoryImage(imagesData.elementAt(index)!),
+                              fit: BoxFit.cover,
+                            ),
+                            borderRadius: const BorderRadius.all(
+                              Radius.circular(3),
+                            ),
+                          ),
                         ),
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(3),
-                        ),
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 );
               },
