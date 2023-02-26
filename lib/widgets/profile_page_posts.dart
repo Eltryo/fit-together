@@ -1,4 +1,4 @@
-import 'package:fit_together/screens/posts_list_view.dart';
+import 'package:fit_together/widgets/image_dialog.dart';
 import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/services/authentication.dart';
 import 'package:fit_together/services/storage.dart';
@@ -33,7 +33,7 @@ class _ProfilePagePostsState extends State<ProfilePagePosts> {
     storageService.getAllImages(authenticationService.currentUid!).then(
       (futureImagesData) {
         Future.wait(futureImagesData).then(
-          (imagesData) {
+          (imageDataList) {
             setState(
               () {
                 _currentWidget = GridView.count(
@@ -44,22 +44,20 @@ class _ProfilePagePostsState extends State<ProfilePagePosts> {
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
                   children: List.generate(
-                    imagesData.length,
+                    imageDataList.length,
                     (index) {
+                      final imageData = imageDataList.elementAt(index)!;
                       return InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  PostsListView(imagesData: imagesData),
-                            ),
+                          showDialog(
+                            context: context,
+                            builder: (_) => ImageDialog(imageData: imageData),
                           );
                         },
                         child: Container(
                           decoration: BoxDecoration(
                             image: DecorationImage(
-                              image: MemoryImage(imagesData.elementAt(index)!),
+                              image: MemoryImage(imageData),
                               fit: BoxFit.cover,
                             ),
                             borderRadius: const BorderRadius.all(
