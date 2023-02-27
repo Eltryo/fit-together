@@ -1,4 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fit_together/models/picture.dart';
+import 'package:fit_together/service_locator.dart';
+import 'package:fit_together/services/authentication.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../models/app_user.dart';
@@ -46,4 +49,18 @@ class FirestoreService {
   }
 
   //TODO: add picture collection
+  Future<void> addImage(Picture picture) {
+    return _firebaseFirestore.collection("pictures").add(picture.toJson()).then(
+      (picture) {
+        final uid = locator<AuthenticationService>().currentUid!;
+        //TODO: update picture count
+        _firebaseFirestore.collection("users").doc(uid).update(
+          {
+            "appUserStats.pictureCount": FieldValue.increment(1),
+          },
+        );
+      },
+      onError: (error) => debugPrint("Error: $error"),
+    );
+  }
 }

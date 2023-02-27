@@ -23,8 +23,6 @@ class _ImageDialogState extends State<ImageDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final appUserFuture =
-        firestoreService.getUserById(authenticationService.currentUid!);
     return Dialog(
       child: Container(
         width: 400,
@@ -46,6 +44,7 @@ class _ImageDialogState extends State<ImageDialog> {
                 children: [
                   IconButton(
                     onPressed: () {
+                      //TODO: Add like functionality
                       _toggle();
                     },
                     icon: Icon(

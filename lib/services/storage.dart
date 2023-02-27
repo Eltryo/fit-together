@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:fit_together/models/picture.dart';
 import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/services/authentication.dart';
 import 'package:fit_together/services/firestore.dart';
@@ -12,7 +13,7 @@ class StorageService {
   static final _firebaseStorageRef = FirebaseStorage.instance.ref();
 
   void addImageFile(File file) {
-    final uid = locator<AuthenticationService>().currentUid;
+    final uid = locator<AuthenticationService>().currentUid!;
     _firebaseStorageRef
         .child("users/$uid/images/${_getFilename(file.path)}")
         .putFile(file)
@@ -50,13 +51,18 @@ class StorageService {
     );
   }
 
-  Future<Iterable<Future<Uint8List?>>> getAllImages(String uid) {
+  Future<Iterable<Uint8List?>> getAllImages(String uid) {
     final uid = locator<AuthenticationService>().currentUid;
     return _firebaseStorageRef.child("users/$uid/images").listAll().then(
-          (listResult) => listResult.items.map(
+      (listResult) {
+        final imageDataList = Future.wait(
+          listResult.items.map(
             (imageRef) => imageRef.getData(),
           ),
         );
+        return imageDataList;
+      },
+    );
   }
 
   Future<bool> imageExists(String path) {

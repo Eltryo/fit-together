@@ -24,23 +24,11 @@ class _ProfilePageState extends State<ProfilePage> {
   final authService = locator<AuthenticationService>();
   final firestoreService = locator<FirestoreService>();
 
-  String? _username;
-  String? _email;
-  String? _imageUrl;
-
-  // bool _isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-    fetchAppUserData();
-  }
-
   @override
   Widget build(BuildContext context) {
-    //TODO: use future builder
     return Stack(
       children: [
+        //TODO: fix refresh
         RefreshIndicator(
           onRefresh: () {
             return Future.delayed(
@@ -50,41 +38,47 @@ class _ProfilePageState extends State<ProfilePage> {
               },
             );
           },
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                ProfileImage(
-                  imagePath:
-                      _imageUrl ?? "assets/images/default_user_image.png",
-                  onClicked: () {},
-                ),
-                const SizedBox(height: 10),
-                // buildText(
-                Text(
-                  _username ?? "",
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                // ),
-                const SizedBox(height: 3),
-                // buildText(
-                Text(
-                  _email ?? "",
-                  style: const TextStyle(
-                      fontStyle: FontStyle.italic, color: Colors.grey),
-                ),
-                // ),
-                const SizedBox(height: 20),
-                const ProfileStats(),
-                const SizedBox(height: 20),
-                const ProfilePagePosts()
-              ],
-            ),
+          child: FutureBuilder(
+            future: firestoreService.getUserById(authService.currentUid!),
+            builder: (context, snapshot) {
+              //TODO: handle error
+              if (snapshot.hasData) {
+                final appUser = snapshot.data!;
+                return SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      ProfileImage(
+                        imagePath: appUser.imageUrl ??
+                            "assets/images/default_user_image.png",
+                        onClicked: () {},
+                      ),
+                      const SizedBox(height: 10),
+                      // buildText(
+                      Text(
+                        appUser.username,
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                      const SizedBox(height: 3),
+                      Text(
+                        appUser.email,
+                        style: const TextStyle(
+                            fontStyle: FontStyle.italic, color: Colors.grey),
+                      ),
+                      const SizedBox(height: 20),
+                      ProfileStats(appUserStats: appUser.appUserStats),
+                      const SizedBox(height: 20),
+                      const ProfilePagePosts()
+                    ],
+                  ),
+                );
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
           ),
         ),
+        //TODO: eventually use scaffold
         Container(
           alignment: Alignment.bottomRight,
           margin: const EdgeInsets.all(kFloatingActionButtonMargin),
@@ -145,40 +139,5 @@ class _ProfilePageState extends State<ProfilePage> {
       },
       onError: (error) => debugPrint("Error: $error"),
     );
-  }
-
-  //
-  // Widget buildText(Text text) {
-  //   return ShimmerLoading(
-  //     isLoading: _isLoading,
-  //     child: _isLoading
-  //         ? Container(
-  //             width: MediaQuery.of(context).size.width / 2,
-  //             height: 15, //TODO change hardcoded height
-  //             decoration: BoxDecoration(
-  //               color: Colors.black,
-  //               borderRadius: BorderRadius.circular(2),
-  //             ),
-  //           )
-  //         : text,
-  //   );
-  // }
-
-  void fetchAppUserData() {
-    if (authService.currentUid != null) {
-      firestoreService.getUserById(authService.currentUid!).then(
-        (appUser) {
-          setState(
-            () {
-              _username = appUser.username;
-              _email = appUser.email;
-              _imageUrl = appUser.imageUrl;
-              // _isLoading = false;
-            },
-          );
-        },
-        onError: (error) => debugPrint("Error: $error"),
-      );
-    }
   }
 }
