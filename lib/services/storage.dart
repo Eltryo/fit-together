@@ -40,6 +40,9 @@ class StorageService {
             // ...
             debugPrint("Upload was successful");
             final firestoreService = locator<FirestoreService>();
+            final picture =
+                Picture(path: taskSnapshot.ref.fullPath, ownerId: uid);
+            firestoreService.addImage(picture);
             //TODO: update picture count on user stats and add picture entry to firestore database
             break;
         }
