@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'app_user_stats.dart';
 
 class AppUser {
+  //TODO: create list of liked posts
   final String username;
   final String email;
   final String? firstName;

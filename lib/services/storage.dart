@@ -40,7 +40,7 @@ class StorageService {
             // ...
             debugPrint("Upload was successful");
             final firestoreService = locator<FirestoreService>();
-            //TODO: update user stats or removing app user stats
+            //TODO: update picture count on user stats and add picture entry to firestore database
             break;
         }
       },

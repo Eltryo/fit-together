@@ -3,8 +3,8 @@ import 'package:flutter/cupertino.dart';
 
 import '../models/app_user.dart';
 
-//TODO: test api, implement delete and update logic
 class FirestoreService {
+  //TODO: test api, implement delete and update logic
   static final FirebaseFirestore _firebaseFirestore =
       FirebaseFirestore.instance;
 
@@ -44,4 +44,6 @@ class FirestoreService {
           onError: (error) => debugPrint("Error: $error"),
         );
   }
+
+  //TODO: add picture collection
 }
