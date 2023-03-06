@@ -17,9 +17,9 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage>
     with TickerProviderStateMixin {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController usernameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final AnimationController _animationController = AnimationController(
     duration: const Duration(milliseconds: 200),
@@ -29,13 +29,13 @@ class _RegistrationPageState extends State<RegistrationPage>
     parent: _animationController,
     curve: Curves.easeIn,
   );
-  String errorMessage = "";
+  String _errorMessage = "";
 
   @override
   void dispose() {
-    emailController.dispose();
-    passwordController.dispose();
-    usernameController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
+    _usernameController.dispose();
     super.dispose();
   }
 
@@ -58,22 +58,22 @@ class _RegistrationPageState extends State<RegistrationPage>
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              EmailFormField(emailController: emailController),
+              EmailFormField(emailController: _emailController),
               const SizedBox(height: 10),
-              PasswordFormField(passwordController: passwordController),
+              PasswordFormField(passwordController: _passwordController),
               const SizedBox(height: 10),
-              UsernameFormField(usernameController: usernameController),
+              UsernameFormField(usernameController: _usernameController),
               const SizedBox(height: 10),
               RoundedButton(
                 text: "Register",
                 onPressed: () => submitSignIn(
-                  emailController.text,
-                  passwordController.text,
-                  usernameController.text,
+                  _emailController.text,
+                  _passwordController.text,
+                  _usernameController.text,
                 ),
               ),
               const SizedBox(height: 10),
-              if (errorMessage.isNotEmpty) buildErrorMessage(errorMessage),
+              if (_errorMessage.isNotEmpty) buildErrorMessage(_errorMessage),
             ],
           ),
         ),
@@ -89,36 +89,32 @@ class _RegistrationPageState extends State<RegistrationPage>
     updateErrorMessage('');
 
     if (email.isEmpty) {
-      updateErrorMessage('E-mail address is required');
-      return;
+      return updateErrorMessage('E-mail address is required');
     }
 
     RegExp emailRegex = RegExp(r'\w+@\w+\.\w+');
     if (!emailRegex.hasMatch(email)) {
-      updateErrorMessage('Invalid E-mail address format');
-      return;
+      return updateErrorMessage('Invalid E-mail address format');
     }
 
     if (password.isEmpty) {
-      updateErrorMessage('Password is required');
-      return;
+      return updateErrorMessage('Password is required');
     }
 
     String pattern =
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(password)) {
-      updateErrorMessage(
+      return updateErrorMessage(
           'Password must be at least 8 characters, include an uppercase letter, number and symbol.');
-      return;
     }
 
     final authService = locator<AuthenticationService>();
     authService
         .createAccount(
-      emailController.text,
-      passwordController.text,
-      usernameController.text,
+      _emailController.text,
+      _passwordController.text,
+      _usernameController.text,
     )
         .catchError(
       (error) {
@@ -132,7 +128,7 @@ class _RegistrationPageState extends State<RegistrationPage>
     debugPrint(errorMessage);
     setState(
       () {
-        this.errorMessage = errorMessage;
+        _errorMessage = errorMessage;
       },
     );
   }

@@ -18,9 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProviderScope(
       child: GestureDetector(
-        onTap: () {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: MaterialApp(
           title: "fit-together",
           theme: ThemeData(

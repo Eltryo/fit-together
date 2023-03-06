@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class UsernameFormField extends StatefulWidget {
+class UsernameFormField extends StatelessWidget {
   final TextEditingController usernameController;
 
   const UsernameFormField({
@@ -9,14 +9,9 @@ class UsernameFormField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<UsernameFormField> createState() => _UsernameFormFieldState();
-}
-
-class _UsernameFormFieldState extends State<UsernameFormField> {
-  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: widget.usernameController,
+      controller: usernameController,
       keyboardType: TextInputType.text,
       decoration: const InputDecoration(
         border: OutlineInputBorder(),

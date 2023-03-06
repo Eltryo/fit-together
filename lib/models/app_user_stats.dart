@@ -23,19 +23,15 @@ class AppUserStats {
     );
   }
 
-  factory AppUserStats.fromJson(Map<String, dynamic> json) {
-    return AppUserStats(
-      pictureCount: json["pictureCount"],
-      followingCount: json["followingCount"],
-      followerCount: json["followerCount"],
-    );
-  }
+  factory AppUserStats.fromJson(Map<String, dynamic> json) => AppUserStats(
+        pictureCount: json["pictureCount"],
+        followingCount: json["followingCount"],
+        followerCount: json["followerCount"],
+      );
 
-  Map<String, dynamic> toJson() {
-    return {
-      "pictureCount": pictureCount,
-      "followingCount": followingCount,
-      "followerCount": followerCount,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        "pictureCount": pictureCount,
+        "followingCount": followingCount,
+        "followerCount": followerCount,
+      };
 }

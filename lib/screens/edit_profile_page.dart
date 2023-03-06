@@ -3,14 +3,9 @@ import 'package:fit_together/services/authentication.dart';
 import 'package:fit_together/widgets/rounded_button_widget.dart';
 import 'package:flutter/material.dart';
 
-class EditProfilePage extends StatefulWidget {
+class EditProfilePage extends StatelessWidget {
   const EditProfilePage({Key? key}) : super(key: key);
 
-  @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
-}
-
-class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     final authService = locator<AuthenticationService>();
@@ -25,9 +20,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               text: "Log out",
               onPressed: () {
                 authService.signOut();
-                if (mounted) {
-                  Navigator.of(context).pop();
-                }
+                Navigator.of(context).pop();
               },
             )
           ],

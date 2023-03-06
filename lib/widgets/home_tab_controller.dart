@@ -5,14 +5,9 @@ import 'package:flutter/services.dart';
 
 import '../screens/premium_page.dart';
 
-class HomeTabController extends StatefulWidget {
+class HomeTabController extends StatelessWidget {
   const HomeTabController({Key? key}) : super(key: key);
 
-  @override
-  State<HomeTabController> createState() => HomeTabControllerState();
-}
-
-class HomeTabControllerState extends State<HomeTabController> {
   @override
   Widget build(BuildContext context) {
     SystemChannels.textInput.invokeMethod("TextInput.hide");

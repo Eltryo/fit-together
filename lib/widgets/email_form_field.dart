@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class EmailFormField extends StatefulWidget {
+class EmailFormField extends StatelessWidget {
   final TextEditingController emailController;
 
   const EmailFormField({
@@ -9,14 +9,9 @@ class EmailFormField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<EmailFormField> createState() => _EmailFormFieldState();
-}
-
-class _EmailFormFieldState extends State<EmailFormField> {
-  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: widget.emailController,
+      controller: emailController,
       keyboardType: TextInputType.emailAddress,
       decoration: const InputDecoration(
         border: OutlineInputBorder(),

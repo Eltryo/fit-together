@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 
-class SubscriptionContentPage extends StatefulWidget {
+class SubscriptionContentPage extends StatelessWidget {
   const SubscriptionContentPage({Key? key}) : super(key: key);
 
-  @override
-  State<SubscriptionContentPage> createState() =>
-      _SubscriptionContentPageState();
-}
-
-class _SubscriptionContentPageState extends State<SubscriptionContentPage> {
   @override
   Widget build(BuildContext context) {
     //TODO: change hardcode values

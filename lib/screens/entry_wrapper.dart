@@ -15,10 +15,9 @@ class EntryWrapper extends ConsumerWidget {
             if (user != null) {
               debugPrint("user is logged in");
               return const HomeTabController();
-            } else {
-              debugPrint("user is logged out");
-              return const AuthenticationWrapper();
             }
+            debugPrint("user is logged out");
+            return const AuthenticationWrapper();
           },
           error: (error, _) => Text("Error: $error"),
           loading: () => const CircularProgressIndicator(),

@@ -21,10 +21,12 @@ class RouteBuilder {
       reverseTransitionDuration: duration,
       pageBuilder: (_, __, ___) => widget,
       transitionsBuilder: (_, animation, __, child) {
-        var tween = Tween(
+        final tween = Tween(
           begin: begin,
           end: end,
-        ).chain(CurveTween(curve: curve));
+        ).chain(
+          CurveTween(curve: curve),
+        );
 
         return SlideTransition(
           position: animation.drive(tween),

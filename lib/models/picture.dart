@@ -20,10 +20,8 @@ class Picture {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "path": path,
-      "ownerId": ownerId,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        "path": path,
+        "ownerId": ownerId,
+      };
 }

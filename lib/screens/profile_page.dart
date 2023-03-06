@@ -37,14 +37,10 @@ class _ProfilePageState extends State<ProfilePage> {
             if (snapshot.hasData) {
               final appUser = snapshot.data!;
               return RefreshIndicator(
-                onRefresh: () {
-                  return Future.delayed(
-                    const Duration(seconds: 1),
-                    () {
-                      setState(() {});
-                    },
-                  );
-                },
+                onRefresh: () => Future.delayed(
+                  const Duration(seconds: 1),
+                  () => setState(() {}),
+                ),
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
@@ -79,8 +75,8 @@ class _ProfilePageState extends State<ProfilePage> {
       ],
     );
   }
-  
-  Widget _buildProfileStats(AppUserStats appUserStats){
+
+  Widget _buildProfileStats(AppUserStats appUserStats) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -92,7 +88,7 @@ class _ProfilePageState extends State<ProfilePage> {
       ],
     );
   }
-  
+
   Widget _buildButton(String text, int value) {
     return MaterialButton(
       //TODO: implement button function
@@ -178,9 +174,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: const Text("From Gallery"),
                 ),
                 TextButton(
-                  onPressed: () {
-                    _pickImageFromCamera();
-                  },
+                  onPressed: () => _pickImageFromCamera(),
                   child: const Text("From Camera"),
                 )
               ],
@@ -195,14 +189,12 @@ class _ProfilePageState extends State<ProfilePage> {
   //TODO: reload page after image was added
   void _pickImageFromCamera() {
     availableCameras().then(
-      (cameras) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => TakePictureScreen(camera: cameras.first),
-          ),
-        );
-      },
+      (cameras) => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => TakePictureScreen(camera: cameras.first),
+        ),
+      ),
       onError: (error) => debugPrint("Error: $error"),
     );
   }
@@ -210,13 +202,9 @@ class _ProfilePageState extends State<ProfilePage> {
   void _pickImageFromGallery() {
     final storageService = locator<StorageService>();
     ImagePicker().pickImage(source: ImageSource.gallery).then(
-      (image) {
-        storageService.addImageFile(
-          File(image!.path),
+          (image) => storageService.addImageFile(File(image!.path)),
+          onError: (error) => debugPrint("Error: $error"),
         );
-      },
-      onError: (error) => debugPrint("Error: $error"),
-    );
   }
 
   //TODO: display images in chronological order
@@ -225,6 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
       future: _storageService.getAllImages(_authenticationService.currentUid!),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
+          //TODO: handle error
           final imageDataList = snapshot.data!;
           return GridView.count(
             physics: const NeverScrollableScrollPhysics(),

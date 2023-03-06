@@ -42,7 +42,6 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             final size = MediaQuery.of(context).size;
-
             return SizedBox(
               width: size.width,
               height: size.height,
@@ -51,34 +50,27 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
                 child: CameraPreview(_cameraController),
               ),
             );
-          } else {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
           }
+          return const Center(child: CircularProgressIndicator());
         },
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.camera),
-        onPressed: () {
-          _initializeControllerFuture.then(
-            (_) {
-              _cameraController.takePicture().then(
-                (imageFile) {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          DisplayPictureScreen(imagePath: imageFile.path),
-                    ),
-                  );
-                },
-                onError: (error) => debugPrint("Error: $error"),
+        onPressed: () => _initializeControllerFuture.then(
+          (_) => _cameraController.takePicture().then(
+            (imageFile) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      DisplayPictureScreen(imagePath: imageFile.path),
+                ),
               );
             },
             onError: (error) => debugPrint("Error: $error"),
-          );
-        },
+          ),
+          onError: (error) => debugPrint("Error: $error"),
+        ),
       ),
     );
   }

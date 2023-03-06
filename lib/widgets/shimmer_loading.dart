@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 
-class ShimmerLoading extends StatefulWidget {
-  const ShimmerLoading({
-    super.key,
-    required this.isLoading,
-    required this.child,
-  });
-
+class ShimmerLoading extends StatelessWidget {
   final bool isLoading;
   final Widget child;
 
-  @override
-  State<ShimmerLoading> createState() => _ShimmerLoadingState();
-}
+  const ShimmerLoading({
+    required this.isLoading,
+    required this.child,
+    super.key,
+  });
 
-class _ShimmerLoadingState extends State<ShimmerLoading> {
   final _shimmerGradient = const LinearGradient(
     colors: [
       Color(0xFFEBEBF4),
@@ -33,16 +28,12 @@ class _ShimmerLoadingState extends State<ShimmerLoading> {
 
   @override
   Widget build(BuildContext context) {
-    if (!widget.isLoading) {
-      return widget.child;
-    }
+    if (!isLoading) return child;
 
     return ShaderMask(
       blendMode: BlendMode.srcATop,
-      shaderCallback: (bounds) {
-        return _shimmerGradient.createShader(bounds);
-      },
-      child: widget.child,
+      shaderCallback: (bounds) => _shimmerGradient.createShader(bounds),
+      child: child,
     );
   }
 }

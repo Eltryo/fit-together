@@ -14,6 +14,7 @@ class DisplayPictureScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //TODO: add edit functionality
     return Scaffold(
       appBar: AppBar(title: const Text("Edit the picture")),
       body: SizedBox(

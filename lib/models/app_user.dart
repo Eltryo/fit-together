@@ -35,14 +35,12 @@ class AppUser {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "username": username,
-      "email": email,
-      "appUserStats": appUserStats.toJson(),
-      if (firstName != null) "firstName": firstName,
-      if (lastName != null) "lastName": lastName,
-      if (imageUrl != null) "imageUrl": imageUrl,
-    };
-  }
+  Map<String, dynamic> toJson() => {
+        "username": username,
+        "email": email,
+        "appUserStats": appUserStats.toJson(),
+        if (firstName != null) "firstName": firstName,
+        if (lastName != null) "lastName": lastName,
+        if (imageUrl != null) "imageUrl": imageUrl,
+      };
 }

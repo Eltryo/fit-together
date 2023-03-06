@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import '../widgets/email_form_field.dart';
 import '../widgets/rounded_button_widget.dart';
 
+//TODO: fix error thrown after sign in
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 
@@ -16,8 +17,8 @@ class SignInPage extends StatefulWidget {
 
 class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
   late final AnimationController _animationController = AnimationController(
     duration: const Duration(milliseconds: 200),
     vsync: this,
@@ -26,13 +27,13 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
     parent: _animationController,
     curve: Curves.easeIn,
   );
-  String errorMessage = "";
+  String _errorMessage = "";
 
   @override
   void dispose() {
     _animationController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
@@ -55,17 +56,17 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 10),
-              EmailFormField(emailController: emailController),
+              EmailFormField(emailController: _emailController),
               const SizedBox(height: 10),
-              PasswordFormField(passwordController: passwordController),
+              PasswordFormField(passwordController: _passwordController),
               const SizedBox(height: 10),
               RoundedButton(
                 text: "Submit",
                 onPressed: () =>
-                    submitSignIn(emailController.text, passwordController.text),
+                    submitSignIn(_emailController.text, _passwordController.text),
               ),
               const SizedBox(height: 10),
-              if (errorMessage.isNotEmpty) buildErrorMessage(errorMessage),
+              if (_errorMessage.isNotEmpty) buildErrorMessage(_errorMessage),
             ],
           ),
         ),
@@ -80,19 +81,16 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
     updateErrorMessage('');
 
     if (email.isEmpty) {
-      updateErrorMessage('E-mail address is required');
-      return;
+      return updateErrorMessage('E-mail address is required');
     }
 
     RegExp emailRegex = RegExp(r'\w+@\w+\.\w+');
     if (!emailRegex.hasMatch(email)) {
-      updateErrorMessage('Invalid E-mail Address format.');
-      return;
+      return updateErrorMessage('Invalid E-mail Address format.');
     }
 
     if (password.isEmpty) {
-      updateErrorMessage('Password is required.');
-      return;
+      return updateErrorMessage('Password is required.');
     }
 
     final authService = locator<AuthenticationService>();
@@ -108,7 +106,7 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
     debugPrint(errorMessage);
     setState(
       () {
-        this.errorMessage = errorMessage;
+        _errorMessage = errorMessage;
       },
     );
   }

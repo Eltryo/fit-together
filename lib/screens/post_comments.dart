@@ -11,13 +11,11 @@ class PostComments extends StatefulWidget {
 }
 
 class _PostCommentsState extends State<PostComments> {
-  final firestoreService = locator<FirestoreService>();
-  final authenticationService = locator<AuthenticationService>();
-
   @override
   Widget build(BuildContext context) {
-    final appUserFuture =
-        firestoreService.getUserById(authenticationService.currentUid!);
+    final firestoreService = locator<FirestoreService>();
+    final authenticationService = locator<AuthenticationService>();
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -25,7 +23,7 @@ class _PostCommentsState extends State<PostComments> {
           children: [
             const Text("Comments"),
             FutureBuilder(
-              future: appUserFuture,
+              future: firestoreService.getUserById(authenticationService.currentUid!),
               builder: (context, snapshot) {
                 //TODO: handle error
                 if (snapshot.hasData) {
