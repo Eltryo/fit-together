@@ -28,23 +28,23 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        //TODO: fix refresh
-        RefreshIndicator(
-          onRefresh: () {
-            return Future.delayed(
-              const Duration(seconds: 1),
-              () {
-                setState(() {});
-              },
-            );
-          },
-          child: FutureBuilder(
-            future: firestoreService.getUserById(authService.currentUid!),
-            builder: (context, snapshot) {
-              //TODO: handle error
-              if (snapshot.hasData) {
-                final appUser = snapshot.data!;
-                return SingleChildScrollView(
+        FutureBuilder(
+          future: firestoreService.getUserById(authService.currentUid!),
+          builder: (context, snapshot) {
+            //TODO: handle error
+            if (snapshot.hasData) {
+              final appUser = snapshot.data!;
+              return RefreshIndicator(
+                onRefresh: () {
+                  return Future.delayed(
+                    const Duration(seconds: 1),
+                    () {
+                      setState(() {});
+                    },
+                  );
+                },
+                child: SingleChildScrollView(
+                  physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
                     children: [
                       const SizedBox(height: 20),
@@ -69,14 +69,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(height: 20),
                       ProfileStats(appUserStats: appUser.appUserStats),
                       const SizedBox(height: 20),
-                      const ProfilePagePosts()
+                      ProfilePagePosts()
                     ],
                   ),
-                );
-              }
-              return const Center(child: CircularProgressIndicator());
-            },
-          ),
+                ),
+              );
+            }
+            return const Center(child: CircularProgressIndicator());
+          },
         ),
         //TODO: eventually use scaffold
         Container(

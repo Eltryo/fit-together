@@ -5,21 +5,21 @@ import 'package:fit_together/services/storage.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePagePosts extends StatefulWidget {
-  const ProfilePagePosts({Key? key}) : super(key: key);
+  final authenticationService = locator<AuthenticationService>();
+  final storageService = locator<StorageService>();
+
+  ProfilePagePosts({Key? key}) : super(key: key);
 
   @override
   State<ProfilePagePosts> createState() => _ProfilePagePostsState();
 }
 
 class _ProfilePagePostsState extends State<ProfilePagePosts> {
-  final authenticationService = locator<AuthenticationService>();
-  final storageService = locator<StorageService>();
-
   @override
   Widget build(BuildContext context) {
     //TODO: use future builder
     return FutureBuilder(
-      future: storageService.getAllImages(authenticationService.currentUid!),
+      future: widget.storageService.getAllImages(widget.authenticationService.currentUid!),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           final imageDataList = snapshot.data!;
