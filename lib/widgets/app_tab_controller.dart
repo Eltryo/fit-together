@@ -29,12 +29,6 @@ class AppTabController extends StatelessWidget {
               ),
             ],
           ),
-          // title: const Center(
-          //   child: Text(
-          //     "FitTogether",
-          //     style: TextStyle(fontStyle: FontStyle.italic),
-          //   ),
-          // ),
         ),
         body: const TabBarView(
           children: [
