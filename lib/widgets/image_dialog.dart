@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'dart:ui';
 
 import 'package:fit_together/screens/post_comments.dart';
 import 'package:fit_together/service_locator.dart';
@@ -25,6 +26,7 @@ class _ImageDialogState extends State<ImageDialog> {
   Widget build(BuildContext context) {
     return Dialog(
       child: Container(
+        alignment: Alignment.bottomLeft,
         width: 400,
         height: 400,
         decoration: BoxDecoration(
@@ -36,40 +38,36 @@ class _ImageDialogState extends State<ImageDialog> {
             Radius.circular(3),
           ),
         ),
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.bottomLeft,
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {
-                      //TODO: Add like functionality
-                      _toggle();
-                    },
-                    icon: Icon(
-                      _liked ? Icons.favorite : Icons.favorite_border,
-                      color: Colors.red,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const PostComments(),
-                        ),
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.send,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+        child: Container(
+          color: Colors.black.withOpacity(0.5),
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: () {
+                  //TODO: Add like functionality
+                  _toggle();
+                },
+                icon: Icon(
+                  _liked ? Icons.favorite : Icons.favorite_border,
+                  color: Colors.red,
+                ),
               ),
-            )
-          ],
+              IconButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const PostComments(),
+                    ),
+                  );
+                },
+                icon: const Icon(
+                  Icons.send,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
