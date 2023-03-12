@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 
 import '../screens/premium_page.dart';
 
-class HomeTabController extends StatelessWidget {
-  const HomeTabController({Key? key}) : super(key: key);
+class AppTabController extends StatelessWidget {
+  const AppTabController({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

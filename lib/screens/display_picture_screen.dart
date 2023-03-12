@@ -5,9 +5,10 @@ import 'package:fit_together/services/storage.dart';
 import 'package:flutter/material.dart';
 
 class DisplayPictureScreen extends StatelessWidget {
+  final storageService = locator<StorageService>();
   final String imagePath;
 
-  const DisplayPictureScreen({
+  DisplayPictureScreen({
     required this.imagePath,
     Key? key,
   }) : super(key: key);
@@ -29,7 +30,6 @@ class DisplayPictureScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.send),
         onPressed: () {
-          final storageService = locator<StorageService>();
           storageService.addImageFile(File(imagePath));
           Navigator.popUntil(context, (route) => route.isFirst);
         },

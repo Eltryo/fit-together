@@ -9,7 +9,6 @@ import 'package:fit_together/services/authentication.dart';
 import 'package:fit_together/services/firestore.dart';
 import 'package:fit_together/services/storage.dart';
 import 'package:fit_together/widgets/image_dialog.dart';
-import 'package:fit_together/widgets/route_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -27,52 +26,53 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        FutureBuilder(
-          future:
-              _firestoreService.getUserById(_authenticationService.currentUid!),
-          builder: (context, snapshot) {
-            //TODO: handle error
-            if (snapshot.hasData) {
-              final appUser = snapshot.data!;
-              return RefreshIndicator(
-                onRefresh: () => Future.delayed(
-                  const Duration(seconds: 1),
-                  () => setState(() {}),
-                ),
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      _buildProfileImage(appUser.imageUrl),
-                      const SizedBox(height: 10),
-                      Text(
-                        appUser.username,
-                        style: const TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold),
-                      ),
-                      const SizedBox(height: 3),
-                      Text(
-                        appUser.email,
-                        style: const TextStyle(
-                            fontStyle: FontStyle.italic, color: Colors.grey),
-                      ),
-                      const SizedBox(height: 20),
-                      _buildProfileStats(appUser.appUserStats),
-                      const SizedBox(height: 20),
-                      _buildProfilePagePosts(),
-                    ],
+    return Scaffold(
+      body: Stack(
+        children: [
+          FutureBuilder(
+            future:
+                _firestoreService.getUserById(_authenticationService.currentUid!),
+            builder: (context, snapshot) {
+              //TODO: handle error
+              if (snapshot.hasData) {
+                final appUser = snapshot.data!;
+                return RefreshIndicator(
+                  onRefresh: () => Future.delayed(
+                    const Duration(seconds: 1),
+                    () => setState(() {}),
                   ),
-                ),
-              );
-            }
-            return const Center(child: CircularProgressIndicator());
-          },
-        ),
-        _buildFloatingButton(),
-      ],
+                  child: SingleChildScrollView(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        _buildProfileImage(appUser.imageUrl),
+                        const SizedBox(height: 10),
+                        Text(
+                          appUser.username,
+                          style: const TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
+                        ),
+                        const SizedBox(height: 3),
+                        Text(
+                          appUser.email,
+                          style: const TextStyle(
+                              fontStyle: FontStyle.italic, color: Colors.grey),
+                        ),
+                        const SizedBox(height: 20),
+                        _buildProfileStats(appUser.appUserStats),
+                        const SizedBox(height: 20),
+                        _buildProfilePagePosts(),
+                      ],
+                    ),
+                  ),
+                );
+              }
+              return const Center(child: CircularProgressIndicator());
+            },
+          ),
+        ],
+      ),
+      floatingActionButton: _buildFloatingButton(),
     );
   }
 
@@ -154,11 +154,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildFloatingButton() {
-    //TODO: eventually use scaffold
-    return Container(
-      alignment: Alignment.bottomRight,
-      margin: const EdgeInsets.all(kFloatingActionButtonMargin),
-      child: FloatingActionButton(
+      return FloatingActionButton(
         onPressed: () => showDialog(
           context: context,
           builder: (context) => Dialog(
@@ -182,7 +178,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         child: const Icon(Icons.add),
-      ),
     );
   }
 
