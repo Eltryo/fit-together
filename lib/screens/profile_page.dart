@@ -127,7 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: () => Navigator.push(
                 context,
                 //TODO: eventually replace with material route builder
-                RouteBuilder(widget: const EditProfilePage()).buildRoute(),
+                MaterialPageRoute(builder: (context) => const EditProfilePage()),
               ),
               child: ClipOval(
                 child: Container(

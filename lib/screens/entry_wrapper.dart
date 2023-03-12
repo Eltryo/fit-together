@@ -1,26 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
 
-import '../provider.dart';
 import '../widgets/home_tab_controller.dart';
 import 'authentication_wrapper.dart';
 
-class EntryWrapper extends ConsumerWidget {
+class EntryWrapper extends StatelessWidget {
   const EntryWrapper({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return ref.watch(authenticationStreamProvider).when(
-          data: (user) {
-            if (user != null) {
-              debugPrint("user is logged in");
-              return const HomeTabController();
-            }
-            debugPrint("user is logged out");
-            return const AuthenticationWrapper();
-          },
-          error: (error, _) => Text("Error: $error"),
-          loading: () => const CircularProgressIndicator(),
-        );
+  Widget build(BuildContext context) {
+    final user = Provider.of<User?>(context);
+    return user != null
+        ? const HomeTabController()
+        : const AuthenticationWrapper();
   }
 }
