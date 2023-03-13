@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-import 'dart:ui';
 
 import 'package:fit_together/screens/post_comments.dart';
 import 'package:fit_together/service_locator.dart';
@@ -25,6 +24,12 @@ class _ImageDialogState extends State<ImageDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.all(
+          Radius.circular(10.0),
+        ),
+      ),
+      clipBehavior: Clip.hardEdge,
       child: Container(
         alignment: Alignment.bottomLeft,
         width: 400,
@@ -33,9 +38,6 @@ class _ImageDialogState extends State<ImageDialog> {
           image: DecorationImage(
             image: MemoryImage(widget.imageData),
             fit: BoxFit.cover,
-          ),
-          borderRadius: const BorderRadius.all(
-            Radius.circular(3),
           ),
         ),
         child: Container(
@@ -62,7 +64,7 @@ class _ImageDialogState extends State<ImageDialog> {
                   );
                 },
                 icon: const Icon(
-                  Icons.send,
+                  Icons.chat,
                   color: Colors.white,
                 ),
               ),
