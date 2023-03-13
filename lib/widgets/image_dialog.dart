@@ -15,11 +15,30 @@ class ImageDialog extends StatefulWidget {
   State<ImageDialog> createState() => _ImageDialogState();
 }
 
-class _ImageDialogState extends State<ImageDialog> {
+class _ImageDialogState extends State<ImageDialog>
+    with SingleTickerProviderStateMixin {
+  late TransformationController transformationController =
+      TransformationController();
+  late AnimationController animationController = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 200),
+  )..addListener(() {
+      debugPrint("listening on animation");
+      transformationController.value = animation!.value;
+    });
+
   final firestoreService = locator<FirestoreService>();
   final authenticationService = locator<AuthenticationService>();
 
+  Animation<Matrix4>? animation;
   bool _liked = false;
+
+  @override
+  void dispose() {
+    transformationController.dispose();
+    animationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,50 +49,65 @@ class _ImageDialogState extends State<ImageDialog> {
         ),
       ),
       clipBehavior: Clip.hardEdge,
-      child: Container(
+      child: Stack(
         alignment: Alignment.bottomLeft,
-        width: 400,
-        height: 400,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: MemoryImage(widget.imageData),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Container(
-          color: Colors.black.withOpacity(0.5),
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: () {
-                  //TODO: Add like functionality
-                  _toggle();
-                },
-                icon: Icon(
-                  _liked ? Icons.favorite : Icons.favorite_border,
-                  color: Colors.red,
-                ),
-              ),
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const PostComments(),
-                    ),
-                  );
-                },
-                icon: const Icon(
-                  Icons.chat,
-                  color: Colors.white,
-                ),
-              ),
-            ],
-          ),
-        ),
+        children: [
+          _buildImage(),
+          _buildDialogBar(),
+        ],
       ),
     );
   }
+
+  Widget _buildDialogBar() => Container(
+        color: Colors.black.withOpacity(0.5),
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                //TODO: Add like functionality
+                _toggle();
+              },
+              icon: Icon(
+                _liked ? Icons.favorite : Icons.favorite_border,
+                color: Colors.red,
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const PostComments(),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.chat,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+      );
+
+  Widget _buildImage() => InteractiveViewer(
+        transformationController: transformationController,
+        onInteractionEnd: (details) {
+          debugPrint("end interaction");
+          resetAnimation();
+        },
+        child: Container(
+          width: 400,
+          height: 400,
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: MemoryImage(widget.imageData),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      );
 
   void _toggle() {
     setState(
@@ -81,5 +115,16 @@ class _ImageDialogState extends State<ImageDialog> {
         _liked = !_liked;
       },
     );
+  }
+
+  void resetAnimation() {
+    animation = Matrix4Tween(
+      begin: transformationController.value,
+      end: Matrix4.identity(),
+    ).animate(
+      CurvedAnimation(parent: animationController, curve: Curves.ease),
+    );
+    debugPrint("forward animation");
+    animationController.forward(from: 0);
   }
 }
