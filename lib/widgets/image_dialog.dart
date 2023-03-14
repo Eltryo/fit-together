@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:fit_together/screens/post_comments.dart';
 import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/services/authentication.dart';
@@ -7,9 +5,12 @@ import 'package:fit_together/services/firestore.dart';
 import 'package:flutter/material.dart';
 
 class ImageDialog extends StatefulWidget {
-  final Uint8List imageData;
+  final FileImage image;
 
-  const ImageDialog({required this.imageData, Key? key}) : super(key: key);
+  const ImageDialog({
+    required this.image,
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<ImageDialog> createState() => _ImageDialogState();
@@ -102,7 +103,7 @@ class _ImageDialogState extends State<ImageDialog>
           height: 400,
           decoration: BoxDecoration(
             image: DecorationImage(
-              image: MemoryImage(widget.imageData),
+              image: widget.image,
               fit: BoxFit.cover,
             ),
           ),

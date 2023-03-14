@@ -11,6 +11,7 @@ import 'package:fit_together/services/storage.dart';
 import 'package:fit_together/widgets/image_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -30,8 +31,8 @@ class _ProfilePageState extends State<ProfilePage> {
       body: Stack(
         children: [
           FutureBuilder(
-            future:
-                _firestoreService.getUserById(_authenticationService.currentUid!),
+            future: _firestoreService
+                .getUserById(_authenticationService.currentUid!),
             builder: (context, snapshot) {
               //TODO: handle error
               if (snapshot.hasData) {
@@ -61,7 +62,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         const SizedBox(height: 20),
                         _buildProfileStats(appUser.appUserStats),
                         const SizedBox(height: 20),
-                        _buildProfilePagePosts(),
+                        FutureBuilder(
+                            future: _buildProfilePagePosts(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) return snapshot.data!;
+                              return const CircularProgressIndicator();
+                            })
                       ],
                     ),
                   ),
@@ -127,7 +133,8 @@ class _ProfilePageState extends State<ProfilePage> {
               onTap: () => Navigator.push(
                 context,
                 //TODO: eventually replace with material route builder
-                MaterialPageRoute(builder: (context) => const EditProfilePage()),
+                MaterialPageRoute(
+                    builder: (context) => const EditProfilePage()),
               ),
               child: ClipOval(
                 child: Container(
@@ -154,30 +161,30 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildFloatingButton() {
-      return FloatingActionButton(
-        onPressed: () => showDialog(
-          context: context,
-          builder: (context) => Dialog(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                TextButton(
-                  onPressed: () {
-                    _pickImageFromGallery();
-                    Navigator.pop(context);
-                  },
-                  child: const Text("From Gallery"),
-                ),
-                TextButton(
-                  onPressed: () => _pickImageFromCamera(),
-                  child: const Text("From Camera"),
-                )
-              ],
-            ),
+    return FloatingActionButton(
+      onPressed: () => showDialog(
+        context: context,
+        builder: (context) => Dialog(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: () {
+                  _pickImageFromGallery();
+                  Navigator.pop(context);
+                },
+                child: const Text("From Gallery"),
+              ),
+              TextButton(
+                onPressed: () => _pickImageFromCamera(),
+                child: const Text("From Camera"),
+              )
+            ],
           ),
         ),
-        child: const Icon(Icons.add),
+      ),
+      child: const Icon(Icons.add),
     );
   }
 
@@ -203,49 +210,45 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   //TODO: display images in chronological order
-  Widget _buildProfilePagePosts() {
-    return FutureBuilder(
-      future: _storageService.getAllImages(_authenticationService.currentUid!),
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          //TODO: handle error
-          final imageDataList = snapshot.data!;
-          return GridView.count(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            padding: const EdgeInsets.all(10),
-            crossAxisCount: 3,
-            crossAxisSpacing: 5,
-            mainAxisSpacing: 5,
-            children: List.generate(
-              imageDataList.length,
-              (index) {
-                final imageData = imageDataList.elementAt(index)!;
-                return InkWell(
-                  onTap: () {
-                    showDialog(
-                      context: context,
-                      builder: (_) => ImageDialog(imageData: imageData),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: MemoryImage(imageData),
-                        fit: BoxFit.cover,
-                      ),
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(3),
-                      ),
-                    ),
-                  ),
-                );
-              },
+  Future<Widget> _buildProfilePagePosts() async {
+    _storageService.downloadToFiles();
+    final appDocDir = await getApplicationDocumentsDirectory();
+    final imageDir = Directory("${appDocDir.absolute}/images");
+    final fileList =
+        await imageDir.list().map((entity) => entity as File).toList();
+
+    return GridView.count(
+      physics: const NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      padding: const EdgeInsets.all(10),
+      crossAxisCount: 3,
+      crossAxisSpacing: 5,
+      mainAxisSpacing: 5,
+      children: List.generate(
+        fileList.length,
+        (index) {
+          final file = fileList.elementAt(index);
+          return InkWell(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder: (_) => ImageDialog(image: FileImage(file)),
+              );
+            },
+            child: Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: FileImage(file),
+                  fit: BoxFit.cover,
+                ),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(3),
+                ),
+              ),
             ),
           );
-        }
-        return const SizedBox.shrink();
-      },
+        },
+      ),
     );
   }
 }
