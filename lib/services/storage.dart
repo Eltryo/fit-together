@@ -52,43 +52,45 @@ class StorageService {
     );
   }
 
-  void downloadToFiles() async {
+  //TODO: wait until download is finished
+  Future<void> downloadToFiles() async {
     final uid = locator<AuthenticationService>().currentUid;
     final appDocDir = await getApplicationDocumentsDirectory();
-    final firPath = "${appDocDir.absolute}/images";
+    final imageDir = await Directory("${appDocDir.absolute.path}/images").create();
 
-    return _firebaseStorageRef.child("users/$uid/images").listAll().then(
-      (listResult) {
+    await _firebaseStorageRef.child("users/$uid/images").listAll().then(
+      (listResult) async {
         for (var imageRef in listResult.items) {
-            // final imageData = await imageRef.getData();
-            // return MemoryImage(imageData!);
-            final file = File("$firPath${imageRef.name}");
-            final downloadTask = imageRef.writeToFile(file);
+          final file = await File("${imageDir.absolute.path}/${imageRef.name}").create();
+          final downloadTask = imageRef.writeToFile(file);
 
-            downloadTask.snapshotEvents.listen(
-              (taskSnapshot) {
-                switch (taskSnapshot.state) {
-                  case TaskState.running:
-                    // TODO: Handle this case.
-                    break;
-                  case TaskState.paused:
-                    // TODO: Handle this case.
-                    break;
-                  case TaskState.success:
-                    // TODO: Handle this case.
-                    debugPrint("Download successful");
-                    break;
-                  case TaskState.canceled:
-                    // TODO: Handle this case.
-                    break;
-                  case TaskState.error:
-                    // TODO: Handle this case.
-                    debugPrint("Error occurred");
-                    break;
-                }
-              },
-            );
-          }
+          downloadTask.snapshotEvents.listen(
+            (taskSnapshot) {
+              switch (taskSnapshot.state) {
+                case TaskState.running:
+                  // TODO: Handle this case.
+                  debugPrint("Download running");
+                  break;
+                case TaskState.paused:
+                  // TODO: Handle this case.
+                  debugPrint("Download paused");
+                  break;
+                case TaskState.success:
+                  // TODO: Handle this case.
+                  debugPrint("Download successful");
+                  break;
+                case TaskState.canceled:
+                  // TODO: Handle this case.
+                  debugPrint("Download canceled");
+                  break;
+                case TaskState.error:
+                  // TODO: Handle this case.
+                  debugPrint("Error occurred");
+                  break;
+              }
+            },
+          );
+        }
       },
     );
   }

@@ -211,9 +211,10 @@ class _ProfilePageState extends State<ProfilePage> {
 
   //TODO: display images in chronological order
   Future<Widget> _buildProfilePagePosts() async {
-    _storageService.downloadToFiles();
+    await _storageService.downloadToFiles();
     final appDocDir = await getApplicationDocumentsDirectory();
-    final imageDir = Directory("${appDocDir.absolute}/images");
+    final imageDir =
+        await Directory("${appDocDir.absolute.path}/images").create();
     final fileList =
         await imageDir.list().map((entity) => entity as File).toList();
 
