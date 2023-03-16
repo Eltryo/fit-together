@@ -36,10 +36,9 @@ class AuthenticationService {
     return _firebaseAuth
         .createUserWithEmailAndPassword(email: email, password: password)
         .then(
-      (userCredential) {
+      (_) {
         final firestoreService = locator<FirestoreService>();
         firestoreService.addUser(
-          userCredential.user!.uid,
           AppUser(
             username: username,
             email: email,

@@ -23,7 +23,7 @@ class _PostCommentsState extends State<PostComments> {
           children: [
             const Text("Comments"),
             FutureBuilder(
-              future: firestoreService.getUserById(authenticationService.currentUid!),
+              future: firestoreService.getUserByUid(authenticationService.currentUid!),
               builder: (context, snapshot) {
                 //TODO: handle error
                 if (snapshot.hasData) {

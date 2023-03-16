@@ -32,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           FutureBuilder(
             future: _firestoreService
-                .getUserById(_authenticationService.currentUid!),
+                .getUserByUid(_authenticationService.currentUid!),
             builder: (context, snapshot) {
               //TODO: handle error
               if (snapshot.hasData) {
@@ -213,8 +213,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<Widget> _buildProfilePagePosts() async {
     await _storageService.downloadToFiles();
     final appDocDir = await getApplicationDocumentsDirectory();
-    final imageDir =
-        await Directory("${appDocDir.absolute.path}/images").create();
+    final imageDir = Directory("${appDocDir.absolute.path}/images");
     final fileList =
         await imageDir.list().map((entity) => entity as File).toList();
 

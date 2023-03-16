@@ -10,11 +10,12 @@ class FirestoreService {
   //TODO: test api, implement delete and update logic
   static final FirebaseFirestore _firebaseFirestore =
       FirebaseFirestore.instance;
+  final uid = locator<AuthenticationService>().currentUid;
 
-  Future<void> addUser(String uid, AppUser appUser) {
+  Future<void> addUser(AppUser appUser) {
     return _firebaseFirestore
         .collection("users")
-        .doc(uid)
+        .doc(uid!)
         .set(appUser.toJson())
         .catchError((error) => debugPrint("Error: $error"));
   }
@@ -33,10 +34,10 @@ class FirestoreService {
         );
   }
 
-  Future<AppUser> getUserById(String id) {
+  Future<AppUser> getUserByUid(String uid) {
     return _firebaseFirestore
         .collection("users")
-        .doc(id)
+        .doc(uid)
         .withConverter(
           fromFirestore: AppUser.fromFirestore,
           toFirestore: (appUser, _) => appUser.toJson(),
@@ -52,9 +53,8 @@ class FirestoreService {
   Future<void> addImage(Picture picture) {
     return _firebaseFirestore.collection("pictures").add(picture.toJson()).then(
       (picture) {
-        final uid = locator<AuthenticationService>().currentUid!;
         //TODO: update picture count
-        _firebaseFirestore.collection("users").doc(uid).update(
+        _firebaseFirestore.collection("users").doc(uid!).update(
           {
             "appUserStats.pictureCount": FieldValue.increment(1),
           },
