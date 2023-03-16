@@ -56,12 +56,13 @@ class StorageService {
   Future<void> downloadToFiles() async {
     final uid = locator<AuthenticationService>().currentUid;
     final appDocDir = await getApplicationDocumentsDirectory();
-    final imageDir = await Directory("${appDocDir.absolute.path}/images").create();
+    final imageDir = Directory("${appDocDir.absolute.path}/images");
 
     await _firebaseStorageRef.child("users/$uid/images").listAll().then(
       (listResult) async {
         for (var imageRef in listResult.items) {
-          final file = await File("${imageDir.absolute.path}/${imageRef.name}").create();
+          final file = await File("${imageDir.absolute.path}/${imageRef.name}")
+              .create(recursive: true);
           final downloadTask = imageRef.writeToFile(file);
 
           downloadTask.snapshotEvents.listen(
