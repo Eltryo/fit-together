@@ -1,5 +1,5 @@
 import 'package:camera/camera.dart';
-import 'package:fit_together/screens/display_picture_screen.dart';
+import 'package:fit_together/screens/edit_picture_screen.dart';
 import 'package:flutter/material.dart';
 
 class TakePictureScreen extends StatefulWidget {
@@ -63,7 +63,7 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) =>
-                      DisplayPictureScreen(imagePath: imageFile.path),
+                      EditPictureScreen(imagePath: imageFile.path),
                 ),
               );
             },

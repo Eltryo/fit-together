@@ -32,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           FutureBuilder(
             future: _firestoreService
-                .getUserById(_authenticationService.currentUid!),
+                .getUserByUid(_authenticationService.currentUid!),
             builder: (context, snapshot) {
               //TODO: handle error
               if (snapshot.hasData) {
@@ -63,11 +63,12 @@ class _ProfilePageState extends State<ProfilePage> {
                         _buildProfileStats(appUser.appUserStats),
                         const SizedBox(height: 20),
                         FutureBuilder(
-                            future: _buildProfilePagePosts(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) return snapshot.data!;
-                              return const CircularProgressIndicator();
-                            })
+                          future: _buildProfilePagePosts(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) return snapshot.data!;
+                            return const CircularProgressIndicator();
+                          },
+                        )
                       ],
                     ),
                   ),
@@ -177,7 +178,10 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: const Text("From Gallery"),
               ),
               TextButton(
-                onPressed: () => _pickImageFromCamera(),
+                onPressed: () {
+                  _pickImageFromCamera();
+                  Navigator.pop(context);
+                },
                 child: const Text("From Camera"),
               )
             ],
@@ -213,8 +217,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<Widget> _buildProfilePagePosts() async {
     await _storageService.downloadToFiles();
     final appDocDir = await getApplicationDocumentsDirectory();
-    final imageDir =
-        await Directory("${appDocDir.absolute.path}/images").create();
+    final imageDir = Directory("${appDocDir.absolute.path}/images");
     final fileList =
         await imageDir.list().map((entity) => entity as File).toList();
 

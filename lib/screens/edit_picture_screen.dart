@@ -4,11 +4,11 @@ import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/services/storage.dart';
 import 'package:flutter/material.dart';
 
-class DisplayPictureScreen extends StatelessWidget {
+class EditPictureScreen extends StatelessWidget {
   final storageService = locator<StorageService>();
   final String imagePath;
 
-  DisplayPictureScreen({
+  EditPictureScreen({
     required this.imagePath,
     Key? key,
   }) : super(key: key);
@@ -19,7 +19,7 @@ class DisplayPictureScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Edit the picture")),
       body: SizedBox(
-        //TODO: eventually fix size of image (not exact size as camera preview)
+        //TODO: Add editing functionality
         child: Image.file(
           File(imagePath),
           fit: BoxFit.cover,
