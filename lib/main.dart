@@ -23,8 +23,9 @@ class MyApp extends StatelessWidget {
       child: MultiProvider(
         providers: [
           StreamProvider<User?>(
-              create: (_) => AuthenticationService().authState,
-              initialData: null)
+            create: (_) => AuthenticationService().authState,
+            initialData: null,
+          )
         ],
         child: MaterialApp(
           title: "fit-together",

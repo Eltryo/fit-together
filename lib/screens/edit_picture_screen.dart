@@ -19,7 +19,6 @@ class EditPictureScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text("Edit the picture")),
       body: SizedBox(
-        //TODO: Add editing functionality
         child: Image.file(
           File(imagePath),
           fit: BoxFit.cover,
