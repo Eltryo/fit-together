@@ -1,3 +1,5 @@
+import 'package:fit_together/screens/timer.dart';
+import 'package:fit_together/screens/achievements.dart';
 import 'package:fit_together/screens/profile_page.dart';
 import 'package:fit_together/screens/subscription_content_page.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +36,8 @@ class AppTabController extends StatelessWidget {
           children: [
             SubscriptionContentPage(),
             PremiumPage(),
-            Center(),
-            Center(),
+            Achievements(),
+            Timer(),
             ProfilePage(),
           ],
         ),

@@ -16,6 +16,7 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
+  final authService = locator<AuthenticationService>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -93,7 +94,6 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
       return updateErrorMessage('Password is required.');
     }
 
-    final authService = locator<AuthenticationService>();
     authService.signInToAccount(email, password).catchError(
       (error) {
         updateErrorMessage(error.toString());
@@ -112,10 +112,7 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
   }
 
   Widget buildErrorMessage(String errorMessage) {
-    _animationController.reset();
-    _animationController.forward();
-    debugPrint("Animation was started");
-
+    _animationController.forward(from: 0);
     return FadeTransition(
       opacity: _animation,
       child: Center(
