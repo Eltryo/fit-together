@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 
-class SubscriptionContentPage extends StatelessWidget {
-  const SubscriptionContentPage({Key? key}) : super(key: key);
+class Achievements extends StatelessWidget {
+  const Achievements({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    //TODO: change hardcode values
     return const Scaffold(
       body: Center(
         child: Text(
-          "Subscription Content",
+          "Achievements",
           textAlign: TextAlign.center,
           style: TextStyle(
             fontSize: 18,
@@ -18,7 +17,6 @@ class SubscriptionContentPage extends StatelessWidget {
           ),
         ),
       ),
-      //TODO: show subscription content
     );
   }
 }

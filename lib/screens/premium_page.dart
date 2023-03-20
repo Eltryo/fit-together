@@ -6,26 +6,20 @@ class PremiumPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Padding(
-            padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
-              bottom: 20,
-            ),
+          Center(
             child: Text(
-              "Upgrade to FitTogetherPro to view and share premium content",
+              "Premium Page",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 18, color: Colors.grey, fontStyle: FontStyle.italic),
+                fontSize: 18,
+                color: Colors.grey,
+                fontStyle: FontStyle.italic,
+              ),
             ),
-          ),
-          RoundedButton(
-            text: "Upgrade",
-            onPressed: () {}, //TODO: Add upgrade function
           ),
         ],
       ),
