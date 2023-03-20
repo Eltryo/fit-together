@@ -66,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           future: _buildProfilePagePosts(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) return snapshot.data!;
-                            return const CircularProgressIndicator();
+                            return const SizedBox.shrink();
                           },
                         )
                       ],

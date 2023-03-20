@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:camera/camera.dart';
-import 'package:fit_together/screens/edit_picture_screen.dart';
+import 'package:fit_together/service_locator.dart';
+import 'package:fit_together/services/storage.dart';
 import 'package:flutter/material.dart';
 
 class TakePictureScreen extends StatefulWidget {
@@ -15,6 +18,7 @@ class TakePictureScreen extends StatefulWidget {
 }
 
 class _TakePictureScreenState extends State<TakePictureScreen> {
+  final storageService = locator<StorageService>();
   late CameraController _cameraController;
   late Future<void> _initializeControllerFuture;
 
@@ -59,13 +63,8 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
         onPressed: () => _initializeControllerFuture.then(
           (_) => _cameraController.takePicture().then(
             (imageFile) {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      EditPictureScreen(imagePath: imageFile.path),
-                ),
-              );
+              storageService.addImageFile(File(imageFile.path));
+              Navigator.popUntil(context, (route) => route.isFirst);
             },
             onError: (error) => debugPrint("Error: $error"),
           ),
