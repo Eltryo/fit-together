@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fit_together/service_locator.dart';
-import 'package:fit_together/services/authentication.dart';
-import 'package:fit_together/widgets/password_form_field.dart';
-import 'package:fit_together/widgets/username_form_field.dart';
+import 'package:fit_together/application/authentication.dart';
+import 'package:fit_together/presentation/auth/password_form_field.dart';
+import 'package:fit_together/presentation/auth/username_form_field.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/email_form_field.dart';
-import '../widgets/rounded_button_widget.dart';
+import 'email_form_field.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({Key? key}) : super(key: key);
@@ -63,15 +62,23 @@ class _RegistrationPageState extends State<RegistrationPage>
               PasswordFormField(passwordController: _passwordController),
               const SizedBox(height: 10),
               UsernameFormField(usernameController: _usernameController),
-              const SizedBox(height: 10),
-              RoundedButton(
-                text: "Register",
+              ElevatedButton(
                 onPressed: () => submitSignIn(
                   _emailController.text,
                   _passwordController.text,
                   _usernameController.text,
                 ),
+                style: ElevatedButton.styleFrom(
+                  shape: const StadiumBorder(),
+                ),
+                child: const Text(
+                  "Register",
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                ),
               ),
+              const SizedBox(height: 10),
               const SizedBox(height: 10),
               if (_errorMessage.isNotEmpty) buildErrorMessage(_errorMessage),
             ],

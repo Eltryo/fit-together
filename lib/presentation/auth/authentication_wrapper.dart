@@ -1,5 +1,5 @@
-import 'package:fit_together/screens/registration_page.dart';
-import 'package:fit_together/screens/sign_in_page.dart';
+import 'package:fit_together/presentation/auth/registration_page.dart';
+import 'package:fit_together/presentation/auth/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

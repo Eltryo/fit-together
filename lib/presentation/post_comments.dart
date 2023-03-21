@@ -1,6 +1,6 @@
 import 'package:fit_together/service_locator.dart';
-import 'package:fit_together/services/authentication.dart';
-import 'package:fit_together/services/firestore.dart';
+import 'package:fit_together/application/authentication.dart';
+import 'package:fit_together/application/firestore.dart';
 import 'package:flutter/material.dart';
 
 class PostComments extends StatefulWidget {
@@ -23,7 +23,8 @@ class _PostCommentsState extends State<PostComments> {
           children: [
             const Text("Comments"),
             FutureBuilder(
-              future: firestoreService.getUserByUid(authenticationService.currentUid!),
+              future: firestoreService
+                  .getUserByUid(authenticationService.currentUid!),
               builder: (context, snapshot) {
                 //TODO: handle error
                 if (snapshot.hasData) {

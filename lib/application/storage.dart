@@ -2,10 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:fit_together/models/picture.dart';
+import 'package:fit_together/domain/picture.dart';
 import 'package:fit_together/service_locator.dart';
-import 'package:fit_together/services/authentication.dart';
-import 'package:fit_together/services/firestore.dart';
+import 'package:fit_together/application/authentication.dart';
+import 'package:fit_together/application/firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:path_provider/path_provider.dart';
 
