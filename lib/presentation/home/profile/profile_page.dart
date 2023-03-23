@@ -21,9 +21,17 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  final _authenticationService = locator<AuthenticationService>();
-  final _firestoreService = locator<FirestoreService>();
-  final _storageService = locator<StorageService>();
+  late AuthenticationService _authenticationService;
+  late FirestoreService _firestoreService;
+  late StorageService _storageService;
+
+  @override
+  void initState() {
+    super.initState();
+    _authenticationService = locator<AuthenticationService>();
+    _firestoreService = locator<FirestoreService>();
+    _storageService = locator<StorageService>();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -206,9 +214,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void _pickImageFromGallery() {
-    final storageService = locator<StorageService>();
     ImagePicker().pickImage(source: ImageSource.gallery).then(
-          (image) => storageService.addImageFile(File(image!.path)),
+          (image) => _storageService.addImageFile(File(image!.path)),
           onError: (error) => debugPrint("Error: $error"),
         );
   }
@@ -218,8 +225,12 @@ class _ProfilePageState extends State<ProfilePage> {
     await _storageService.downloadToFiles();
     final appDocDir = await getApplicationDocumentsDirectory();
     final imageDir = Directory("${appDocDir.absolute.path}/images");
-    final fileList =
-        await imageDir.list().map((entity) => entity as File).toList();
+    final fileList = await imageDir
+        .list()
+        .map(
+          (entity) => entity as File,
+        )
+        .toList();
 
     return GridView.count(
       physics: const NeverScrollableScrollPhysics(),

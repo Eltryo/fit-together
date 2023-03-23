@@ -16,19 +16,31 @@ class RegistrationPage extends StatefulWidget {
 
 class _RegistrationPageState extends State<RegistrationPage>
     with TickerProviderStateMixin {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late final AnimationController _animationController = AnimationController(
-    duration: const Duration(milliseconds: 200),
-    vsync: this,
-  );
-  late final Animation<double> _animation = CurvedAnimation(
-    parent: _animationController,
-    curve: Curves.easeIn,
-  );
-  String _errorMessage = "";
+  late AuthenticationService _authService;
+  late GlobalKey<FormState> _formKey;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  late TextEditingController _usernameController;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+  late String _errorMessage;
+
+  @override
+  void initState() {
+    _authService = locator<AuthenticationService>();
+    _formKey = GlobalKey<FormState>();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _usernameController = TextEditingController();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+    );
+  }
 
   @override
   void dispose() {
@@ -79,7 +91,6 @@ class _RegistrationPageState extends State<RegistrationPage>
                 ),
               ),
               const SizedBox(height: 10),
-              const SizedBox(height: 10),
               if (_errorMessage.isNotEmpty) buildErrorMessage(_errorMessage),
             ],
           ),
@@ -95,29 +106,25 @@ class _RegistrationPageState extends State<RegistrationPage>
   ) {
     updateErrorMessage('');
 
-    if (email.isEmpty) {
-      return updateErrorMessage('E-mail address is required');
-    }
+    if (email.isEmpty) return updateErrorMessage('E-mail address is required');
 
     RegExp emailRegex = RegExp(r'\w+@\w+\.\w+');
     if (!emailRegex.hasMatch(email)) {
       return updateErrorMessage('Invalid E-mail address format');
     }
 
-    if (password.isEmpty) {
-      return updateErrorMessage('Password is required');
-    }
+    if (password.isEmpty) return updateErrorMessage('Password is required');
 
     String pattern =
         r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
     RegExp regex = RegExp(pattern);
     if (!regex.hasMatch(password)) {
       return updateErrorMessage(
-          'Password must be at least 8 characters, include an uppercase letter, number and symbol.');
+        'Password must be at least 8 characters, include an uppercase letter, number and symbol.',
+      );
     }
 
-    final authService = locator<AuthenticationService>();
-    authService
+    _authService
         .createAccount(
       _emailController.text,
       _passwordController.text,

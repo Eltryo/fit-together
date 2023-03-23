@@ -11,11 +11,18 @@ class PostComments extends StatefulWidget {
 }
 
 class _PostCommentsState extends State<PostComments> {
+  late FirestoreService _firestoreService;
+  late AuthenticationService _authService;
+
+  @override
+  void initState() {
+    _firestoreService = locator<FirestoreService>();
+    _authService = locator<AuthenticationService>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final firestoreService = locator<FirestoreService>();
-    final authenticationService = locator<AuthenticationService>();
-
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -23,8 +30,7 @@ class _PostCommentsState extends State<PostComments> {
           children: [
             const Text("Comments"),
             FutureBuilder(
-              future: firestoreService
-                  .getUserByUid(authenticationService.currentUid!),
+              future: _firestoreService.getUserByUid(_authService.currentUid!),
               builder: (context, snapshot) {
                 //TODO: handle error
                 if (snapshot.hasData) {
@@ -33,7 +39,7 @@ class _PostCommentsState extends State<PostComments> {
                     style: const TextStyle(fontSize: 14, color: Colors.grey),
                   );
                 }
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               },
             )
           ],

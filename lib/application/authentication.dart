@@ -11,6 +11,7 @@ class AuthenticationService {
 
   String? get currentUid => _firebaseAuth.currentUser?.uid;
 
+  //TODO: eventually refactor to async/await
   Future<void> signInToAccount(String email, String password) {
     return _firebaseAuth
         .signInWithEmailAndPassword(email: email, password: password)

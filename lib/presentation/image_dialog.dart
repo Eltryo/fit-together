@@ -18,26 +18,33 @@ class ImageDialog extends StatefulWidget {
 
 class _ImageDialogState extends State<ImageDialog>
     with SingleTickerProviderStateMixin {
-  late TransformationController transformationController =
-      TransformationController();
-  late AnimationController animationController = AnimationController(
-    vsync: this,
-    duration: const Duration(milliseconds: 200),
-  )..addListener(() {
-      debugPrint("listening on animation");
-      transformationController.value = animation!.value;
-    });
-
-  final firestoreService = locator<FirestoreService>();
-  final authenticationService = locator<AuthenticationService>();
+  late TransformationController _transformationController;
+  late AnimationController _animationController;
+  late FirestoreService _firestoreService;
+  late AuthenticationService _authService;
 
   Animation<Matrix4>? animation;
   bool _liked = false;
 
   @override
+  void initState() {
+    super.initState();
+    _transformationController = TransformationController();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    )..addListener(() {
+        debugPrint("listening on animation");
+        _transformationController.value = animation!.value;
+      });
+    _firestoreService = locator<FirestoreService>();
+    _authService = locator<AuthenticationService>();
+  }
+
+  @override
   void dispose() {
-    transformationController.dispose();
-    animationController.dispose();
+    _transformationController.dispose();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -93,7 +100,7 @@ class _ImageDialogState extends State<ImageDialog>
       );
 
   Widget _buildImage() => InteractiveViewer(
-        transformationController: transformationController,
+        transformationController: _transformationController,
         onInteractionEnd: (details) {
           debugPrint("end interaction");
           resetAnimation();
@@ -120,12 +127,12 @@ class _ImageDialogState extends State<ImageDialog>
 
   void resetAnimation() {
     animation = Matrix4Tween(
-      begin: transformationController.value,
+      begin: _transformationController.value,
       end: Matrix4.identity(),
     ).animate(
-      CurvedAnimation(parent: animationController, curve: Curves.ease),
+      CurvedAnimation(parent: _animationController, curve: Curves.ease),
     );
     debugPrint("forward animation");
-    animationController.forward(from: 0);
+    _animationController.forward(from: 0);
   }
 }

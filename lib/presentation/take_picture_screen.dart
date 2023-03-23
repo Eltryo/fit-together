@@ -18,7 +18,7 @@ class TakePictureScreen extends StatefulWidget {
 }
 
 class _TakePictureScreenState extends State<TakePictureScreen> {
-  final storageService = locator<StorageService>();
+  late StorageService _storageService;
   late CameraController _cameraController;
   late Future<void> _initializeControllerFuture;
 
@@ -27,6 +27,7 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
     super.initState();
     _cameraController = CameraController(widget.camera, ResolutionPreset.max);
     _initializeControllerFuture = _cameraController.initialize();
+    _storageService = locator<StorageService>();
   }
 
   @override
@@ -63,7 +64,7 @@ class _TakePictureScreenState extends State<TakePictureScreen> {
         onPressed: () => _initializeControllerFuture.then(
           (_) => _cameraController.takePicture().then(
             (imageFile) {
-              storageService.addImageFile(File(imageFile.path));
+              _storageService.addImageFile(File(imageFile.path));
               Navigator.popUntil(context, (route) => route.isFirst);
             },
             onError: (error) => debugPrint("Error: $error"),

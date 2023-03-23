@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/application/authentication.dart';
 import 'package:fit_together/presentation/auth/password_form_field.dart';
+import 'package:fit_together/service_locator.dart';
 import 'package:flutter/material.dart';
 
 import 'email_form_field.dart';
@@ -15,19 +15,31 @@ class SignInPage extends StatefulWidget {
 }
 
 class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
-  final authService = locator<AuthenticationService>();
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
-  late final AnimationController _animationController = AnimationController(
-    duration: const Duration(milliseconds: 200),
-    vsync: this,
-  );
-  late final Animation<double> _animation = CurvedAnimation(
-    parent: _animationController,
-    curve: Curves.easeIn,
-  );
-  String _errorMessage = "";
+  late AuthenticationService _authService;
+  late GlobalKey<FormState> _formKey;
+  late TextEditingController _emailController;
+  late TextEditingController _passwordController;
+  late AnimationController _animationController;
+  late Animation<double> _animation;
+
+  var _errorMessage = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _authService = locator<AuthenticationService>();
+    _formKey = GlobalKey<FormState>();
+    _emailController = TextEditingController();
+    _passwordController = TextEditingController();
+    _animationController = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _animation = CurvedAnimation(
+      parent: _animationController,
+      curve: Curves.easeIn,
+    );
+  }
 
   @override
   void dispose() {
@@ -88,22 +100,18 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
     String email,
     String password,
   ) {
-    updateErrorMessage('');
-
-    if (email.isEmpty) {
-      return updateErrorMessage('E-mail address is required');
-    }
+    if (email.isEmpty) return updateErrorMessage('E-mail address is required');
 
     RegExp emailRegex = RegExp(r'\w+@\w+\.\w+');
     if (!emailRegex.hasMatch(email)) {
       return updateErrorMessage('Invalid E-mail Address format.');
     }
 
-    if (password.isEmpty) {
-      return updateErrorMessage('Password is required.');
-    }
+    if (password.isEmpty) return updateErrorMessage('Password is required.');
 
-    authService.signInToAccount(email, password).catchError(
+    updateErrorMessage('');
+
+    _authService.signInToAccount(email, password).catchError(
       (error) {
         updateErrorMessage(error.toString());
       },
