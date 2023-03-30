@@ -21,6 +21,9 @@ class AuthenticationWrapper extends StatelessWidget {
           prefs.setBool("first_time", false);
           return const RegistrationPage();
         }
+        if (snapshot.hasError) {
+          debugPrint("Error: ${snapshot.error}");
+        }
         return const Center(child: CircularProgressIndicator());
       },
     );

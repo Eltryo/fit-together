@@ -32,12 +32,14 @@ class _PostCommentsState extends State<PostComments> {
             FutureBuilder(
               future: _firestoreService.getUserByUid(_authService.currentUid!),
               builder: (context, snapshot) {
-                //TODO: handle error
                 if (snapshot.hasData) {
                   return Text(
                     snapshot.data!.username,
                     style: const TextStyle(fontSize: 14, color: Colors.grey),
                   );
+                }
+                if (snapshot.hasError) {
+                  debugPrint("Error: ${snapshot.error}");
                 }
                 return const Center(child: CircularProgressIndicator());
               },

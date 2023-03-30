@@ -7,7 +7,7 @@ import 'package:flutter/cupertino.dart';
 import '../domain/app_user.dart';
 
 class FirestoreService {
-  //TODO: test api, implement delete and update logic
+  //TODO: test api, implement delete
   static final FirebaseFirestore _firebaseFirestore =
       FirebaseFirestore.instance;
   final uid = locator<AuthenticationService>().currentUid;
@@ -53,7 +53,6 @@ class FirestoreService {
   Future<void> addImage(Picture picture) {
     return _firebaseFirestore.collection("pictures").add(picture.toJson()).then(
       (picture) {
-        //TODO: update picture count
         _firebaseFirestore.collection("users").doc(uid!).update(
           {
             "appUserStats.pictureCount": FieldValue.increment(1),

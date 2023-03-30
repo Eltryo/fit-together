@@ -74,6 +74,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           future: _buildProfilePagePosts(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) return snapshot.data!;
+                            if (snapshot.hasError) {
+                              debugPrint("Error: ${snapshot.error}");
+                            }
                             return const SizedBox.shrink();
                           },
                         )
@@ -81,6 +84,9 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 );
+              }
+              if (snapshot.hasError) {
+                debugPrint("Error: ${snapshot.error}");
               }
               return const Center(child: CircularProgressIndicator());
             },
