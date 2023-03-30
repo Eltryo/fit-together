@@ -124,18 +124,16 @@ class _RegistrationPageState extends State<RegistrationPage>
       );
     }
 
-    _authService
-        .createAccount(
-      _emailController.text,
-      _passwordController.text,
-      _usernameController.text,
-    )
-        .catchError(
-      (error) {
-        updateErrorMessage(error.toString());
-      },
-      test: (error) => error is FirebaseAuthException,
-    );
+    try{
+      _authService
+          .createAccount(
+        _emailController.text,
+        _passwordController.text,
+        _usernameController.text,
+      );
+    } on FirebaseAuthException catch(e){
+      updateErrorMessage(e.toString());
+    }
   }
 
   void updateErrorMessage(String errorMessage) {

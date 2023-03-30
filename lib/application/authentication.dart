@@ -1,7 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:fit_together/domain/app_user.dart';
-import 'package:fit_together/service_locator.dart';
-import 'package:fit_together/application/firestore.dart';
 import 'package:flutter/material.dart';
 
 class AuthenticationService {
@@ -12,50 +9,39 @@ class AuthenticationService {
   String? get currentUid => _firebaseAuth.currentUser?.uid;
 
   //TODO: eventually refactor to async/await
-  Future<void> signInToAccount(String email, String password) {
-    return _firebaseAuth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) => null)
-        .catchError((error) {
-      if (error.code == "user-not-found") {
+  Future<UserCredential> signInToAccount(String email, String password) {
+    try {
+      return _firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
         debugPrint("No user found for that email");
-      } else if (error.code == "wrong-password") {
+      } else if (e.code == "wrong-password") {
         debugPrint("Wrong password provided for that user");
-      } else if (error.code == "user-disabled") {
+      } else if (e.code == "user-disabled") {
         debugPrint("User is disabled");
       }
-
-      throw error;
-    }, test: (error) => error is FirebaseAuthException);
+      rethrow;
+    }
   }
 
   Future<void> signOut() {
     return _firebaseAuth.signOut();
   }
 
-  Future<void> createAccount(String email, String password, String username) {
-    return _firebaseAuth
-        .createUserWithEmailAndPassword(email: email, password: password)
-        .then(
-      (_) {
-        final firestoreService = locator<FirestoreService>();
-        firestoreService.addUser(
-          AppUser(
-            username: username,
-            email: email,
-          ),
-        );
-      },
-    ).catchError((error) {
-      if (error.code == "weak-password") {
+  Future<UserCredential> createAccount(String email, String password, String username) {
+    try{
+      return _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: password);
+    } on FirebaseAuthException catch(e){
+      if (e.code == "weak-password") {
         debugPrint("The password provided is too weak");
-      } else if (error.code == "email-already-in-use") {
+      } else if (e.code == "email-already-in-use") {
         debugPrint("The account already exists for that email.");
-      } else if (error.code == "operation-not-allowed") {
+      } else if (e.code == "operation-not-allowed") {
         debugPrint("The account already exists for that email.");
       }
-
-      throw error;
-    }, test: (error) => error is FirebaseAuthException);
+      rethrow;
+    }
   }
 }

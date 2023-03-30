@@ -60,7 +60,7 @@ class FirestoreService {
           },
         );
       },
-      onError: (error) => debugPrint("Error: $error"),
+      onError: (error) => debugPrint("Error : $error"),
     );
   }
 }
