@@ -49,7 +49,6 @@ class FirestoreService {
         );
   }
 
-  //TODO: add picture collection
   Future<void> addImage(Picture picture) {
     return _firebaseFirestore.collection("pictures").add(picture.toJson()).then(
       (picture) {
