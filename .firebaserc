@@ -1,8 +1,6 @@
 {
   "projects": {
-    "default": "fit-together-74181",
-    "production": "fit-together-prod",
-    "staging": "fit-together-staging"
+    "default": "fit-together-74181"
   },
   "targets": {},
   "etags": {}

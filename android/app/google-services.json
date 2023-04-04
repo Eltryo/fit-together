@@ -1,15 +1,45 @@
 {
   "project_info": {
     "project_number": "1090898793151",
+    "firebase_url": "https://fit-together-74181-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "fit-together-74181",
     "storage_bucket": "fit-together-74181.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1090898793151:android:89177921f45041a1a76c0a",
+        "mobilesdk_app_id": "1:1090898793151:android:8f7c4a184c06b4d1a76c0a",
         "android_client_info": {
           "package_name": "com.example.fit_together"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1090898793151-5lcn9cuqqqfct2anodkkc437ctsvadd2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiuo7wxrdd1HL0FPPrQGSSn-RQudItauw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1090898793151-5lcn9cuqqqfct2anodkkc437ctsvadd2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1090898793151:android:89177921f45041a1a76c0a",
+        "android_client_info": {
+          "package_name": "com.example.sports_app"
         }
       },
       "oauth_client": [
