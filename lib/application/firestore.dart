@@ -12,12 +12,19 @@ class FirestoreService {
       FirebaseFirestore.instance;
   final uid = locator<AuthenticationService>().currentUid;
 
-  Future<void> addUser(AppUser appUser) {
+  Future<void> addUser(EmailUsernameDto appUserDto) {
     return _firebaseFirestore
         .collection("users")
         .doc(uid!)
-        .set(appUser.toJson())
-        .catchError((error) => debugPrint("Error: $error"));
+        .get()
+        .then((doc) => {
+              if (!doc.exists)
+                {
+                  doc.reference
+                      .set(appUserDto.toJson())
+                      .catchError((error) => debugPrint("Error: $error"))
+                }
+            });
   }
 
   Future<Iterable<AppUser>> getUsers() {

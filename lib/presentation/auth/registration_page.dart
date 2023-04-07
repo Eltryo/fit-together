@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fit_together/application/firestore.dart';
+import 'package:fit_together/domain/app_user.dart';
 import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/application/authentication.dart';
 import 'package:fit_together/presentation/auth/password_form_field.dart';
@@ -17,6 +19,7 @@ class RegistrationPage extends StatefulWidget {
 class _RegistrationPageState extends State<RegistrationPage>
     with TickerProviderStateMixin {
   late AuthenticationService _authService;
+  late FirestoreService _firestoreService;
   late GlobalKey<FormState> _formKey;
   late TextEditingController _emailController;
   late TextEditingController _passwordController;
@@ -28,6 +31,7 @@ class _RegistrationPageState extends State<RegistrationPage>
   @override
   void initState() {
     _authService = locator<AuthenticationService>();
+    _firestoreService = locator<FirestoreService>();
     _formKey = GlobalKey<FormState>();
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
@@ -124,14 +128,15 @@ class _RegistrationPageState extends State<RegistrationPage>
       );
     }
 
-    try{
-      _authService
-          .createAccount(
+    try {
+      _authService.createAccount(
         _emailController.text,
         _passwordController.text,
         _usernameController.text,
       );
-    } on FirebaseAuthException catch(e){
+      _firestoreService.addUser(EmailUsernameDto(
+          username: _usernameController.text, email: _emailController.text));
+    } on FirebaseAuthException catch (e) {
       updateErrorMessage(e.toString());
     }
   }

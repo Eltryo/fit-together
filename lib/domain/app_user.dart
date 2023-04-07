@@ -44,3 +44,15 @@ class AppUser {
         if (imageUrl != null) "imageUrl": imageUrl,
       };
 }
+
+class EmailUsernameDto {
+  final String username;
+  final String email;
+
+  EmailUsernameDto({required this.username, required this.email});
+
+  Map<String, dynamic> toJson() => {
+        "username": username,
+        "email": email,
+      };
+}
