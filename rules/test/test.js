@@ -22,33 +22,50 @@ describe("firestore tests", () => {
         await firebase.clearFirestoreData({projectId: FIREBASE_PROJECT_ID})
     })
 
-    it('should get user document', async () => {
-            const db = getFireStore(myAuth)
-            const doc = db.collection("users").doc("cVV9YzdhqTSH0vr4YI4IzhzjroH3")
-            await firebase.assertSucceeds(doc.get());
-        }
-    );
+    describe("users collection tests",() => {
+        it('should get user document', async () => {
+                const db = getFireStore(myAuth)
+                const doc = db.collection("users").doc("cVV9YzdhqTSH0vr4YI4IzhzjroH3")
+                await firebase.assertSucceeds(doc.get());
+            }
+        );
 
-    it('should not get user document from false user', async () => {
-            const db = getFireStore(myAuth)
-            const doc = db.collection("users").doc("fW6YDKz1uwhAglNhF8Lb6HKqzwm2")
-            await firebase.assertFails(doc.get());
-        }
-    );
+        it('should not get user document from false user', async () => {
+                const db = getFireStore(myAuth)
+                const doc = db.collection("users").doc("fW6YDKz1uwhAglNhF8Lb6HKqzwm2")
+                await firebase.assertFails(doc.get());
+            }
+        );
 
-    it('should not get user document without authentication', async () => {
-            const db = getFireStore(myAuth)
-            const doc = db.collection("users").doc("fW6YDKz1uwhAglNhF8Lb6HKqzwm2")
-            await firebase.assertFails(doc.get());
-        }
-    );
+        it('should not get user document without authentication', async () => {
+                const db = getFireStore(myAuth)
+                const doc = db.collection("users").doc("fW6YDKz1uwhAglNhF8Lb6HKqzwm2")
+                await firebase.assertFails(doc.get());
+            }
+        );
 
-    it('should not create user document without authentication', async () => {
-            const db = getFireStore(null)
-            const doc = db.collection("users").doc("cVV9YzdhqTSH0vr4YI4IzhzjroH3")
-            await firebase.assertFails(doc.set({foo: "bar"}));
-        }
-    );
+        it('should not create user document without authentication', async () => {
+                const db = getFireStore(null)
+                const doc = db.collection("users").doc("cVV9YzdhqTSH0vr4YI4IzhzjroH3")
+                await firebase.assertFails(doc.set({foo: "bar"}));
+            }
+        );
+    })
 
-    //TODO: write more tests
+    describe("posts collection tests", () => {
+        //TODO: write more tests
+        it('should not get user document without authentication', async () => {
+                const db = getFireStore(null)
+                const doc = db.collection("posts").doc("doc")
+                await firebase.assertFails(doc.get());
+            }
+        );
+
+        it('should get public user document', async () => {
+                const db = getFireStore(myAuth)
+                const doc = db.collection("posts").where("visibility", "==", "public")
+                await firebase.assertSucceeds(doc.get());
+            }
+        );
+    })
 })
