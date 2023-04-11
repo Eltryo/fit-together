@@ -10,10 +10,12 @@ class AppUser {
   final String? lastName;
   final String? imageUrl;
   final AppUserStats appUserStats;
+  final Visibility visibility;
 
   AppUser({
     required this.username,
     required this.email,
+    required this.visibility,
     this.firstName,
     this.lastName,
     this.imageUrl,
@@ -28,6 +30,7 @@ class AppUser {
     return AppUser(
       username: data?["username"],
       email: data?["email"],
+      visibility: data?["visibility"],
       firstName: data?["firstName"],
       lastName: data?["lastName"],
       imageUrl: data?["imageUrl"],
@@ -39,7 +42,8 @@ class AppUser {
         "username": username,
         "email": email,
         "appUserStats": appUserStats.toJson(),
-        if (firstName != null) "firstName": firstName,
+        "visibility": visibility.value,
+    if (firstName != null) "firstName": firstName,
         if (lastName != null) "lastName": lastName,
         if (imageUrl != null) "imageUrl": imageUrl,
       };
@@ -55,4 +59,14 @@ class EmailUsernameDto {
         "username": username,
         "email": email,
       };
+}
+
+enum Visibility {
+  public("public"),
+  private("private"),
+  friends("friends");
+
+  const Visibility(this.value);
+
+  final String value;
 }

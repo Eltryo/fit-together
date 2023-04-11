@@ -119,13 +119,20 @@ class _RegistrationPageState extends State<RegistrationPage>
 
     if (password.isEmpty) return updateErrorMessage('Password is required');
 
-    String pattern =
-        r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$';
-    RegExp regex = RegExp(pattern);
-    if (!regex.hasMatch(password)) {
+    RegExp passwordRegex =
+        RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?\d)(?=.*?[!@#$&*~]).{8,}$');
+    if (!passwordRegex.hasMatch(password)) {
       return updateErrorMessage(
         'Password must be at least 8 characters, include an uppercase letter, number and symbol.',
       );
+    }
+
+    if (username.isEmpty) return updateErrorMessage('Username is required');
+
+    RegExp usernameRegex = RegExp(r'^[A-Za-z]\w{7,29}$');
+    if (!usernameRegex.hasMatch(username)) {
+      return updateErrorMessage(
+          'Username must be at least 8 characters, no special characters and should not start with an underscore');
     }
 
     try {
