@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fit_together/domain/picture.dart';
+import 'package:fit_together/domain/post.dart';
 import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/application/authentication.dart';
 import 'package:flutter/cupertino.dart';
@@ -56,7 +56,7 @@ class FirestoreService {
         );
   }
 
-  Future<void> addImage(Picture picture) {
+  Future<void> addImage(Post picture) {
     return _firebaseFirestore.collection("pictures").add(picture.toJson()).then(
       (picture) {
         _firebaseFirestore.collection("users").doc(uid!).update(

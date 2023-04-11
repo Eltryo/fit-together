@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:fit_together/domain/picture.dart';
+import 'package:fit_together/domain/post.dart';
 import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/application/authentication.dart';
 import 'package:fit_together/application/firestore.dart';
@@ -41,7 +41,7 @@ class StorageService {
             // ...
             debugPrint("Upload was successful");
             final firestoreService = locator<FirestoreService>();
-            final picture = Picture(
+            final picture = Post(
               path: taskSnapshot.ref.fullPath,
               ownerId: uid,
             );
