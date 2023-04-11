@@ -1,14 +1,55 @@
 rules_version = '2';
 service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{user} {
-      allow read, update, delete: if request.auth != null && request.auth.uid == user;
-      allow create: if request.auth != null && !exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    match /databases/{database}/documents {
+        match /users/{userId} {
+            allow read: if isUser(useId) || resource.data.visibility == 'public';
+            allow update: if usernameValid(request.resource.data.username) &&
+                             emailValid(request.resource.data.email) &&
+                             userFieldTypesValid(request.resource.data);
+            allow delete: if isUser(userId);
+            allow create: if request.auth != null &&
+                             request.auth.token.firebase.sign_in_provider != 'anonymous';
+        }
+        match /posts/{postId} {
+            allow read: if isUser(resource.data.ownerId) || userOfPostIsValid(postId);
+            //TODO: add more rules to update
+            allow update: if postFieldTypesValid(request.resource.data);
+            allow delete: if isUser(resource.data.ownerId);
+            allow create: if request.auth != null &&
+                             request.auth.token.firebase.sign_in_provider != 'anonymous';
+        }
     }
-    match /posts/{post} {
-      allow read, update, delete: if request.auth != null &&
-      (request.auth.uid == resource.data.ownerId || resource.data.visibility == "public");
-      allow create: if request.auth != null;
+
+    function userOfPostIsValid(postId){
+        let ownerOfPost = get(/databases/$(database)/documents/posts/$(postId)).ownerId;
+        let userVisibility = get(/databases/$(database)/documents/users/$(ownerOfPost)).visibility;
+        return userVisibility == 'public';
     }
-  }
+
+    function isUser(userId){
+        return request.auth != null && request.auth.uid == userId;
+    }
+
+    function emailValid(email) {
+        return email.matches('\\w+@\\w+\.\\w+');
+    }
+
+    function usernameValid(username) {
+        return username.matches('^[A-Za-z][A-Za-z0-9_]{7,29}$');
+    }
+
+    function userFieldTypesValid(userDoc) {
+        return userDoc.username is string &&
+               userDoc.email is string &&
+               userDoc.appUserStats is map &&
+               userDoc.visibiltiy is string &&
+               userDoc.get('firstName', '') is string &&
+               userDoc.get('lastName', '') is string &&
+               userDoc.get('imageUrl', '') is string
+    }
+
+    function postFieldTypesValid(postDoc) {
+        return postDoc.path is string &&
+               postDoc.ownerId is string;
+    }
 }
