@@ -5,8 +5,9 @@ service cloud.firestore {
       allow read, update, delete: if request.auth != null && request.auth.uid == user;
       allow create: if request.auth != null && !exists(/databases/$(database)/documents/users/$(request.auth.uid));
     }
-    match /pictures/{picture} {
-      allow read, update, delete: if request.auth != null && request.auth.uid == resource.ownerId;
+    match /posts/{post} {
+      allow read, update, delete: if request.auth != null &&
+      (request.auth.uid == resource.data.ownerId || resource.data.visibility == "public");
       allow create: if request.auth != null;
     }
   }
