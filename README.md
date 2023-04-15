@@ -8,3 +8,4 @@ This is a project to help me learn mobile development in flutter.
 
 * Flutter
 * Firebase
+* Node.js
