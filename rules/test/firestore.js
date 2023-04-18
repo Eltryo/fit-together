@@ -1,6 +1,9 @@
 const firebase = require("@firebase/testing");
 const FIREBASE_PROJECT_ID = "fit-together-74181";
-const myAuth = {uid: "cVV9YzdhqTSH0vr4YI4IzhzjroH3", email: "david.merkl.dm@gmail.com"}
+const myAuthUid = "cVV9YzdhqTSH0vr4YI4IzhzjroH3";
+const otherAuthUid = "fW6YDKz1uwhAglNhF8Lb6HKqzwm2";
+const myAuth = {uid: myAuthUid, email: "david.merkl.dm@gmail.com"};
+const otherAuth = {uid: otherAuthUid, email: "max.mustermann@gmail.com"};
 
 describe("firestore tests", () => {
     function getFireStore(myAuth) {
@@ -50,9 +53,19 @@ describe("firestore tests", () => {
             }
         );
 
-        it('should get public user document', async () => {
+        it('should get own user document', async () => {
                 const db = getFireStore(myAuth)
-                const doc = db.collection("posts").where("visibility", "==", "public")
+                const doc = db.collection("posts").where("ownerId", "==", myAuthUid)
+                await firebase.assertSucceeds(doc.get());
+            }
+        );
+
+        it('should get public user document', async () => {
+            //TODO: fix failing test
+                const db = getFireStore(myAuth)
+                const doc = db.collection("posts")
+                    .where("visibility", "==", "public")
+                    .where("ownerId", "==", otherAuthUid)
                 await firebase.assertSucceeds(doc.get());
             }
         );

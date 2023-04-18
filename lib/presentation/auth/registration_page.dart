@@ -112,7 +112,7 @@ class _RegistrationPageState extends State<RegistrationPage>
 
     if (email.isEmpty) return updateErrorMessage('E-mail address is required');
 
-    RegExp emailRegex = RegExp(r'\w+@\w+\.\w+');
+    RegExp emailRegex = RegExp(r'^[A-Z\d._%+-]+@[A-Z\d.-]+\\.[A-Z]{2,4}$');
     if (!emailRegex.hasMatch(email)) {
       return updateErrorMessage('Invalid E-mail address format');
     }

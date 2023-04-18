@@ -1,55 +1,64 @@
 rules_version = '2';
 service cloud.firestore {
     match /databases/{database}/documents {
+        function userOfPostIsValid(ownerId) {
+            return get(/databases/$(database)/documents/users/$(ownerId)).data.visibility == 'public';
+        }
+
+        function isUser(userId) {
+            return request.auth != null && request.auth.uid == userId;
+        }
+
+        function emailValid(email) {
+            return email.matches('^[A-Z\\d._%+-]+@[A-Z\\d.-]+\\.[A-Z]{2,4}$');
+        }
+
+        function usernameValid(username) {
+            return username.matches('^[A-Za-z][A-Za-z0-9_]{7,29}$');
+        }
+
+        function userFieldTypesValid(userDoc) {
+            return userDoc.username is string &&
+                   userDoc.email is string &&
+                   userDoc.appUserStats is map &&
+                   userDoc.visibiltiy is string &&
+                   userDoc.get('firstName', '') is string &&
+                   userDoc.get('lastName', '') is string &&
+                   userDoc.get('imageUrl', '') is string
+        }
+
+        function postFieldTypesValid(postDoc) {
+            return postDoc.path is string &&
+                   postDoc.ownerId is string;
+        }
+
+        function userHasAllFields(keys) {
+            return keys.hasAll(['username', 'email', 'appUserStats', 'visibility'])
+        }
+
+        function postHasAllFields(keys) {
+            return keys.hasAll(['path', 'ownerId'])
+        }
+
         match /users/{userId} {
-            allow read: if isUser(useId) || resource.data.visibility == 'public';
+            allow read: if isUser(userId) || resource.data.visibility == 'public';
             allow update: if usernameValid(request.resource.data.username) &&
                              emailValid(request.resource.data.email) &&
                              userFieldTypesValid(request.resource.data);
             allow delete: if isUser(userId);
-            allow create: if request.auth != null &&
+            allow create: if userHasAllFields(request.resource.data.keys()) &&
+                             request.auth != null &&
                              request.auth.token.firebase.sign_in_provider != 'anonymous';
         }
+
         match /posts/{postId} {
-            allow read: if isUser(resource.data.ownerId) || userOfPostIsValid(postId);
+            allow read: if isUser(resource.data.ownerId) || userOfPostIsValid(resource.data.ownerId);
             //TODO: add more rules to update
             allow update: if postFieldTypesValid(request.resource.data);
             allow delete: if isUser(resource.data.ownerId);
-            allow create: if request.auth != null &&
+            allow create: if postHasAllFields(request.resource.data.keys()) &&
+                             request.auth != null &&
                              request.auth.token.firebase.sign_in_provider != 'anonymous';
         }
-    }
-
-    function userOfPostIsValid(postId){
-        let ownerOfPost = get(/databases/$(database)/documents/posts/$(postId)).ownerId;
-        let userVisibility = get(/databases/$(database)/documents/users/$(ownerOfPost)).visibility;
-        return userVisibility == 'public';
-    }
-
-    function isUser(userId){
-        return request.auth != null && request.auth.uid == userId;
-    }
-
-    function emailValid(email) {
-        return email.matches('\\w+@\\w+\.\\w+');
-    }
-
-    function usernameValid(username) {
-        return username.matches('^[A-Za-z][A-Za-z0-9_]{7,29}$');
-    }
-
-    function userFieldTypesValid(userDoc) {
-        return userDoc.username is string &&
-               userDoc.email is string &&
-               userDoc.appUserStats is map &&
-               userDoc.visibiltiy is string &&
-               userDoc.get('firstName', '') is string &&
-               userDoc.get('lastName', '') is string &&
-               userDoc.get('imageUrl', '') is string
-    }
-
-    function postFieldTypesValid(postDoc) {
-        return postDoc.path is string &&
-               postDoc.ownerId is string;
     }
 }
