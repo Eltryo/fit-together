@@ -1,8 +1,13 @@
 rules_version = '2';
 service cloud.firestore {
     match /databases/{database}/documents {
+        function tryGet(path){
+            return exists(path) ? get(path) : null;
+        }
+
         function userOfPostIsValid(ownerId) {
-            return get(/databases/$(database)/documents/users/$(ownerId)).data.visibility == 'public';
+            let doc = tryGet(/databases/$(database)/documents/users/$(ownerId));
+            return doc != null ? (doc.data.visibility == 'public') : false;
         }
 
         function isUser(userId) {
@@ -47,6 +52,7 @@ service cloud.firestore {
                              userFieldTypesValid(request.resource.data);
             allow delete: if isUser(userId);
             allow create: if userHasAllFields(request.resource.data.keys()) &&
+                             userFieldTypesValid(request.resource.data) &&
                              request.auth != null &&
                              request.auth.token.firebase.sign_in_provider != 'anonymous';
         }
@@ -57,6 +63,7 @@ service cloud.firestore {
             allow update: if postFieldTypesValid(request.resource.data);
             allow delete: if isUser(resource.data.ownerId);
             allow create: if postHasAllFields(request.resource.data.keys()) &&
+                             postFieldTypesValid(request.resource.data) &&
                              request.auth != null &&
                              request.auth.token.firebase.sign_in_provider != 'anonymous';
         }
