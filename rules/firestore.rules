@@ -5,9 +5,9 @@ service cloud.firestore {
             return exists(path) ? get(path) : null;
         }
 
-        function userOfPostIsValid(ownerId) {
+        function userOfPostIsPublic(ownerId) {
             let doc = tryGet(/databases/$(database)/documents/users/$(ownerId));
-            return doc != null ? (doc.data.visibility == 'public') : false;
+            return doc != null ? (doc.data.visibility == 'public') : true;
         }
 
         function isUser(userId) {
@@ -26,7 +26,7 @@ service cloud.firestore {
             return userDoc.username is string &&
                    userDoc.email is string &&
                    userDoc.appUserStats is map &&
-                   userDoc.visibiltiy is string &&
+                   userDoc.visibility is string &&
                    userDoc.get('firstName', '') is string &&
                    userDoc.get('lastName', '') is string &&
                    userDoc.get('imageUrl', '') is string
@@ -58,7 +58,7 @@ service cloud.firestore {
         }
 
         match /posts/{postId} {
-            allow read: if isUser(resource.data.ownerId) || userOfPostIsValid(resource.data.ownerId);
+            allow read: if isUser(resource.data.ownerId) || userOfPostIsPublic(resource.data.ownerId);
             //TODO: add more rules to update
             allow update: if postFieldTypesValid(request.resource.data);
             allow delete: if isUser(resource.data.ownerId);
