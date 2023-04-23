@@ -5,7 +5,6 @@ class SubscriptionContentPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //TODO: change hardcode values
     return const Scaffold(
       body: Center(
         child: Text(
@@ -18,7 +17,6 @@ class SubscriptionContentPage extends StatelessWidget {
           ),
         ),
       ),
-      //TODO: show subscription content
     );
   }
 }

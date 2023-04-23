@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 import 'email_form_field.dart';
 
-//TODO: fix error thrown after sign in
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key}) : super(key: key);
 

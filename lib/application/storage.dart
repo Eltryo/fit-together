@@ -52,7 +52,6 @@ class StorageService {
     );
   }
 
-  //TODO: wait until download is finished
   Future<void> downloadToFiles() async {
     final uid = locator<AuthenticationService>().currentUid;
     final appDocDir = await getApplicationDocumentsDirectory();

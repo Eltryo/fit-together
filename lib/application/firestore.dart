@@ -7,7 +7,6 @@ import 'package:flutter/cupertino.dart';
 import '../domain/app_user.dart';
 
 class FirestoreService {
-  //TODO: test api, implement delete
   static final FirebaseFirestore _firebaseFirestore =
       FirebaseFirestore.instance;
   final uid = locator<AuthenticationService>().currentUid;

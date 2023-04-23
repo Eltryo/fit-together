@@ -13,7 +13,6 @@ class EditProfilePage extends StatelessWidget {
       appBar: AppBar(),
       body: Center(
         child: Column(
-          //TODO: implement features
           children: [
             ElevatedButton(
               onPressed: () {

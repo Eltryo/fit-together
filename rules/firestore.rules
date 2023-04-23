@@ -7,7 +7,7 @@ service cloud.firestore {
 
         function userOfPostIsPublic(ownerId) {
             let doc = tryGet(/databases/$(database)/documents/users/$(ownerId));
-            return doc != null ? (doc.data.visibility == 'public') : true;
+            return doc != null ? (doc.data.visibility == 'public') : false;
         }
 
         function isUser(userId) {

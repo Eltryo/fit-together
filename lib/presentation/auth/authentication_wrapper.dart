@@ -11,7 +11,6 @@ class AuthenticationWrapper extends StatelessWidget {
     return FutureBuilder(
       future: SharedPreferences.getInstance(),
       builder: (context, snapshot) {
-        //TODO: handle error
         if (snapshot.hasData) {
           final prefs = snapshot.data!;
           bool? firstTime = prefs.getBool("first_time");

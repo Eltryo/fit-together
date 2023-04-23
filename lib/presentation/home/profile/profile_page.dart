@@ -42,7 +42,6 @@ class _ProfilePageState extends State<ProfilePage> {
             future: _firestoreService
                 .getUserByUid(_authenticationService.currentUid!),
             builder: (context, snapshot) {
-              //TODO: handle error
               if (snapshot.hasData) {
                 final appUser = snapshot.data!;
                 return RefreshIndicator(
@@ -112,7 +111,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _buildButton(String text, int value) {
     return MaterialButton(
-      //TODO: implement button function
+      //TODO: implement button functionality
       onPressed: () {},
       child: Column(
         children: [
@@ -147,7 +146,6 @@ class _ProfilePageState extends State<ProfilePage> {
             child: InkWell(
               onTap: () => Navigator.push(
                 context,
-                //TODO: eventually replace with material route builder
                 MaterialPageRoute(
                     builder: (context) => const EditProfilePage()),
               ),
