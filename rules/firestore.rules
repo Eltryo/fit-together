@@ -1,7 +1,7 @@
 rules_version = '2';
 service cloud.firestore {
     match /databases/{database}/documents {
-        function tryGet(path){
+        function tryGet(path) {
             return exists(path) ? get(path) : null;
         }
 
@@ -47,11 +47,14 @@ service cloud.firestore {
 
         match /users/{userId} {
             allow read: if isUser(userId) || resource.data.visibility == 'public';
-            allow update: if usernameValid(request.resource.data.username) &&
+            allow update: if isUser(userId) &&
+                             usernameValid(request.resource.data.username) &&
                              emailValid(request.resource.data.email) &&
                              userFieldTypesValid(request.resource.data);
             allow delete: if isUser(userId);
-            allow create: if userHasAllFields(request.resource.data.keys()) &&
+            allow create: if usernameValid(request.resource.data.username) &&
+                             emailValid(request.resource.data.email) &&
+                             userHasAllFields(request.resource.data.keys()) &&
                              userFieldTypesValid(request.resource.data) &&
                              request.auth != null &&
                              request.auth.token.firebase.sign_in_provider != 'anonymous';
@@ -60,7 +63,9 @@ service cloud.firestore {
         match /posts/{postId} {
             allow read: if isUser(resource.data.ownerId) || userOfPostIsPublic(resource.data.ownerId);
             //TODO: add more rules to update
-            allow update: if postFieldTypesValid(request.resource.data);
+            allow update: if request.auth.uid == resource.data.ownerId &&
+                             postHasAllFields(request.resource.data.keys()) &&
+                             postFieldTypesValid(request.resource.data);
             allow delete: if isUser(resource.data.ownerId);
             allow create: if postHasAllFields(request.resource.data.keys()) &&
                              postFieldTypesValid(request.resource.data) &&
