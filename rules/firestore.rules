@@ -45,29 +45,44 @@ service cloud.firestore {
             return keys.hasAll(['path', 'ownerId'])
         }
 
+        function userDocIsValid(data) {
+            return usernameValid(data.username) &&
+                   emailValid(data.email) &&
+                   userHasAllFields(data.keys()) &&
+                   userFieldTypesValid(data);
+        }
+
+        function postDocIsValid(data) {
+            return postHasAllFields(data.keys()) &&
+                   postFieldTypesValid(data);
+        }
+
         match /users/{userId} {
+            //TODO: test list allow method
+            allow list: if isUser(userId) && request.query.limit <= 10;
             allow read: if isUser(userId) || resource.data.visibility == 'public';
             allow update: if isUser(userId) &&
-                             usernameValid(request.resource.data.username) &&
-                             emailValid(request.resource.data.email) &&
-                             userFieldTypesValid(request.resource.data);
+                             userDocIsValid(request.resource.data) &&
+                             //TODO: test condition
+                             !request.resource.data.diff(resource.data).affectedKeys().hasAny(['appUserStats']);
             allow delete: if isUser(userId);
             allow create: if isUser(request.resource) &&
-                             userHasAllFields(request.resource.data.keys()) &&
-                             userFieldTypesValid(request.resource.data) &&
+                             userDocIsValid(request.resource.data) &&
                              request.auth.token.firebase.sign_in_provider != 'anonymous';
         }
 
         match /posts/{postId} {
+            //TODO: test list allow method
+            allow list: if isUser(resource.data.ownerId) && request.query.limit <= 20;
             allow read: if isUser(resource.data.ownerId) || userOfPostIsPublic(resource.data.ownerId);
             //TODO: add more rules to update
-            allow update: if request.auth.uid == resource.data.ownerId &&
-                             postHasAllFields(request.resource.data.keys()) &&
-                             postFieldTypesValid(request.resource.data);
+            allow update: if isUser(resource.data.ownerId) &&
+                             postDocIsValid(request.resource.data) &&
+                             //TODO: test condition
+                             !request.resource.data.diff(resource.data).affectedKeys().hasAny(['path', 'ownerId']);
             allow delete: if isUser(resource.data.ownerId);
-            allow create: if isUser(request.resource) &&
-                             postHasAllFields(request.resource.data.keys()) &&
-                             postFieldTypesValid(request.resource.data) &&
+            allow create: if isUser(request.resource.data.ownerId) &&
+                             postDocIsValid(request.resource.data) &&
                              request.auth.token.firebase.sign_in_provider != 'anonymous';
         }
     }

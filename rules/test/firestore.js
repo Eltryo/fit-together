@@ -1,4 +1,5 @@
 const firebase = require("@firebase/testing");
+const fs = require("fs");
 
 const FIREBASE_PROJECT_ID = "fit-together-74181";
 const myAuthUid = "cVV9YzdhqTSH0vr4YI4IzhzjroH3";
@@ -6,13 +7,13 @@ const otherAuthUid = "fW6YDKz1uwhAglNhF8Lb6HKqzwm2";
 const myAuth = {uid: myAuthUid, email: "david.merkl.dm@gmail.com", firebase: {sign_in_provider: "password"}};
 const otherAuth = {uid: otherAuthUid, email: "max.mustermann@gmail.com", firebase: {sign_in_provider: "anonymous"}};
 
-describe("firestore tests", () => {
+describe("firestore tests", async () => {
     async function setup(myAuth, data = null) {
         const db = firebase.initializeTestApp({projectId: FIREBASE_PROJECT_ID, auth: myAuth,}).firestore()
         if (data) {
+            const adminDb = firebase.initializeAdminApp({projectId: FIREBASE_PROJECT_ID}).firestore()
             for (const key in data) {
-                //TODO: use admin sdk
-                await db.doc(key).set(data[key])
+                await adminDb.doc(key).set(data[key])
             }
         }
 
@@ -120,11 +121,10 @@ describe("firestore tests", () => {
         })
 
         describe("post request", () => {
-            //TODO: fix this shit
             it('should not create invalid username', async () => {
                 const db = await setup(myAuth)
                 const doc = db.collection("users").doc(myAuthUid)
-                await firebase.assertSucceeds(doc.set({
+                await firebase.assertFails(doc.set({
                     username: "_Eltryo123",
                     email: "david.merkl.dm@gmail.com",
                     appUserStats: {},
@@ -174,11 +174,11 @@ describe("firestore tests", () => {
                 }
             );
 
-            it('should not create user document with false fields', async () => {
+            it('should not create user document with anonymous auth method', async () => {
                     const db = await setup(otherAuth)
                     const doc = db.collection("users").doc(otherAuthUid)
                     await firebase.assertFails(doc.set({
-                        username: "Eltryo",
+                        username: "Eltryo1234",
                         email: "david.merkl.dm@gmail.com",
                         appUserStats: {},
                         visibility: "public"
@@ -226,6 +226,20 @@ describe("firestore tests", () => {
                     await firebase.assertSucceeds(doc.get());
                 }
             );
+        })
+
+        describe("delete request", () => {
+            it('should not delete post without authentication', async () => {
+                const db = await setup(null)
+                const doc = db.collection("posts").doc(myAuthUid)
+                await firebase.assertFails(doc.delete());
+            });
+
+            it('should not delete post without authorization', async () => {
+                const db = await setup(myAuth)
+                const doc = db.collection("posts").doc(otherAuthUid)
+                await firebase.assertFails(doc.delete());
+            });
         })
     })
 })
