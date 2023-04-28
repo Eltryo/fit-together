@@ -1,5 +1,4 @@
 const firebase = require("@firebase/testing");
-const fs = require("fs");
 
 const FIREBASE_PROJECT_ID = "fit-together-74181";
 const myAuthUid = "cVV9YzdhqTSH0vr4YI4IzhzjroH3";
@@ -81,6 +80,23 @@ describe("firestore tests", async () => {
         })
 
         describe("update requests", () => {
+            it.only('should update to valid username', async () => {
+                const userDocPath = `users/${myAuthUid}`
+                const mockData = {
+                    [userDocPath]: {
+                        username: "Eltryo123",
+                        email: "david.merkl.dm@gmail.com",
+                        appUserStats: {},
+                        visibility: "public"
+                    },
+                }
+                const db = await setup(myAuth, mockData)
+                const doc = db.collection("users").doc(myAuthUid)
+                await firebase.assertSucceeds(doc.update({
+                    "username": "Eltryo123"
+                }));
+            })
+
             it('should not update to invalid username', async () => {
                 const db = await setup(myAuth)
                 const doc = db.collection("users").doc(myAuthUid)
@@ -102,6 +118,14 @@ describe("firestore tests", async () => {
                 const doc = db.collection("users").doc(myAuthUid)
                 await firebase.assertFails(doc.update({
                     "visibility": true
+                }));
+            })
+
+            it('should not update to appUserStats', async () => {
+                const db = await setup(myAuth)
+                const doc = db.collection("users").doc(myAuthUid)
+                await firebase.assertFails(doc.update({
+                    "appUserStats": {foo: "bar"}
                 }));
             })
         })
