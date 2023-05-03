@@ -63,7 +63,6 @@ service cloud.firestore {
             allow read: if isUser(userId) || resource.data.visibility == 'public';
             allow update: if isUser(userId) &&
                              userDocIsValid(request.resource.data) &&
-                             //TODO: test condition
                              !request.resource.data.diff(resource.data).affectedKeys().hasAny(['appUserStats']);
             allow delete: if isUser(userId);
             allow create: if isUser(request.resource) &&
@@ -75,7 +74,6 @@ service cloud.firestore {
             //TODO: test list allow method
             allow list: if isUser(resource.data.ownerId) && request.query.limit <= 20;
             allow read: if isUser(resource.data.ownerId) || userOfPostIsPublic(resource.data.ownerId);
-            //TODO: add more rules to update
             allow update: if isUser(resource.data.ownerId) &&
                              postDocIsValid(request.resource.data) &&
                              //TODO: test condition
