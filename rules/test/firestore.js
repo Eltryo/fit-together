@@ -1,12 +1,9 @@
 const test = require("@firebase/rules-unit-testing");
 const {getDoc, setDoc, doc} = require("firebase/firestore")
 const fs = require('fs')
+const {getTests, updateTests} = require("./testData")
 
 const FIREBASE_PROJECT_ID = "fit-together-74181";
-const myAuthUid = "cVV9YzdhqTSH0vr4YI4IzhzjroH3";
-const otherAuthUid = "fW6YDKz1uwhAglNhF8Lb6HKqzwm2";
-const myAuth = {uid: myAuthUid, email: "david.merkl.dm@gmail.com", firebase: {sign_in_provider: "password"}};
-const otherAuth = {uid: otherAuthUid, email: "max.mustermann@gmail.com", firebase: {sign_in_provider: "anonymous"}};
 
 let testEnv
 
@@ -42,91 +39,8 @@ describe("firestore tests", async () => {
 
     describe("users collection tests", () => {
         describe("get request", () => {
-            const tests = [
-                {
-                    description: "shout not get user document from false user",
-                    mockData:
-                        {
-                            [`users/${otherAuthUid}`]: {
-                                username: "Eltryo123",
-                                email: "david.merkl.dm@gmail.com",
-                                appUserStats: {},
-                                visibility: "private"
-                            }
-                        }
-                    ,
-                    auth: myAuthUid,
-                    docId: otherAuthUid,
-                    assert: test.assertFails
-                },
-                {
-                    description: "should not get user document without authentication",
-                    mockData:
-                        {
-                            [`users/${myAuthUid}`]: {
-                                username: "Eltryo123",
-                                email: "david.merkl.dm@gmail.com",
-                                appUserStats: {},
-                                visibility: "private"
-                            }
-                        }
-                    ,
-                    auth: null,
-                    docId: myAuthUid,
-                    assert: test.assertFails
-                },
-                {
-                    description: "should not get private user document",
-                    mockData:
-                        {
-                            [`users/${otherAuthUid}`]: {
-                                username: "Eltryo123",
-                                email: "david.merkl.dm@gmail.com",
-                                appUserStats: {},
-                                visibility: "private"
-                            }
-                        }
-                    ,
-                    auth: myAuth,
-                    docId: otherAuthUid,
-                    assert: test.assertFails
-                },
-                //TODO: fix this shit
-                {
-                    description: "should get user document",
-                    mockData:
-                        {
-                            [`users/${myAuthUid}`]: {
-                                username: "Eltryo123",
-                                email: "david.merkl.dm@gmail.com",
-                                appUserStats: {},
-                                visibility: "private"
-                            }
-                        }
-                    ,
-                    auth: myAuth,
-                    docId: myAuthUid,
-                    assert: test.assertSucceeds
-                },
-                {
-                    description: "should get public user document",
-                    mockData:
-                        {
-                            [`users/${otherAuthUid}`]: {
-                                username: "Eltryo123",
-                                email: "david.merkl.dm@gmail.com",
-                                appUserStats: {},
-                                visibility: "public"
-                            }
-                        }
-                    ,
-                    auth: myAuth,
-                    docId: otherAuthUid,
-                    assert: test.assertSucceeds
-                },
-            ]
 
-            tests.forEach(({description, mockData, auth, docId, assert}) => {
+            getTests.forEach(({description, mockData, auth, docId, assert}) => {
                 it(description, async () => {
                     await setup(mockData);
                     const user = auth == null ? testEnv.unauthenticatedContext() : testEnv.authenticatedContext(auth)
@@ -136,95 +50,7 @@ describe("firestore tests", async () => {
         })
 
         describe("update requests", () => {
-            const tests = [
-                {
-                    description: "should update to valid username",
-                    mockData:
-                        {
-                            [`users/${myAuthUid}`]: {
-                                username: "Eltryo",
-                                email: "david.merkl.dm@gmail.com",
-                                appUserStats: {},
-                                visibility: "public"
-                            }
-                        }
-                    ,
-                    updateData: {username: "Eltryo123"},
-                    auth: myAuthUid,
-                    docId: myAuthUid,
-                    assert: test.assertSucceeds
-                },
-                {
-                    description: "should not update to invalid username",
-                    mockData:
-                        {
-                            [`users/${myAuthUid}`]: {
-                                username: "Eltryo123",
-                                email: "david.merkl.dm@gmail.com",
-                                appUserStats: {},
-                                visibility: "private"
-                            }
-                        }
-                    ,
-                    updateData: {username: "_Eltryo"},
-                    auth: myAuth,
-                    docId: myAuthUid,
-                    assert: test.assertFails
-                },
-                {
-                    description: "should not update to invalid email",
-                    mockData:
-                        {
-                            [`users/${myAuthUid}`]: {
-                                username: "Eltryo123",
-                                email: "david.merkl.dm@gmail.com",
-                                appUserStats: {},
-                                visibility: "private"
-                            }
-                        }
-                    ,
-                    updateData: {email: "david.merkl.dm@gmail.com"},
-                    auth: myAuth,
-                    docId: myAuthUid,
-                    assert: test.assertFails
-                },
-                {
-                    description: "should not update to user with false field types",
-                    mockData:
-                        {
-                            [`users/${myAuthUid}`]: {
-                                username: "Eltryo123",
-                                email: "david.merkl.dm@gmail.com",
-                                appUserStats: {},
-                                visibility: "public"
-                            }
-                        }
-                    ,
-                    updateData: {visibility: true},
-                    auth: myAuth,
-                    docId: myAuthUid,
-                    assert: test.assertFails
-                },
-                {
-                    description: "should not update to appUserStats",
-                    mockData:
-                        {
-                            [`users/${myAuthUid}`]: {
-                                username: "Eltryo123",
-                                email: "david.merkl.dm@gmail.com",
-                                appUserStats: {},
-                                visibility: "public"
-                            }
-                        }
-                    ,
-                    updateData: {appUserStats: {foo: "bar"}},
-                    auth: myAuth,
-                    docId: myAuthUid,
-                    assert: test.assertFails
-                },
-            ]
-
-            tests.forEach(({description, mockData, updateData, auth, docId, assert}) => {
+            updateTests.forEach(({description, mockData, updateData, auth, docId, assert}) => {
                 it(description, async () => {
                     await setup(mockData);
                     const user = auth == null ? testEnv.unauthenticatedContext() : testEnv.authenticatedContext(auth)
@@ -314,8 +140,8 @@ describe("firestore tests", async () => {
             //     })
             // })
             //
-            // describe("posts collection tests", () => {
-            //     //TODO: write more tests
+            // describe("posts collection updateTests", () => {
+            //     //TODO: write more updateTests
             //     describe("get request", () => {
             //         it('should not get user document without authentication', async () => {
             //                 await setup(null)
