@@ -5,7 +5,7 @@ const otherAuthUid = "fW6YDKz1uwhAglNhF8Lb6HKqzwm2";
 const myAuth = {sub: myAuthUid, email: "david.merkl.dm@gmail.com", firebase: {sign_in_provider: "password"}};
 const otherAuth = {sub: otherAuthUid, email: "max.mustermann@gmail.com", firebase: {sign_in_provider: "anonymous"}};
 
-exports.getTests = [
+exports.usersGetTests = [
     {
         description: "should not get user document without authentication",
         setupData:
@@ -72,24 +72,23 @@ exports.getTests = [
     },
 ]
 
-exports.updateTests = [
-    //TODO: fix this test case
-    // {
-    //     description: "should update to valid username",
-    //     setupData:
-    //         {
-    //             [`users/${myAuthUid}`]: {
-    //                 username: "Eltryo123",
-    //                 email: "david.merkl.dm@gmail.com",
-    //                 appUserStats: {},
-    //                 visibility: "public"
-    //             }
-    //         }
-    //     ,
-    //     updateData: {username: "Eltryo123_"},
-    //     uid: myAuthUid,
-    //     assert: test.assertSucceeds
-    // },
+exports.userUpdateTests = [
+    {
+        description: "should update to valid username",
+        setupData:
+            {
+                [`users/${myAuthUid}`]: {
+                    username: "Eltryo123",
+                    email: "david.merkl.dm@gmail.com",
+                    appUserStats: {},
+                    visibility: "public"
+                }
+            }
+        ,
+        updateData: {username: "Eltryo123_"},
+        uid: myAuthUid,
+        assert: test.assertSucceeds
+    },
     {
         description: "should not update to invalid username",
         setupData:
@@ -160,7 +159,7 @@ exports.updateTests = [
     },
 ]
 
-exports.deleteTests = [
+exports.userDeleteTests = [
     {
         description: "should not delete user without authentication",
         setupData:
@@ -195,7 +194,7 @@ exports.deleteTests = [
     }
 ]
 
-exports.setTests = [
+exports.userSetTests = [
     {
         description: "should not create invalid username",
         setData:
@@ -289,4 +288,45 @@ exports.setTests = [
         docId: otherAuthUid,
         assert: test.assertFails
     },
+]
+
+exports.postsGetTests = [
+    {
+        description: "should not get user document without authentication",
+        setupData:
+            mockData = {
+                [`users/${myAuthUid}`]: {
+                    username: "Eltryo",
+                    email: "david.merkl.dm@gmail.com",
+                    appUserStats: {},
+                    visibility: "private"
+                },
+                [`posts/doc`]: {
+                    path: "",
+                    ownerId: myAuthUid
+                }
+            }
+        ,
+        uid: null,
+        assert: test.assertFails
+    },
+    {
+        description: "should get public user document",
+        setupData:
+            mockData = {
+                [`users/${myAuthUid}`]: {
+                    username: "Eltryo",
+                    email: "david.merkl.dm@gmail.com",
+                    appUserStats: {},
+                    visibility: "public"
+                },
+                [`posts/doc`]: {
+                    path: "",
+                    ownerId: myAuthUid
+                }
+            }
+        ,
+        uid: null,
+        assert: test.assertSucceeds
+    }
 ]

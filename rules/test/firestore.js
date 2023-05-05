@@ -1,7 +1,7 @@
 const test = require("@firebase/rules-unit-testing");
-const {deleteDoc, updateDoc, getDoc, setDoc, doc} = require("firebase/firestore")
+const {getDocs, deleteDoc, updateDoc, getDoc, setDoc, doc, collection, query, where} = require("firebase/firestore")
 const fs = require('fs')
-const {setTests, getTests, updateTests, deleteTests} = require("./testData")
+const {userSetTests, usersGetTests, userUpdateTests, userDeleteTests, postsGetTests} = require("./testData")
 
 let testEnv
 
@@ -37,7 +37,7 @@ describe("firestore tests", async () => {
 
     describe("users collection tests", () => {
         describe("get request", () => {
-            getTests.forEach(({description, setupData, uid, docId, assert}) => {
+            usersGetTests.forEach(({description, setupData, uid, docId, assert}) => {
                 it(description, async () => {
                     await setup(setupData);
                     const user = uid == null ? testEnv.unauthenticatedContext() : testEnv.authenticatedContext(uid)
@@ -47,86 +47,85 @@ describe("firestore tests", async () => {
         })
 
         describe("update requests", () => {
-            updateTests.forEach(({description, setupData, updateData, uid, docId, assert}) => {
+            userUpdateTests.forEach(({description, setupData, updateData, uid, docId, assert}) => {
                 it(description, async () => {
                     await setup(setupData);
                     const user = uid == null ? testEnv.unauthenticatedContext() : testEnv.authenticatedContext(uid)
-                    await assert(updateDoc(doc(user.firestore(), `user/${docId}`), updateData))
+                    await assert(updateDoc(doc(user.firestore(), `users/${docId}`), updateData))
                 })
             })
         })
 
         describe("delete requests", () => {
-            deleteTests.forEach(({description, setupData, uid, docId, assert}) => {
+            userDeleteTests.forEach(({description, setupData, uid, docId, assert}) => {
                 it(description, async () => {
                     await setup(setupData);
                     const user = uid == null ? testEnv.unauthenticatedContext() : testEnv.authenticatedContext(uid)
-                    await assert(deleteDoc(doc(user.firestore(), `user/${docId}`)))
+                    await assert(deleteDoc(doc(user.firestore(), `users/${docId}`)))
                 })
             })
         })
 
         describe("post requests", () => {
-            setTests.forEach(({description, setData, auth, docId, assert}) => {
+            userSetTests.forEach(({description, setData, auth, docId, assert}) => {
                 it(description, async () => {
                     const user = auth == null ? testEnv.unauthenticatedContext() : testEnv.authenticatedContext(auth.sub)
-                    await assert(setDoc(doc(user.firestore(), `user/${docId}`), setData))
+                    await assert(setDoc(doc(user.firestore(), `users/${docId}`), setData))
                 })
             })
         })
 
-        // describe("posts collection updateTests", () => {
-        //     //TODO: write more updateTests
-        //     describe("get request", () => {
-        //         it('should not get user document without authentication', async () => {
-        //                 await setup(null)
-        //                 const doc = db.collection("posts").doc("doc")
-        //                 await test.assertFails(doc.get());
-        //             }
-        //         );
-        //
-        //         it('should get own user document', async () => {
-        //                 await setup(myAuth)
-        //                 const doc = db.collection("posts").where("ownerId", "==", myAuthUid)
-        //                 await test.assertSucceeds(doc.get());
-        //             }
-        //         );
-        //
-        //         it('should get public user document', async () => {
-        //                 const userDocPath = `users/${otherAuthUid}`
-        //                 const postDocPath = `posts/ `
-        //                 const mockData = {
-        //                     [userDocPath]: {
-        //                         username: "Eltryo",
-        //                         email: "david.merkl.dm@gmail.com",
-        //                         appUserStats: {},
-        //                         visibility: "public"
-        //                     },
-        //                     [postDocPath]: {
-        //                         path: "",
-        //                         ownerId: otherAuthUid
-        //                     }
-        //                 }
-        //                 await setup(myAuth, mockData)
-        //                 const doc = db.collection("posts")
-        //                     .where("ownerId", "==", otherAuthUid)
-        //                 await test.assertSucceeds(doc.get());
-        //             }
-        //         );
-        //     })
-        //
-        //     describe("delete request", () => {
-        //         it('should not delete post without authentication', async () => {
-        //             await setup(null)
-        //             const doc = db.collection("posts").doc(myAuthUid)
-        //             await test.assertFails(doc.delete());
-        //         });
-        //
-        //         it('should not delete post without authorization', async () => {
-        //             await setup(myAuth)
-        //             const doc = db.collection("posts").doc(otherAuthUid)
-        //             await test.assertFails(doc.delete());
-        //         });
-        //     })
+        describe.only("posts collection updateTests", () => {
+            postsGetTests.forEach(({description, setupData, uid, assert}) => {
+                it(description, async () => {
+                    await setup(setupData)
+                    const user = uid == null ? testEnv.unauthenticatedContext() : testEnv.authenticatedContext(uid)
+                    const q = query(collection(user.firestore(), "posts"), where("ownerId", "==", uid))
+                    await assert(getDocs(q))
+                })
+            })
+            // it('should get own user document', async () => {
+            //         await setup(myAuth)
+            //         const doc = db.collection("posts").where("ownerId", "==", myAuthUid)
+            //         await test.assertSucceeds(doc.get());
+            //     }
+            // );
+            //
+            //         it('should get public user document', async () => {
+            //                 const userDocPath = `users/${otherAuthUid}`
+            //                 const postDocPath = `posts/ `
+            //                 const mockData = {
+            //                     [userDocPath]: {
+            //                         username: "Eltryo",
+            //                         email: "david.merkl.dm@gmail.com",
+            //                         appUserStats: {},
+            //                         visibility: "public"
+            //                     },
+            //                     [postDocPath]: {
+            //                         path: "",
+            //                         ownerId: otherAuthUid
+            //                     }
+            //                 }
+            //                 await setup(myAuth, mockData)
+            //                 const doc = db.collection("posts")
+            //                     .where("ownerId", "==", otherAuthUid)
+            //                 await test.assertSucceeds(doc.get());
+            //             }
+            //         );
+            //     })
+            //
+            //     describe("delete request", () => {
+            //         it('should not delete post without authentication', async () => {
+            //             await setup(null)
+            //             const doc = db.collection("posts").doc(myAuthUid)
+            //             await test.assertFails(doc.delete());
+            //         });
+            //
+            //         it('should not delete post without authorization', async () => {
+            //             await setup(myAuth)
+            //             const doc = db.collection("posts").doc(otherAuthUid)
+            //             await test.assertFails(doc.delete());
+            //         });
+        })
     })
 })

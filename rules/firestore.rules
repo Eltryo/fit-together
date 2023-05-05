@@ -72,7 +72,7 @@ service cloud.firestore {
 
         match /posts/{postId} {
             //TODO: test list allow method
-            allow list: if isUser(resource.data.ownerId) && request.query.limit <= 20;
+            allow list: if (isUser(resource.data.ownerId) || userOfPostIsPublic(resource.data.ownerId)) && request.query.limit <= 20;
             allow read: if isUser(resource.data.ownerId) || userOfPostIsPublic(resource.data.ownerId);
             allow update: if isUser(resource.data.ownerId) &&
                              postDocIsValid(request.resource.data) &&
