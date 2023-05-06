@@ -84,13 +84,6 @@ describe("firestore tests", async () => {
                     await assert(getDocs(q))
                 })
             })
-            // it('should get own user document', async () => {
-            //         await setup(myAuth)
-            //         const doc = db.collection("posts").where("ownerId", "==", myAuthUid)
-            //         await test.assertSucceeds(doc.get());
-            //     }
-            // );
-            //
             //         it('should get public user document', async () => {
             //                 const userDocPath = `users/${otherAuthUid}`
             //                 const postDocPath = `posts/ `

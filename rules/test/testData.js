@@ -294,26 +294,7 @@ exports.postsGetTests = [
     {
         description: "should not get user document without authentication",
         setupData:
-            mockData = {
-                [`users/${myAuthUid}`]: {
-                    username: "Eltryo",
-                    email: "david.merkl.dm@gmail.com",
-                    appUserStats: {},
-                    visibility: "private"
-                },
-                [`posts/doc`]: {
-                    path: "",
-                    ownerId: myAuthUid
-                }
-            }
-        ,
-        uid: null,
-        assert: test.assertFails
-    },
-    {
-        description: "should get public user document",
-        setupData:
-            mockData = {
+            {
                 [`users/${myAuthUid}`]: {
                     username: "Eltryo",
                     email: "david.merkl.dm@gmail.com",
@@ -327,6 +308,44 @@ exports.postsGetTests = [
             }
         ,
         uid: null,
+        assert: test.assertFails
+    },
+    {
+        description: "should get own user document",
+        setupData:
+            {
+                [`users/${myAuthUid}`]: {
+                    username: "Eltryo",
+                    email: "david.merkl.dm@gmail.com",
+                    appUserStats: {},
+                    visibility: "private"
+                },
+                [`posts/doc`]: {
+                    path: "",
+                    ownerId: myAuthUid
+                }
+            }
+        ,
+        uid: myAuthUid,
+        assert: test.assertSucceeds
+    },
+    {
+        description: "should get public user document",
+        setupData:
+            {
+                [`users/${otherAuthUid}`]: {
+                    username: "Eltryo",
+                    email: "david.merkl.dm@gmail.com",
+                    appUserStats: {},
+                    visibility: "public"
+                },
+                [`posts/doc`]: {
+                    path: "",
+                    ownerId: otherAuthUid
+                }
+            }
+        ,
+        uid: myAuthUid,
         assert: test.assertSucceeds
     }
 ]
