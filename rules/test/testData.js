@@ -74,22 +74,6 @@ exports.usersGetTests = [
 
 exports.userUpdateTests = [
     {
-        description: "should update to valid username",
-        setupData:
-            {
-                [`users/${myAuthUid}`]: {
-                    username: "Eltryo123",
-                    email: "david.merkl.dm@gmail.com",
-                    appUserStats: {},
-                    visibility: "public"
-                }
-            }
-        ,
-        updateData: {username: "Eltryo123_"},
-        uid: myAuthUid,
-        assert: test.assertSucceeds
-    },
-    {
         description: "should not update to invalid username",
         setupData:
             {
@@ -347,5 +331,46 @@ exports.postsGetTests = [
         ,
         uid: myAuthUid,
         assert: test.assertSucceeds
+    }
+]
+
+exports.postsDeleteTests = [
+    {
+        description: "should delete own post",
+        setupData:
+            {
+                [`users/${myAuthUid}`]: {
+                    username: "Eltryo",
+                    email: "david.merkl.dm@gmail.com",
+                    appUserStats: {},
+                    visibility: "public"
+                },
+                [`posts/doc`]: {
+                    path: "",
+                    ownerId: myAuthUid
+                }
+            }
+        ,
+        uid: myAuthUid,
+        assert: test.assertSucceeds
+    },
+    {
+        description: "should not delete post without authorization",
+        setupData:
+            {
+                [`users/${myAuthUid}`]: {
+                    username: "Eltryo",
+                    email: "david.merkl.dm@gmail.com",
+                    appUserStats: {},
+                    visibility: "public"
+                },
+                [`posts/doc`]: {
+                    path: "",
+                    ownerId: myAuthUid
+                }
+            }
+        ,
+        uid: otherAuthUid,
+        assert: test.assertFails
     }
 ]

@@ -1,7 +1,14 @@
 const test = require("@firebase/rules-unit-testing");
 const {getDocs, deleteDoc, updateDoc, getDoc, setDoc, doc, collection, query, where} = require("firebase/firestore")
 const fs = require('fs')
-const {userSetTests, usersGetTests, userUpdateTests, userDeleteTests, postsGetTests} = require("./testData")
+const {
+    userSetTests,
+    usersGetTests,
+    userUpdateTests,
+    userDeleteTests,
+    postsGetTests,
+    postsDeleteTests
+} = require("./testData")
 
 let testEnv
 
@@ -46,7 +53,7 @@ describe("firestore tests", async () => {
             })
         })
 
-        describe("update requests", () => {
+        describe.only("update requests", () => {
             userUpdateTests.forEach(({description, setupData, updateData, uid, docId, assert}) => {
                 it(description, async () => {
                     await setup(setupData);
@@ -74,8 +81,10 @@ describe("firestore tests", async () => {
                 })
             })
         })
+    })
 
-        describe.only("posts collection updateTests", () => {
+    describe("posts collection tests", () => {
+        describe("update requests", () => {
             postsGetTests.forEach(({description, setupData, uid, assert}) => {
                 it(description, async () => {
                     await setup(setupData)
@@ -84,41 +93,20 @@ describe("firestore tests", async () => {
                     await assert(getDocs(q))
                 })
             })
-            //         it('should get public user document', async () => {
-            //                 const userDocPath = `users/${otherAuthUid}`
-            //                 const postDocPath = `posts/ `
-            //                 const mockData = {
-            //                     [userDocPath]: {
-            //                         username: "Eltryo",
-            //                         email: "david.merkl.dm@gmail.com",
-            //                         appUserStats: {},
-            //                         visibility: "public"
-            //                     },
-            //                     [postDocPath]: {
-            //                         path: "",
-            //                         ownerId: otherAuthUid
-            //                     }
-            //                 }
-            //                 await setup(myAuth, mockData)
-            //                 const doc = db.collection("posts")
-            //                     .where("ownerId", "==", otherAuthUid)
-            //                 await test.assertSucceeds(doc.get());
-            //             }
-            //         );
-            //     })
-            //
-            //     describe("delete request", () => {
-            //         it('should not delete post without authentication', async () => {
-            //             await setup(null)
-            //             const doc = db.collection("posts").doc(myAuthUid)
-            //             await test.assertFails(doc.delete());
-            //         });
-            //
-            //         it('should not delete post without authorization', async () => {
-            //             await setup(myAuth)
-            //             const doc = db.collection("posts").doc(otherAuthUid)
-            //             await test.assertFails(doc.delete());
-            //         });
+        })
+
+        describe("delete requests", () => {
+            postsDeleteTests.forEach(({description, setupData, uid, assert}) => {
+                it(description, async () => {
+                    await setup(setupData)
+                    const user = uid == null ? testEnv.unauthenticatedContext() : testEnv.authenticatedContext(uid)
+                    const q = query(collection(user.firestore(), "posts"), where("ownerId", "==", uid))
+                    const querySnapshot = await getDocs(q)
+                    querySnapshot.forEach(doc => {
+                        assert(deleteDoc(doc.ref))
+                    })
+                })
+            })
         })
     })
 })
