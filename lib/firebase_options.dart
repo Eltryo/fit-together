@@ -54,7 +54,8 @@ class DefaultFirebaseOptions {
     appId: '1:1090898793151:android:8f7c4a184c06b4d1a76c0a',
     messagingSenderId: '1090898793151',
     projectId: 'fit-together-74181',
-    databaseURL: 'https://fit-together-74181-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://fit-together-74181-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'fit-together-74181.appspot.com',
   );
 
@@ -63,9 +64,11 @@ class DefaultFirebaseOptions {
     appId: '1:1090898793151:ios:89894229a5fd7f1ea76c0a',
     messagingSenderId: '1090898793151',
     projectId: 'fit-together-74181',
-    databaseURL: 'https://fit-together-74181-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://fit-together-74181-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'fit-together-74181.appspot.com',
-    iosClientId: '1090898793151-t422mgufogcjrfr260g42b0u8l4oja2p.apps.googleusercontent.com',
+    iosClientId:
+        '1090898793151-t422mgufogcjrfr260g42b0u8l4oja2p.apps.googleusercontent.com',
     iosBundleId: 'com.example.sportsApp',
   );
 }

@@ -43,7 +43,7 @@ class AppUser {
         "email": email,
         "appUserStats": appUserStats.toJson(),
         "visibility": visibility.value,
-    if (firstName != null) "firstName": firstName,
+        if (firstName != null) "firstName": firstName,
         if (lastName != null) "lastName": lastName,
         if (imageUrl != null) "imageUrl": imageUrl,
       };

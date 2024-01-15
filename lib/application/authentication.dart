@@ -28,11 +28,12 @@ class AuthenticationService {
     return _firebaseAuth.signOut();
   }
 
-  Future<UserCredential> createAccount(String email, String password, String username) {
-    try{
-      return _firebaseAuth
-          .createUserWithEmailAndPassword(email: email, password: password);
-    } on FirebaseAuthException catch(e){
+  Future<UserCredential> createAccount(
+      String email, String password, String username) {
+    try {
+      return _firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
+    } on FirebaseAuthException catch (e) {
       if (e.code == "weak-password") {
         debugPrint("The password provided is too weak");
       } else if (e.code == "email-already-in-use") {

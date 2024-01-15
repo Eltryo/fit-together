@@ -1,14 +1,14 @@
 import 'dart:io';
 
 import 'package:camera/camera.dart';
-import 'package:fit_together/domain/app_user_stats.dart';
-import 'package:fit_together/presentation/home/profile/edit_profile_page.dart';
-import 'package:fit_together/presentation/take_picture_screen.dart';
-import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/application/authentication.dart';
 import 'package:fit_together/application/firestore.dart';
 import 'package:fit_together/application/storage.dart';
+import 'package:fit_together/domain/app_user_stats.dart';
+import 'package:fit_together/presentation/home/profile/edit_profile_page.dart';
 import 'package:fit_together/presentation/image_dialog.dart';
+import 'package:fit_together/presentation/take_picture_screen.dart';
+import 'package:fit_together/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';

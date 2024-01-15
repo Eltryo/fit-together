@@ -1,7 +1,7 @@
-import 'package:fit_together/presentation/home/timer.dart';
 import 'package:fit_together/presentation/home/achievements.dart';
 import 'package:fit_together/presentation/home/profile/profile_page.dart';
 import 'package:fit_together/presentation/home/subscription_content_page.dart';
+import 'package:fit_together/presentation/home/timer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 

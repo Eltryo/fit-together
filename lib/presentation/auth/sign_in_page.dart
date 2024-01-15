@@ -110,9 +110,9 @@ class _SignInPageState extends State<SignInPage> with TickerProviderStateMixin {
 
     updateErrorMessage('');
 
-    try{
+    try {
       _authService.signInToAccount(email, password);
-    } on FirebaseAuthException catch(e){
+    } on FirebaseAuthException catch (e) {
       updateErrorMessage(e.toString());
     }
   }

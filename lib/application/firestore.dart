@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fit_together/application/authentication.dart';
 import 'package:fit_together/domain/post.dart';
 import 'package:fit_together/service_locator.dart';
-import 'package:fit_together/application/authentication.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../domain/app_user.dart';

@@ -1,7 +1,7 @@
-import 'package:fit_together/presentation/post_comments.dart';
-import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/application/authentication.dart';
 import 'package:fit_together/application/firestore.dart';
+import 'package:fit_together/presentation/post_comments.dart';
+import 'package:fit_together/service_locator.dart';
 import 'package:flutter/material.dart';
 
 class ImageDialog extends StatefulWidget {

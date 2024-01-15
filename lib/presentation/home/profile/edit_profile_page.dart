@@ -1,5 +1,5 @@
-import 'package:fit_together/service_locator.dart';
 import 'package:fit_together/application/authentication.dart';
+import 'package:fit_together/service_locator.dart';
 import 'package:flutter/material.dart';
 
 class EditProfilePage extends StatelessWidget {
