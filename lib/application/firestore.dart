@@ -9,9 +9,9 @@ import '../domain/app_user.dart';
 class FirestoreService {
   static final FirebaseFirestore _firebaseFirestore =
       FirebaseFirestore.instance;
-  final uid = locator<AuthenticationService>().currentUid;
 
   Future<void> addUser(EmailUsernameDto appUserDto) {
+    final uid = locator<AuthenticationService>().currentUid;
     return _firebaseFirestore
         .collection("users")
         .doc(uid!)
@@ -56,6 +56,7 @@ class FirestoreService {
   }
 
   Future<void> addImage(Post picture) {
+    final uid = locator<AuthenticationService>().currentUid;
     return _firebaseFirestore.collection("pictures").add(picture.toJson()).then(
       (picture) {
         _firebaseFirestore.collection("users").doc(uid!).update(

@@ -44,6 +44,7 @@ class _RegistrationPageState extends State<RegistrationPage>
       parent: _animationController,
       curve: Curves.easeIn,
     );
+    _errorMessage = '';
   }
 
   @override
@@ -112,7 +113,8 @@ class _RegistrationPageState extends State<RegistrationPage>
 
     if (email.isEmpty) return updateErrorMessage('E-mail address is required');
 
-    RegExp emailRegex = RegExp(r'^[A-Z\d._%+-]+@[A-Z\d.-]+\\.[A-Z]{2,4}$');
+    RegExp emailRegex =
+        RegExp(r'^[A-Za-z\d._%+-]+@[A-Za-z\d.-]+\.[A-Za-z]{2,4}$');
     if (!emailRegex.hasMatch(email)) {
       return updateErrorMessage('Invalid E-mail address format');
     }
@@ -136,13 +138,17 @@ class _RegistrationPageState extends State<RegistrationPage>
     }
 
     try {
-      _authService.createAccount(
-        _emailController.text,
-        _passwordController.text,
-        _usernameController.text,
-      );
-      _firestoreService.addUser(EmailUsernameDto(
-          username: _usernameController.text, email: _emailController.text));
+      _authService
+          .createAccount(
+            _emailController.text,
+            _passwordController.text,
+            _usernameController.text,
+          )
+          .then((credentials) => {
+                _firestoreService.addUser(EmailUsernameDto(
+                    username: credentials.user!.uid,
+                    email: credentials.user!.email))
+              });
     } on FirebaseAuthException catch (e) {
       updateErrorMessage(e.toString());
     }

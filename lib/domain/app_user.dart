@@ -51,7 +51,7 @@ class AppUser {
 
 class EmailUsernameDto {
   final String username;
-  final String email;
+  final String? email;
 
   EmailUsernameDto({required this.username, required this.email});
 

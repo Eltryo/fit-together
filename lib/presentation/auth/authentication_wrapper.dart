@@ -15,7 +15,7 @@ class AuthenticationWrapper extends StatelessWidget {
           final prefs = snapshot.data!;
           bool? firstTime = prefs.getBool("first_time");
           if (firstTime != null && !firstTime) {
-            return const SignInPage();
+            return const RegistrationPage();
           }
           prefs.setBool("first_time", false);
           return const RegistrationPage();
